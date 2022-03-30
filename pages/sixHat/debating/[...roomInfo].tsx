@@ -72,6 +72,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
     return () => {
       window.onbeforeunload = null;
+      ConnectedSocket.disConnect();
     };
   }, []);
 
