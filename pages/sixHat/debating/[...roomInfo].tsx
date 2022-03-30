@@ -65,17 +65,15 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     }
   }, [nickname]);
 
-  // useEffect(() => {
-  //   if (ConnectedSocket) {
-  //     window.addEventListener('beforeunload', ConnectedSocket.disConnect());
-  //   }
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      ConnectedSocket.disConnect();
+    };
 
-  //   return () => {
-  //     if (ConnectedSocket) {
-  //       window.removeEventListener('beforeunload', ConnectedSocket.disConnect());
-  //     }
-  //   };
-  // }, [ConnectedSocket]);
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, []);
 
   const sendHatData = (hat: HatType) => {
     ConnectedSocket.sendHatData(nickname, hat);
@@ -143,7 +141,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const contextValue = {
     sendMessage,
   };
-  
+
   return (
     <WaitingRoomContext.Provider value={contextValue}>
       <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
