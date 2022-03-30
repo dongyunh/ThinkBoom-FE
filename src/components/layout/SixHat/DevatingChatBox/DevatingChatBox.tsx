@@ -10,24 +10,8 @@ type DevatingChatBoxProps = {
   onClick: (arg: string) => void;
 };
 
-type StyleProps = {
-  width?: number;
-  height?: number;
-  isMouseOver?: boolean;
-};
-
 const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
   const { subject, chatHistory, nickname, userList, myHat } = useAppSelector(sixHatSelector);
-
-  const hatName = {
-    red: '빨간모자',
-    blue: '파란모자',
-    white: '하얀모자',
-    black: '검정모자',
-    yellow: '노란모자',
-    green: '초록모자',
-    none: '',
-  };
 
   return (
     <Container>
