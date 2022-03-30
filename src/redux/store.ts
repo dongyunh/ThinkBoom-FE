@@ -7,12 +7,12 @@ import { darkmodeReducer } from './modules/darkMode';
 import { userCountReducer } from './modules/CountUser';
 import { permitReducer } from './modules/permit';
 import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import storageSession from 'redux-persist/lib/storage/session';
 import { combineReducers } from 'redux';
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: storageSession,
   whitelist: ['randomWord', 'sixHat'],
 };
 
@@ -23,7 +23,7 @@ const reducers = combineReducers({
   sixHat: sixHatReducer,
   darkMode: darkmodeReducer,
   userCount: userCountReducer,
-  permit : permitReducer,
+  permit: permitReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
