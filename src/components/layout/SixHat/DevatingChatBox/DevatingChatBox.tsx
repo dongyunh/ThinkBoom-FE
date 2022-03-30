@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
 import { Message, ChatTextField } from '../DevatingChatBox';
 import { sixHatSelector } from '../../../../redux/modules/sixHat';
 import { useAppSelector } from '../../../../redux/hooks';
 import { HatImage } from '@components/common';
+import HatData from '../../../../mock/hatData';
 
 type DevatingChatBoxProps = {
   onClick: (arg: string) => void;
@@ -12,6 +13,19 @@ type DevatingChatBoxProps = {
 
 const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
   const { subject, chatHistory, nickname, userList, myHat } = useAppSelector(sixHatSelector);
+  const [isShowHatDesc, setIsShowHatDesc] = useState(false);
+
+  const myHatData = useMemo(() => {
+    return HatData.filter(data => data.value === myHat)[0];
+  }, [myHat]);
+
+  const handleShowDesc = () => {
+    setIsShowHatDesc(true);
+  };
+
+  const handleHideDesc = () => {
+    setIsShowHatDesc(false);
+  };
 
   return (
     <Container>
@@ -19,7 +33,16 @@ const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
       <DownBox>
         <UserListBox>
           <MyHatBox>
-            <HatImage isMe={true} type={myHat} width={90} height={90} />
+            {isShowHatDesc ? (
+              <>
+                <h3>{myHatData.text}</h3>
+                <DescText>{myHatData.desc}</DescText>
+              </>
+            ) : (
+              <HatImage isMe={true} type={myHat} width={90} height={90} />
+            )}
+
+            <TouchArea onMouseOver={handleShowDesc} onMouseOut={handleHideDesc} />
           </MyHatBox>
           <UserList>
             {userList.map(user => {
@@ -71,8 +94,21 @@ const MyHatBox = styled.div`
   border: 5px solid ${themedPalette.border_1};
   margin-bottom: 16px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding: 10px;
+`;
+
+const TouchArea = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+`;
+
+const DescText = styled.span`
+  text-align: center;
 `;
 
 const SubjectBox = styled.div`
