@@ -62,10 +62,11 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     if (nickname) {
       ConnectedSocket = new HandleSocket(`${process.env.NEXT_PUBLIC_API_URL}/websocket`);
       ConnectedSocket.connectSH(senderId, roomId);
+      window.addEventListener('beforeunload', ConnectedSocket.disConnect());
     }
     return () => {
       if (ConnectedSocket) {
-        ConnectedSocket.disConnect();
+        window.removeEventListener('beforeunload', ConnectedSocket.disConnect());
       }
     };
   }, [nickname]);
