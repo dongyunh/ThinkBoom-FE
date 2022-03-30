@@ -14,4 +14,5 @@ export type UserList = User[];
 
 export type PermitState = {
   isRoutingModalOpen: boolean;
+  isMessageArrived: boolean;
 };
