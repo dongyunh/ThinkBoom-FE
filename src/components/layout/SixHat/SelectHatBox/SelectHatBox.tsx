@@ -9,7 +9,6 @@ import { useAppSelector } from '@redux/hooks';
 import { sixHatSelector } from '@redux/modules/sixHat';
 
 type SelectHatBoxProps = {
-  subject: string;
   myHat: HatType;
   userList: UserList;
   onClickHat?: (arg: any) => void;
@@ -22,15 +21,9 @@ type StyleProps = {
   isMouseOver?: boolean;
 };
 
-const SelectHatBox = ({
-  subject,
-  myHat,
-  userList,
-  onClickHat,
-  onClickRandom,
-}: SelectHatBoxProps) => {
+const SelectHatBox = ({ myHat, userList, onClickHat, onClickRandom }: SelectHatBoxProps) => {
   const [isMouseOver, setIsMouseOver] = useState(false);
-  const { isAdmin } = useAppSelector(sixHatSelector);
+  const { isAdmin, subject } = useAppSelector(sixHatSelector);
 
   const handleOnClickHat = (hat: string) => {
     if (!onClickHat) return;

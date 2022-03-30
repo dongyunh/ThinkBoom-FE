@@ -1,32 +1,30 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
 import { Message, ChatTextField } from '../DevatingChatBox';
 import { sixHatSelector } from '../../../../redux/modules/sixHat';
 import { useAppSelector } from '../../../../redux/hooks';
 import { HatImage } from '@components/common';
+import HatData from '../../../../mock/hatData';
 
 type DevatingChatBoxProps = {
   onClick: (arg: string) => void;
 };
 
-type StyleProps = {
-  width?: number;
-  height?: number;
-  isMouseOver?: boolean;
-};
-
 const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
   const { subject, chatHistory, nickname, userList, myHat } = useAppSelector(sixHatSelector);
+  const [isShowHatDesc, setIsShowHatDesc] = useState(false);
 
-  const hatName = {
-    red: '빨간모자',
-    blue: '파란모자',
-    white: '하얀모자',
-    black: '검정모자',
-    yellow: '노란모자',
-    green: '초록모자',
-    none: '',
+  const myHatData = useMemo(() => {
+    return HatData.filter(data => data.value === myHat)[0];
+  }, [myHat]);
+
+  const handleShowDesc = () => {
+    setIsShowHatDesc(true);
+  };
+
+  const handleHideDesc = () => {
+    setIsShowHatDesc(false);
   };
 
   return (
@@ -35,7 +33,16 @@ const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
       <DownBox>
         <UserListBox>
           <MyHatBox>
-            <HatImage isMe={true} type={myHat} width={70} height={70} />
+            {isShowHatDesc ? (
+              <>
+                <h3>{myHatData.text}</h3>
+                <DescText>{myHatData.desc}</DescText>
+              </>
+            ) : (
+              <HatImage isMe={true} type={myHat} width={90} height={90} />
+            )}
+
+            <TouchArea onMouseOver={handleShowDesc} onMouseOut={handleHideDesc} />
           </MyHatBox>
           <UserList>
             {userList.map(user => {
@@ -74,8 +81,8 @@ const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
 };
 
 const Container = styled.div`
-  width: 1044px;
-  height: 586px;
+  width: 70vw;
+  height: 75vh;
   border: 5px solid ${themedPalette.border_1};
   border-radius: 18px;
 `;
@@ -87,13 +94,26 @@ const MyHatBox = styled.div`
   border: 5px solid ${themedPalette.border_1};
   margin-bottom: 16px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding: 10px;
+`;
+
+const TouchArea = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+`;
+
+const DescText = styled.span`
+  text-align: center;
 `;
 
 const SubjectBox = styled.div`
   width: 100%;
-  height: 72px;
+  height: 10vh;
   background-color: ${themedPalette.black};
   color: ${themedPalette.main_text2};
   display: flex;
@@ -105,14 +125,14 @@ const SubjectBox = styled.div`
 
 const DownBox = styled.div`
   width: 100%;
-  height: 100%;
+  height: 65vh;
   box-sizing: border-box;
   display: flex;
 `;
 
 const UserListBox = styled.div`
-  width: 212px;
-  height: 508px;
+  width: 15vw;
+  height: 99%;
   border-right: 5px solid ${themedPalette.black};
   box-sizing: border-box;
   display: flex;
@@ -122,8 +142,8 @@ const UserListBox = styled.div`
 `;
 
 const ChatViewBox = styled.div`
-  width: 832px;
-  height: 512px;
+  width: 55vw;
+  height: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -147,8 +167,9 @@ const User = styled.div``;
 const MessageBox = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  height: 380px;
+  height: 80%;
   overflow-y: scroll;
+  box-sizing: border-box;
   margin-bottom: 10px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
