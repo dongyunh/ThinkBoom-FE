@@ -11,6 +11,7 @@ import {
   getSubjectSH,
   updateCurrentPage,
 } from '../redux/modules/sixHat';
+import { setIsMessageArrived } from '@redux/modules/permit';
 import { getUserCount } from '../redux/modules/CountUser';
 
 import mixHatsHelper from '@utils/mixHatsHelper';
@@ -100,8 +101,9 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 nickname: response.sender,
                 message: response.message,
               };
+              console.log('메시지가 두번?');
               dispatch(getMessages(newMessage));
-              toast.info('메시지가 도착했습니다');
+              dispatch(setIsMessageArrived(true));
             }
 
             if (response.type === 'DEBATING') {
@@ -140,10 +142,12 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
     }
 
     disConnect() {
-      this.StompClient.disconnect(() => {}, {
-        senderId: this._senderId,
-        category: 'SH',
-      });
+      if (this.StompClient) {
+        this.StompClient.disconnect(() => {}, {
+          senderId: this._senderId,
+          category: 'SH',
+        });
+      }
     }
 
     // 웹소켓이 연결될 때 까지 실행하는 함수

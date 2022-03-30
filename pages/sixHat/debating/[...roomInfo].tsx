@@ -22,7 +22,7 @@ import { ChattingRoom } from '../../../src/components/common';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
 import { HatType, UserList } from '@redux/modules/sixHat/types';
-import { selectPermit } from '@redux/modules/permit';
+import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
 import { ToastContainer } from 'react-toastify';
 import copyUrlHelper from '@utils/copyUrlHelper';
 
@@ -62,14 +62,20 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     if (nickname) {
       ConnectedSocket = new HandleSocket(`${process.env.NEXT_PUBLIC_API_URL}/websocket`);
       ConnectedSocket.connectSH(senderId, roomId);
-      window.addEventListener('beforeunload', ConnectedSocket.disConnect());
     }
-    return () => {
-      if (ConnectedSocket) {
-        window.removeEventListener('beforeunload', ConnectedSocket.disConnect());
-      }
-    };
   }, [nickname]);
+
+  // useEffect(() => {
+  //   if (ConnectedSocket) {
+  //     window.addEventListener('beforeunload', ConnectedSocket.disConnect());
+  //   }
+
+  //   return () => {
+  //     if (ConnectedSocket) {
+  //       window.removeEventListener('beforeunload', ConnectedSocket.disConnect());
+  //     }
+  //   };
+  // }, [ConnectedSocket]);
 
   const sendHatData = (hat: HatType) => {
     ConnectedSocket.sendHatData(nickname, hat);
@@ -106,6 +112,11 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     dispatch(clearChatHistory());
   };
 
+  const handleChatOpen = () => {
+    setIsChatOpen(!isChatOpen);
+    dispatch(setIsMessageArrived(false));
+  };
+
   const pages = [
     {
       component: (
@@ -132,8 +143,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const contextValue = {
     sendMessage,
   };
-  console.log(isFull);
-  //닉네임이 없거나, 방이 가득차지 않았다면.
+  
   return (
     <WaitingRoomContext.Provider value={contextValue}>
       <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
@@ -147,8 +157,8 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
         <ShareIcon />
       </ShareIconWrapper>
       {currentPage !== 2 && (
-        <ChatWrapper onClick={() => setIsChatOpen(!isChatOpen)}>
-          <ChatIcon />
+        <ChatWrapper onClick={handleChatOpen}>
+          <ChatIcon isChatOpen={isChatOpen} />
         </ChatWrapper>
       )}
       <TutorialIconWrapper>
@@ -157,11 +167,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
       {isChatOpen && (
         <ChattingContainer>
-          <ChattingRoom
-            myNickname={nickname}
-            chatHistory={chatHistory}
-            onClick={() => setIsChatOpen(!isChatOpen)}
-          />
+          <ChattingRoom myNickname={nickname} chatHistory={chatHistory} onClick={handleChatOpen} />
         </ChattingContainer>
       )}
     </WaitingRoomContext.Provider>
