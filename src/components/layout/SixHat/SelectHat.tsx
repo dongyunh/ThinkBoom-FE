@@ -27,14 +27,11 @@ const SelectHat = ({ onClick, onClickComplete, onClickRandom }: SelectHatProps) 
     setDisabled(!(isAdmin && isAllHatSelect));
   }, [isAllHatSelect]);
 
-  const tmpSubject = '점심 뭐먹을까?';
-
   return (
     <CenterLayout>
       <>
         <Empty />
         <SelectHatBox
-          subject={tmpSubject}
           userList={userList}
           myHat={myHat}
           onClickHat={handeOnClick}
