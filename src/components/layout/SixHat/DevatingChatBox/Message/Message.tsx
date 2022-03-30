@@ -39,7 +39,7 @@ const MessageBox = styled.div<StyleProps>`
   display: flex;
   justify-content: ${props => (props.isMe ? `flex-end` : 'flex-start')};
   align-items: flex-start;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 `;
 
 const OtherMessageBox = styled.div`
@@ -58,7 +58,7 @@ const NicknameBox = styled.span``;
 const Box = styled.div`
   border: 5px solid ${themedPalette.border_1};
   border-radius: 18px;
-  padding: 20px 30px;
+  padding: 10px 20px;
   display: flex;
   justify-content: center;
   align-items: center;

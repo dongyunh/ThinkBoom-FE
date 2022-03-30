@@ -19,7 +19,7 @@ const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
       <DownBox>
         <UserListBox>
           <MyHatBox>
-            <HatImage isMe={true} type={myHat} width={70} height={70} />
+            <HatImage isMe={true} type={myHat} width={90} height={90} />
           </MyHatBox>
           <UserList>
             {userList.map(user => {
@@ -58,8 +58,8 @@ const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
 };
 
 const Container = styled.div`
-  width: 1044px;
-  height: 586px;
+  width: 70vw;
+  height: 75vh;
   border: 5px solid ${themedPalette.border_1};
   border-radius: 18px;
 `;
@@ -77,7 +77,7 @@ const MyHatBox = styled.div`
 
 const SubjectBox = styled.div`
   width: 100%;
-  height: 72px;
+  height: 10vh;
   background-color: ${themedPalette.black};
   color: ${themedPalette.main_text2};
   display: flex;
@@ -89,14 +89,14 @@ const SubjectBox = styled.div`
 
 const DownBox = styled.div`
   width: 100%;
-  height: 100%;
+  height: 65vh;
   box-sizing: border-box;
   display: flex;
 `;
 
 const UserListBox = styled.div`
-  width: 212px;
-  height: 508px;
+  width: 15vw;
+  height: 99%;
   border-right: 5px solid ${themedPalette.black};
   box-sizing: border-box;
   display: flex;
@@ -106,8 +106,8 @@ const UserListBox = styled.div`
 `;
 
 const ChatViewBox = styled.div`
-  width: 832px;
-  height: 512px;
+  width: 55vw;
+  height: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -131,8 +131,9 @@ const User = styled.div``;
 const MessageBox = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  height: 380px;
+  height: 80%;
   overflow-y: scroll;
+  box-sizing: border-box;
   margin-bottom: 10px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
