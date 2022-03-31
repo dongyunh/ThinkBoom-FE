@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import v8n from 'v8n';
 import { memberCount, timerOptions } from '../../../../mock/makeRoomData';
 import { themedPalette } from '../../../../theme';
+import { ValidationType } from '../types';
 
 type MakeRoomModalProps = {
   onClickDropdown1?: () => void;
@@ -20,15 +21,15 @@ const MakeRoomModal = ({
   const [title, setTitle] = useState<string | null>(null);
   const [number, setNumber] = useState<number>(1);
   const [timer, setTimer] = useState<number>(1);
-  const [isError, setIsError] = useState<boolean>();
+  const [isError, setIsError] = useState<ValidationType>({ isLengthOver: false });
 
-  const validation = v8n().not.null().string().length(2, 10);
-  const [disabled, setDisabled] = useState(!validation.test(title));
+  const legnthValidation = v8n().not.null().string().length(2, 10);
+  const [disabled, setDisabled] = useState(!legnthValidation.test(title));
 
   const checkValidation = (_title: string) => {
     setTitle(_title);
-    setIsError(!validation.test(_title));
-    setDisabled(!validation.test(_title));
+    setIsError({ isLengthOver: !legnthValidation.test(_title) });
+    setDisabled(!legnthValidation.test(_title));
   };
 
   const handleOnClickButton = (_title: string | null, _number: number, _time: number) => {

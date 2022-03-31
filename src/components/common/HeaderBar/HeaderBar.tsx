@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { themedPalette } from '../../../theme/styleTheme';
 import { DarkModeToggle, CountingUser } from '../../common';
 import Image from 'next/image';
 import Logo from '../../../../public/asset/Logo.png';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useAppSelector, useAppDispatch } from '@redux/hooks';
 import { selectUserCount } from '@redux/modules/CountUser';

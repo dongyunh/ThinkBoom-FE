@@ -3,6 +3,9 @@ import { Modal } from '../Modal/Modal';
 import { TextField, Button } from '../../../common';
 import styled from 'styled-components';
 import v8n from 'v8n';
+import { useAppSelector } from '@redux/hooks';
+import { selectSixHat } from '@redux/modules/sixHat';
+import { ValidationType } from '../types';
 
 type NicknameModalProps = {
   title: string;
@@ -10,14 +13,22 @@ type NicknameModalProps = {
 };
 
 const NicknameModal = ({ title, onClick }: NicknameModalProps) => {
+  const { userList } = useAppSelector(selectSixHat);
   const [nickname, setNickname] = useState<string>();
-  const [isError, setIsError] = useState<boolean>();
+  const [isError, setIsError] = useState<ValidationType>({
+    isLengthOver: false,
+    isDuplicated: false,
+  });
 
-  const validation = v8n().string().length(2, 6);
+  const lengthValidation = v8n().string().length(2, 6);
 
   const checkValidation = (_nickname: string) => {
+    const isThereNickname = userList.map(user => user.nickname).includes(_nickname);
     setNickname(_nickname);
-    setIsError(!validation.test(_nickname));
+    setIsError({
+      isLengthOver: !lengthValidation.test(_nickname),
+      isDuplicated: isThereNickname,
+    });
   };
 
   const handleOnClick = () => {
