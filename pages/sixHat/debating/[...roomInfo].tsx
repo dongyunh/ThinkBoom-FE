@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import {
   InteractivePage,
@@ -27,9 +27,6 @@ import { ToastContainer } from 'react-toastify';
 import copyUrlHelper from '@utils/copyUrlHelper';
 
 import 'react-toastify/dist/ReactToastify.css';
-
-//TODO : any 수정하기
-export const WaitingRoomContext = createContext<any>(null);
 
 type SettingPageProps = {
   roomInfo: string[];
@@ -139,12 +136,8 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     },
   ];
 
-  const contextValue = {
-    sendMessage,
-  };
-
   return (
-    <WaitingRoomContext.Provider value={contextValue}>
+    <>
       <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
       <InteractivePage pages={pages} currentPage={currentPage} />
       {!nickname && isFull <= 1 && (
@@ -164,12 +157,17 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
         <TutorialIcon type="sixHat" />
       </TutorialIconWrapper>
 
-      {isChatOpen && (
+      {isChatOpen && currentPage !== 2 && (
         <ChattingContainer>
-          <ChattingRoom myNickname={nickname} chatHistory={chatHistory} onClick={handleChatOpen} />
+          <ChattingRoom
+            myNickname={nickname}
+            chatHistory={chatHistory}
+            onClick={handleChatOpen}
+            sendMessage={sendMessage}
+          />
         </ChattingContainer>
       )}
-    </WaitingRoomContext.Provider>
+    </>
   );
 };
 
