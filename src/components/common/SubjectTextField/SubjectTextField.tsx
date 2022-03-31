@@ -6,6 +6,9 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { sixHatSelector } from '@redux/modules/sixHat';
 import { getSubjectRW } from '@redux/modules/randomWord/actions';
+import BGSubjectLeft from '../../../../public/asset/backgrounds/bg_subject_left.png';
+import BGSubjectRight from '../../../../public/asset/backgrounds/bg_subject_right.png';
+import Image from 'next/image';
 
 type SubjectTextFieldProps = {
   type?: 'randomWord' | 'sixHat';
@@ -37,23 +40,47 @@ const SubjectTextField = ({ type, onChange, onClick, isAdmin = true }: SubjectTe
   };
 
   return (
-    <Card width={600} height={124}>
-      <TextFieldBox disabled={!isAdmin}>
-        <TextField
-          maxLength={28}
-          defaultValue={enteredSubject}
-          disabled={!isAdmin}
-          onChange={e => setSubject(e.target.value)}
-        />
-        {isAdmin && (
-          <Button onClick={handleGetSubject}>
-            <ArrowIcon fontSize="large" />
-          </Button>
-        )}
-      </TextFieldBox>
-    </Card>
+    <Containger>
+      <BGLeft>
+        <Image src={BGSubjectLeft} alt="background_image" />
+      </BGLeft>
+      <Card width={600} height={124}>
+        <TextFieldBox disabled={!isAdmin}>
+          <TextField
+            maxLength={28}
+            defaultValue={enteredSubject}
+            disabled={!isAdmin}
+            onChange={e => setSubject(e.target.value)}
+          />
+          {isAdmin && (
+            <Button onClick={handleGetSubject}>
+              <ArrowIcon fontSize="large" />
+            </Button>
+          )}
+        </TextFieldBox>
+      </Card>
+      <BGRight>
+        <Image src={BGSubjectRight} alt="background_image" />
+      </BGRight>
+    </Containger>
   );
 };
+
+const Containger = styled.div`
+  position: relative;
+`;
+
+const BGLeft = styled.div`
+  position: absolute;
+  top: -180px;
+  left: -320px;
+`;
+
+const BGRight = styled.div`
+  position: absolute;
+  top: -150px;
+  right: -380px;
+`;
 
 const TextFieldBox = styled.div<StyledProps>`
   width: 100%;

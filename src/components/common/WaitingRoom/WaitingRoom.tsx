@@ -46,7 +46,6 @@ const WaitingRoom = ({ onClickSubmit, onClickComplete, onChange }: WaitingRoomPr
         />
       </TextFieldWrapper>
       <PrimaryButton text="완료" onClick={handleOnClickComplete} disabled={!(subject && isAdmin)} />
-      <BackGroundImage />
     </Grid>
   );
 };
