@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { ValidationError } from 'v8n';
+import { ValidationType } from '../Modals/types';
 
 type TextFieldProps = {
-  isError?: boolean;
+  isError?: ValidationType;
   errorText?: string;
   hintText?: string;
   label?: string;
@@ -21,11 +22,21 @@ const TextField = ({ isError, errorText, hintText, label, onChange }: TextFieldP
     onChange(e);
   };
 
+  const showLabelText = () => {
+    if (isError?.isDuplicated) {
+      return <ErrorText>다른 팀원이 사용중인 닉네임입니다.</ErrorText>;
+    } else if (isError?.isLengthOver) {
+      return <ErrorText>{errorText}</ErrorText>;
+    } else {
+      return <LabelText>{label}</LabelText>;
+    }
+  };
+
   return (
     <InputWrapper>
-      {isError ? <ErrorText>{errorText}</ErrorText> : <LabelText>{label}</LabelText>}
+      {showLabelText()}
       <Input
-        isError={isError}
+        isError={isError?.isDuplicated || isError?.isLengthOver}
         placeholder={hintText}
         onChange={e => handleOnChange(e.target.value)}
       />
