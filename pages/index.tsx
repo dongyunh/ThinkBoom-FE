@@ -9,6 +9,8 @@ import { enableDarkMode, enableLightMode } from '@redux/modules/darkMode';
 import BGMainLeft from '../public/asset/backgrounds/bg_main_left.png';
 import BGMainRight from '../public/asset/backgrounds/bg_main_right.png';
 import Image from 'next/image';
+import { useThemeEffect } from '@hooks/useThemeEffect';
+import { themedPalette } from '@theme/styleTheme';
 
 import { Title, Desc } from '../src/components/common';
 import { persistor } from './_app';
@@ -32,6 +34,8 @@ const Home: NextPage = () => {
     persistor.purge();
     loadTheme();
   }, []);
+
+  useThemeEffect();
 
   return (
     <Main>
@@ -107,9 +111,12 @@ const DescWrapper = styled.div`
 
 const SubDesc = styled.div`
   font-size: 20px;
+  color: ${themedPalette.main_text1};
 `;
 
-const MainDesc = styled.h1``;
+const MainDesc = styled.h1`
+  color: ${themedPalette.main_text1};
+`;
 
 const CardWrapper = styled.div`
   display: flex;

@@ -16,10 +16,10 @@ export function useToggleTheme() {
     if (!theme) return;
     if (theme === 'dark') {
       dispatch(enableLightMode());
-      save('light');
+      save(value);
     } else if (theme === 'light') {
       dispatch(enableDarkMode());
-      save('dark');
+      save(value);
     }
   };
 
