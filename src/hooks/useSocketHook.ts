@@ -31,6 +31,7 @@ export type SixHatResponseData = {
   totalUser: number;
   currentUser: number;
   currentPage: number;
+  userList: UserList;
 };
 
 export type SixHatSendData = {
@@ -76,15 +77,12 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
             const response: SixHatResponseData = JSON.parse(data.body) as SixHatResponseData;
 
             if (response.type === 'ENTER') {
-              const userData: UserData = {
-                nickname: response.sender,
-                hat: response.hat,
-              };
               const userCount = {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              dispatch(getUserList(userData));
+              console.log(response);
+              dispatch(getUserList(response.userList));
               dispatch(getUserCount(userCount));
             }
 
@@ -101,7 +99,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 nickname: response.sender,
                 message: response.message,
               };
-              console.log('메시지가 두번?');
               dispatch(getMessages(newMessage));
               dispatch(setIsMessageArrived(true));
             }
