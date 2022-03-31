@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { ValidationError } from 'v8n';
-import { ValidationType } from '../Modals/types';
+import { ValidationType, ErrorTextType } from '../Modals/types';
 
 type TextFieldProps = {
   isError?: ValidationType;
-  errorText?: string;
+  errorText?: ErrorTextType;
   hintText?: string;
   label?: string;
   onChange?: (arg: any) => void;
@@ -22,11 +22,15 @@ const TextField = ({ isError, errorText, hintText, label, onChange }: TextFieldP
     onChange(e);
   };
 
+  console.log(isError);
+
   const showLabelText = () => {
     if (isError?.isDuplicated) {
-      return <ErrorText>다른 팀원이 사용중인 닉네임입니다.</ErrorText>;
+      return <ErrorText>{errorText?.duplicatedErrorText}</ErrorText>;
     } else if (isError?.isLengthOver) {
-      return <ErrorText>{errorText}</ErrorText>;
+      return <ErrorText>{errorText?.lengthErrorText}</ErrorText>;
+    } else if (isError?.isSpecialChar) {
+      return <ErrorText>{errorText?.specialCharErrorText}</ErrorText>;
     } else {
       return <LabelText>{label}</LabelText>;
     }
@@ -36,7 +40,7 @@ const TextField = ({ isError, errorText, hintText, label, onChange }: TextFieldP
     <InputWrapper>
       {showLabelText()}
       <Input
-        isError={isError?.isDuplicated || isError?.isLengthOver}
+        isError={isError?.isDuplicated || isError?.isLengthOver || isError?.isSpecialChar}
         placeholder={hintText}
         onChange={e => handleOnChange(e.target.value)}
       />
