@@ -7,6 +7,9 @@ import hatData from '../../../../mock/hatData';
 import { UserList, HatType } from '@redux/modules/sixHat/types';
 import { useAppSelector } from '@redux/hooks';
 import { sixHatSelector } from '@redux/modules/sixHat';
+import BGHatLeft from '../../../../../public/asset/backgrounds/bg_hat_left.png';
+import BGHatRight from '../../../../../public/asset/backgrounds/bg_hat_right.png';
+import Image from 'next/image';
 
 type SelectHatBoxProps = {
   myHat: HatType;
@@ -32,6 +35,9 @@ const SelectHatBox = ({ myHat, userList, onClickHat, onClickRandom }: SelectHatB
 
   return (
     <Container>
+      <BGLeft>
+        <Image src={BGHatLeft} alt="background_image" />
+      </BGLeft>
       <SubjectBox>
         {subject}
         {isAdmin && <RandomButton onClick={() => onClickRandom(userList)}>랜덤</RandomButton>}
@@ -82,6 +88,9 @@ const SelectHatBox = ({ myHat, userList, onClickHat, onClickRandom }: SelectHatB
           })}
         </CardListBox>
       </DownBox>
+      <BGRight>
+        <Image src={BGHatRight} alt="background_image" />
+      </BGRight>
     </Container>
   );
 };
@@ -91,6 +100,19 @@ const Container = styled.div`
   height: 586px;
   border: 5px solid ${themedPalette.border_1};
   border-radius: 18px;
+  position: relative;
+`;
+
+const BGLeft = styled.div`
+  position: absolute;
+  top: 0;
+  left: -220px;
+`;
+
+const BGRight = styled.div`
+  position: absolute;
+  top: 0;
+  right: -280px;
 `;
 
 const MyHatBox = styled.div`
