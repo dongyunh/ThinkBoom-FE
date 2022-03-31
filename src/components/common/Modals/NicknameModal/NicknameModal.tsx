@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import v8n from 'v8n';
 import { useAppSelector } from '@redux/hooks';
 import { selectSixHat } from '@redux/modules/sixHat';
-import { ValidationType } from '../types';
+import { ValidationType, ErrorTextType } from '../types';
 
 type NicknameModalProps = {
   title: string;
@@ -36,6 +36,11 @@ const NicknameModal = ({ title, onClick }: NicknameModalProps) => {
     onClick(nickname);
   };
 
+  const validationText: ErrorTextType = {
+    lengthErrorText: '닉네임은 2~6자 이내로 설정해주세요',
+    duplicatedErrorText: '다른 팀원이 사용중인 닉네임입니다.',
+  };
+
   return (
     <Modal>
       <MakeRoomContainer>
@@ -45,7 +50,7 @@ const NicknameModal = ({ title, onClick }: NicknameModalProps) => {
         <TextFieldWrapper>
           <TextField
             label="닉네임"
-            errorText="닉네임은 2~6자 이내로 설정해주세요"
+            errorText={validationText}
             hintText="닉네임을 입력해주세요 (2~6자)"
             isError={isError}
             onChange={checkValidation}

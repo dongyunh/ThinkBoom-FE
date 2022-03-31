@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
 import { Card } from '../../../common';
 import { HatImage } from '@components/common';
-import hatData from '../../../../mock/hatData';
+
 import { UserList, HatType } from '@redux/modules/sixHat/types';
 import { useAppSelector } from '@redux/hooks';
 import { sixHatSelector } from '@redux/modules/sixHat';
 import BGHatLeft from '../../../../../public/asset/backgrounds/bg_hat_left.png';
 import BGHatRight from '../../../../../public/asset/backgrounds/bg_hat_right.png';
 import Image from 'next/image';
+import useHatData from '@hooks/useHatData';
 
 type SelectHatBoxProps = {
   myHat: HatType;
@@ -25,8 +26,8 @@ type StyleProps = {
 };
 
 const SelectHatBox = ({ myHat, userList, onClickHat, onClickRandom }: SelectHatBoxProps) => {
-  const [isMouseOver, setIsMouseOver] = useState(false);
   const { isAdmin, subject } = useAppSelector(sixHatSelector);
+  const hatData = useHatData();
 
   const handleOnClickHat = (hat: string) => {
     if (!onClickHat) return;
@@ -62,23 +63,23 @@ const SelectHatBox = ({ myHat, userList, onClickHat, onClickRandom }: SelectHatB
           {hatData.map((hat, idx) => {
             return (
               <Card width={200} height={200} key={idx}>
-                {isMouseOver ? (
-                  <HatBox isMouseOver={isMouseOver}>
+                {hat.isOver ? (
+                  <HatBox isMouseOver={hat.isOver}>
                     <h3>{hat.text}</h3>
                     <DescText>{hat.desc}</DescText>
                     <TouchArea
-                      onMouseOver={() => setIsMouseOver(true)}
-                      onMouseOut={() => setIsMouseOver(false)}
+                      onMouseOver={() => hat.setIsOver()}
+                      onMouseOut={() => hat.setIsOver()}
                       onClick={() => handleOnClickHat(hat.value)}
                     />
                   </HatBox>
                 ) : (
                   <HatBox>
-                    <HatImage type={hat.value} width={120} height={120} />
+                    <HatImage type={hat.value as HatType} width={120} height={120} />
                     <div>{hat.text}</div>
                     <TouchArea
-                      onMouseOver={() => setIsMouseOver(true)}
-                      onMouseOut={() => setIsMouseOver(false)}
+                      onMouseOver={() => hat.setIsOver()}
+                      onMouseOut={() => hat.setIsOver()}
                       onClick={() => handleOnClickHat(hat.value)}
                     />
                   </HatBox>

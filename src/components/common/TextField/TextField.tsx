@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
-import { ValidationError } from 'v8n';
 import { ValidationType, ErrorTextType } from '../Modals/types';
 
 type TextFieldProps = {
@@ -21,8 +20,6 @@ const TextField = ({ isError, errorText, hintText, label, onChange }: TextFieldP
     if (!onChange) return;
     onChange(e);
   };
-
-  console.log(isError);
 
   const showLabelText = () => {
     if (isError?.isDuplicated) {
