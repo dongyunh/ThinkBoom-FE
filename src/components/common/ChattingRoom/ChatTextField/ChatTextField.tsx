@@ -1,11 +1,13 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme';
-import { WaitingRoomContext } from '../../../../../pages/sixHat/debating/[...roomInfo]';
 
-const ChatTextField = ({}) => {
-  const [content, setContent] = useState<string>();
-  const { sendMessage } = useContext(WaitingRoomContext);
+type ChatTextFieldType = {
+  sendMessage: (message: string) => void;
+};
+
+const ChatTextField = ({ sendMessage }: ChatTextFieldType) => {
+  const [content, setContent] = useState<string>('');
 
   const handleSendMessage = () => {
     sendMessage(content);
