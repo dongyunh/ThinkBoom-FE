@@ -38,6 +38,7 @@ const StyledCard = styled.div<StyleProps>`
   position: relative;
   transition: 0.2s ease-in-out;
   overflow: hidden;
+  z-index: 1;
 
   :hover {
     transform: translate(8px, 8px);
@@ -51,7 +52,7 @@ const AfterCard = styled.div<StyleProps>`
   background-color: ${themedPalette.card_bg_normal};
   border: 5px solid ${themedPalette.border_1};
   border-radius: 18px;
-  z-index: -1;
+  z-index: 0;
   left: 8px;
   top: 8px;
 `;

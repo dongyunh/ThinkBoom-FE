@@ -127,7 +127,7 @@ const themeVariableSets: Record<Theme, ThemeVariables> = {
     input_focus: '#EEEEEE',
     input_error: '#890B0B',
     main_text1: '#EEEEEE',
-    main_text2: '#1B1B1B',
+    main_text2: '#FFFFFF',
     hover_text1: '#1B1818',
     hover_text2: '#FFFFFF',
     sub_text1: '#890B0B',

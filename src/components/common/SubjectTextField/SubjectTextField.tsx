@@ -9,6 +9,13 @@ import { getSubjectRW } from '@redux/modules/randomWord/actions';
 import BGSubjectLeft from '../../../../public/asset/backgrounds/bg_subject_left.png';
 import BGSubjectRight from '../../../../public/asset/backgrounds/bg_subject_right.png';
 import Image from 'next/image';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  arrow: {
+    color: '#EEEEEE',
+  },
+});
 
 type SubjectTextFieldProps = {
   type?: 'randomWord' | 'sixHat';
@@ -25,6 +32,7 @@ const SubjectTextField = ({ type, onChange, onClick, isAdmin = true }: SubjectTe
   const dispatch = useAppDispatch();
   const { subject: enteredSubject } = useAppSelector(sixHatSelector);
   const [subject, setSubject] = useState<string>('');
+  const classes = useStyles();
 
   const handleGetSubject = () => {
     if (type == 'randomWord') {
@@ -54,7 +62,7 @@ const SubjectTextField = ({ type, onChange, onClick, isAdmin = true }: SubjectTe
           />
           {isAdmin && (
             <Button onClick={handleGetSubject}>
-              <ArrowIcon fontSize="large" />
+              <ArrowIcon fontSize="large" className={classes.arrow} />
             </Button>
           )}
         </TextFieldBox>
@@ -100,6 +108,7 @@ const TextField = styled.input`
   background-color: transparent;
   border: none;
   outline: none;
+  color: ${themedPalette.main_text1};
 
   :disabled {
     background-color: ${themedPalette.cute_button_disabled};
