@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CenterLayout, SubjectTextField } from '@components/common';
 import styled from 'styled-components';
+import { themedPalette } from '@theme/styleTheme';
 
 type SettingProps = {
   onClick: () => void;
@@ -34,11 +35,13 @@ const SettingWrapper = styled.div`
 const Title = styled.div`
   font-size: 50px;
   font-weight: bold;
+  color: ${themedPalette.main_text1};
 `;
 
 const Desc = styled.div`
   text-align: center;
   padding-bottom: 20px;
+  color: ${themedPalette.main_text1};
 `;
 
 export { Setting };

@@ -55,6 +55,7 @@ const StyledButton = styled.button<StyledProps>`
   align-items: center;
   font-size: 26px;
   cursor: pointer;
+  z-index: 1;
 
   :disabled {
     background-color: ${themedPalette.cute_button_disabled};
@@ -76,7 +77,7 @@ const AfterButton = styled.button<StyledProps>`
   background: transparent;
   position: absolute;
   border-radius: 18px;
-  z-index: -1;
+  z-index: 0;
   left: 8px;
   top: 8px;
 `;

@@ -8,7 +8,6 @@ import RandomWord from '../../../../public/asset/randomWord.png';
 import BrainWriting from '../../../../public/asset/brainWriting.png';
 import Image from 'next/image';
 
-
 type StartProps = {
   title: string;
   desc: string;
@@ -41,7 +40,6 @@ const StartPage = ({ title, desc, onClick, pageType }: StartProps) => {
         <ImageWrapper>
           <Image src={ImageObj[pageType]} width={600} height={350} />
         </ImageWrapper>
-        {/* <Card width={600} height={350} /> */}
       </ContentWrapper>
     </Grid>
   );
@@ -93,6 +91,5 @@ const ImageWrapper = styled.div`
   border-radius: 18px;
   overflow: hidden;
 `;
-
 
 export { StartPage };
