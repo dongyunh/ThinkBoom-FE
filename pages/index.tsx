@@ -6,6 +6,11 @@ import { useRouter } from 'next/router';
 import { DarkModeToggle } from '@components/common/DarkModeToggle';
 import { useAppDispatch } from '@redux/hooks';
 import { enableDarkMode, enableLightMode } from '@redux/modules/darkMode';
+import BGMainLeft from '../public/asset/backgrounds/bg_main_left.png';
+import BGMainRight from '../public/asset/backgrounds/bg_main_right.png';
+import Image from 'next/image';
+import { useThemeEffect } from '@hooks/useThemeEffect';
+import { themedPalette } from '@theme/styleTheme';
 
 import { Title, Desc } from '../src/components/common';
 import { persistor } from './_app';
@@ -30,6 +35,8 @@ const Home: NextPage = () => {
     loadTheme();
   }, []);
 
+  useThemeEffect();
+
   return (
     <Main>
       <Grid>
@@ -38,6 +45,9 @@ const Home: NextPage = () => {
           <MainDesc>아이디어 회의? 이젠 쉽고 빠르게!</MainDesc>
         </DescWrapper>
         <CardWrapper>
+          <BGLeft>
+            <Image src={BGMainLeft} width={200} height={400} />
+          </BGLeft>
           <Main.Card width={280} height={330} onMouseUp={() => router.push('/randomWord')}>
             <CardContent>
               <Title text="랜덤워드" />
@@ -59,8 +69,10 @@ const Home: NextPage = () => {
               <Desc text="8인용" />
             </CardContent>
           </Main.Card>
+          <BGRight>
+            <Image src={BGMainRight} width={150} height={400} />
+          </BGRight>
         </CardWrapper>
-        <BackGroundImage />
       </Grid>
     </Main>
   );
@@ -69,7 +81,6 @@ const Home: NextPage = () => {
 export default Home;
 
 const Grid = styled.div`
-  position: relative;
   width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -78,14 +89,16 @@ const Grid = styled.div`
   align-items: center;
 `;
 
-const BackGroundImage = styled.div`
+const BGLeft = styled.div`
   position: absolute;
-  bottom: 50px;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('/asset/main_background.png');
-  background-size: cover;
-  z-index: -20;
+  top: -50px;
+  left: -210px;
+`;
+
+const BGRight = styled.div`
+  position: absolute;
+  top: -50px;
+  right: -160px;
 `;
 
 const DescWrapper = styled.div`
@@ -98,14 +111,18 @@ const DescWrapper = styled.div`
 
 const SubDesc = styled.div`
   font-size: 20px;
+  color: ${themedPalette.main_text1};
 `;
 
-const MainDesc = styled.h1``;
+const MainDesc = styled.h1`
+  color: ${themedPalette.main_text1};
+`;
 
 const CardWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 30px;
+  position: relative;
 `;
 
 const CardContent = styled.div`

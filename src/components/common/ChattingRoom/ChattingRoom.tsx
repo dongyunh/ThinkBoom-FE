@@ -10,9 +10,10 @@ type ChattingRoomType = {
   chatHistory?: ChatHistoryType;
   myNickname: string | null;
   onClick: () => void;
+  sendMessage: (message: string) => void;
 };
 
-const ChattingRoom = ({ chatHistory, myNickname, onClick }: ChattingRoomType) => {
+const ChattingRoom = ({ chatHistory, myNickname, onClick, sendMessage }: ChattingRoomType) => {
   const handleOnClick = () => {
     if (!onClick) return;
     onClick();
@@ -40,7 +41,7 @@ const ChattingRoom = ({ chatHistory, myNickname, onClick }: ChattingRoomType) =>
           );
         })}
       </MessageBox>
-      <ChatTextField />
+      <ChatTextField sendMessage={sendMessage} />
     </Container>
   );
 };

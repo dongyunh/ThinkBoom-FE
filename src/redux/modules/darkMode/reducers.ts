@@ -4,7 +4,7 @@ import { DarkModeState } from './types';
 
 const initialState: DarkModeState = {
   theme: 'default',
-  systemTheme: 'not-ready',
+  systemTheme: 'light',
 };
 
 //createReducer로 reducer 생성.

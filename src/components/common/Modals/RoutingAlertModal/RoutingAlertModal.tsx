@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useAppDispatch } from '@redux/hooks';
 import { setRoutingModalOpen } from '@redux/modules/permit';
+import { themedPalette } from '@theme/styleTheme';
 
 const RoutingAlertModal = () => {
   const router = useRouter();
@@ -48,6 +49,7 @@ const RoutingMainContainer = styled.div`
 
 const Desc = styled.p`
   font-size: 22px;
+  color: ${themedPalette.main_text1};
 `;
 
 const TitleWrapper = styled.div`

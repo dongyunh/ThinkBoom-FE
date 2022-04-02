@@ -12,12 +12,12 @@ const ChatTextField = ({ onChange, onClick }: ChatTextFieldProps) => {
 
   const handleSendMessage = () => {
     onClick(contents);
+    setContents('');
   };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSendMessage();
-      setContents('');
     }
   };
 

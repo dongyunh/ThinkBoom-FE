@@ -7,13 +7,12 @@ export function useThemeEffect() {
   const { theme } = useAppSelector(selectDarkMode);
 
   useEffect(() => {
+    // 시스템 상의 다크모드 확인
     const systemPreferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     dispatch(setSystemTheme(systemPreferDark ? 'dark' : 'light'));
   }, [dispatch]);
 
   useEffect(() => {
-    if (theme !== 'default') {
-      document.body.dataset.theme = theme;
-    }
+    document.body.dataset.theme = theme;
   }, [theme]);
 }

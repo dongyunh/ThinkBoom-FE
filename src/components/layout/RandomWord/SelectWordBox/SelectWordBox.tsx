@@ -64,6 +64,7 @@ const Container = styled.div`
   width: 1044px;
   height: 586px;
   border: 5px solid ${themedPalette.border_1};
+  background-color: ${themedPalette.box_bg};
   border-radius: 18px;
 `;
 
@@ -76,6 +77,7 @@ const SubjectBox = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 22px;
+  border-bottom: 5px solid ${themedPalette.border_1};
 `;
 
 const DownBox = styled.div`
@@ -124,6 +126,8 @@ const Word = styled.div`
 const CompleteBox = styled.div`
   background-color: ${themedPalette.box_complete};
   color: ${themedPalette.main_text2};
+  border-top: 5px solid ${themedPalette.border_1};
+  border-bottom: 5px solid ${themedPalette.border_1};
   width: 320px;
   height: 110px;
   display: flex;
@@ -151,6 +155,7 @@ const RandomWordBox = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 22px;
+  color: ${themedPalette.main_text1};
 `;
 
 export { SelectWordBox };

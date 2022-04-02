@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import v8n from 'v8n';
 import { memberCount, timerOptions } from '../../../../mock/makeRoomData';
 import { themedPalette } from '../../../../theme';
+import { ValidationType, ErrorTextType } from '../types';
 
 type MakeRoomModalProps = {
   onClickDropdown1?: () => void;
@@ -20,20 +21,32 @@ const MakeRoomModal = ({
   const [title, setTitle] = useState<string | null>(null);
   const [number, setNumber] = useState<number>(1);
   const [timer, setTimer] = useState<number>(1);
-  const [isError, setIsError] = useState<boolean>();
+  const [isError, setIsError] = useState<ValidationType>({ isLengthOver: false });
 
-  const validation = v8n().not.null().string().length(2, 10);
-  const [disabled, setDisabled] = useState(!validation.test(title));
+  const legnthValidation = v8n().not.null().string().length(2, 10);
+  const [disabled, setDisabled] = useState(!legnthValidation.test(title));
 
   const checkValidation = (_title: string) => {
+    const specialCharCheck = new RegExp(/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g).test(
+      _title,
+    );
+    const emptyCheck = new RegExp(/\s/g).test(_title);
     setTitle(_title);
-    setIsError(!validation.test(_title));
-    setDisabled(!validation.test(_title));
+    setIsError({
+      isLengthOver: !legnthValidation.test(_title),
+      isSpecialChar: specialCharCheck || emptyCheck,
+    });
+    setDisabled(!legnthValidation.test(_title) || specialCharCheck || emptyCheck);
   };
 
   const handleOnClickButton = (_title: string | null, _number: number, _time: number) => {
     if (!onClickButton) return;
     onClickButton(_title, _number, _time);
+  };
+
+  const TitleValidationText: ErrorTextType = {
+    lengthErrorText: '방 제목은 2~10자로 이내로 설정해주세요',
+    specialCharErrorText: '특수문자 및 띄어쓰기는 사용하실 수 없습니다.',
   };
 
   return (
@@ -43,7 +56,7 @@ const MakeRoomModal = ({
         <SubText>아이디어 회의, 이젠 쉽게하세요!</SubText>
         <TextField
           label="방 제목"
-          errorText="방 제목은 2~10자로 이내로 설정해주세요"
+          errorText={TitleValidationText}
           hintText="제목을 입력해주세요"
           isError={isError}
           onChange={checkValidation}

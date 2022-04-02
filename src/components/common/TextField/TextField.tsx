@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
-import { ValidationError } from 'v8n';
+import { ValidationType, ErrorTextType } from '../Modals/types';
 
 type TextFieldProps = {
-  isError?: boolean;
-  errorText?: string;
+  isError?: ValidationType;
+  errorText?: ErrorTextType;
   hintText?: string;
   label?: string;
   onChange?: (arg: any) => void;
@@ -21,11 +21,23 @@ const TextField = ({ isError, errorText, hintText, label, onChange }: TextFieldP
     onChange(e);
   };
 
+  const showLabelText = () => {
+    if (isError?.isDuplicated) {
+      return <ErrorText>{errorText?.duplicatedErrorText}</ErrorText>;
+    } else if (isError?.isLengthOver) {
+      return <ErrorText>{errorText?.lengthErrorText}</ErrorText>;
+    } else if (isError?.isSpecialChar) {
+      return <ErrorText>{errorText?.specialCharErrorText}</ErrorText>;
+    } else {
+      return <LabelText>{label}</LabelText>;
+    }
+  };
+
   return (
     <InputWrapper>
-      {isError ? <ErrorText>{errorText}</ErrorText> : <LabelText>{label}</LabelText>}
+      {showLabelText()}
       <Input
-        isError={isError}
+        isError={isError?.isDuplicated || isError?.isLengthOver || isError?.isSpecialChar}
         placeholder={hintText}
         onChange={e => handleOnChange(e.target.value)}
       />

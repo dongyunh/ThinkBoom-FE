@@ -22,8 +22,6 @@ const CountingUser = ({ totalUser = 5, currentUser = 2, userList }: CountingUser
     setIsOpen(false);
   };
 
-  const testUserList = ['호랑이귀여워', '고양이귀여워', '사자귀여워', '피자귀여워', '햄버거귀여워'];
-
   return (
     <Box>
       <TouchArea onMouseOver={handleOnMouseOver} onMouseOut={handleOnMouseOut} />
@@ -33,8 +31,8 @@ const CountingUser = ({ totalUser = 5, currentUser = 2, userList }: CountingUser
       </Count>
       {isOpen && (
         <UserListBox>
-          {testUserList.map(user => {
-            return <User key={user}>{user}</User>;
+          {userList?.map(user => {
+            return <User key={user.nickname}>{user.nickname}</User>;
           })}
         </UserListBox>
       )}

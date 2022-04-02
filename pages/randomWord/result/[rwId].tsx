@@ -71,6 +71,8 @@ const Word = styled.div`
   border: 5px solid ${themedPalette.border_1};
   border-radius: 12px;
   font-size: 20px;
+  color: ${themedPalette.main_text1};
+  background-color: ${themedPalette.box_bg};
 `;
 
 export default Result;
