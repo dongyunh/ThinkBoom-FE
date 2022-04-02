@@ -4,6 +4,8 @@ import { kanyeReducer } from './modules/kanye';
 import { randomWordReducer } from './modules/randomWord';
 import { sixHatReducer } from './modules/sixHat';
 import { darkmodeReducer } from './modules/darkMode';
+import { userCountReducer } from './modules/CountUser';
+import { permitReducer } from './modules/permit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
@@ -20,6 +22,8 @@ const reducers = combineReducers({
   randomWord: randomWordReducer,
   sixHat: sixHatReducer,
   darkMode: darkmodeReducer,
+  userCount: userCountReducer,
+  permit : permitReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -1,4 +1,4 @@
-export type HatType = 'red' | 'blue' | 'black' | 'green' | 'yellow' | 'white';
+export type HatType = 'red' | 'blue' | 'black' | 'green' | 'yellow' | 'white' | 'none';
 
 export type ChatData = {
   nickname: string | null;
@@ -8,12 +8,17 @@ export type ChatData = {
 
 export type UserData = {
   nickname: string;
-  hat: HatType | null;
+  hat: HatType;
 };
 
 export type UserList = UserData[];
 
 export type ChatHistoryType = ChatData[];
+
+export type UserCount = {
+  totalUser: number;
+  currentUser: number;
+};
 
 export type SixHatState = {
   currentPage: number;
@@ -25,4 +30,5 @@ export type SixHatState = {
   subject?: string;
   userList: UserList;
   myHat: HatType;
+  userCount: UserCount;
 };
