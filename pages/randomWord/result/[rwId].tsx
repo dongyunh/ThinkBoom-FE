@@ -8,6 +8,7 @@ import { useAppSelector, useAppDispatch } from '@redux/hooks';
 import { selectRandomWord, getResultWord } from '@redux/modules/randomWord';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { RandomWordResult } from '@components/layout/RandomWord';
 
 type ResultProps = {
   rwId: string;
@@ -37,11 +38,7 @@ const Result = ({ rwId }: ResultProps) => {
     <CenterLayout>
       <>
         <Title>선택된 단어</Title>
-        <ResultGrid>
-          {pickedWordList?.map((word, idx) => {
-            return <Word key={idx}>{word}</Word>;
-          })}
-        </ResultGrid>
+        <RandomWordResult wordList={pickedWordList} />
         <PrimaryButton text="완료" onClick={() => setIsOpen(true)} />
         {isOpen && <ResultModal onClickBtn1={handleDontShare} onClickBtn2={handleConfirm} />}
       </>
