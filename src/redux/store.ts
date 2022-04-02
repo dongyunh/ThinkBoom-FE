@@ -5,6 +5,7 @@ import { randomWordReducer } from './modules/randomWord';
 import { sixHatReducer } from './modules/sixHat';
 import { darkmodeReducer } from './modules/darkMode';
 import { userCountReducer } from './modules/CountUser';
+import { galleryReducer } from './modules/gallery';
 import { permitReducer } from './modules/permit';
 import { persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   darkMode: darkmodeReducer,
   userCount: userCountReducer,
   permit: permitReducer,
+  gallery: galleryReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

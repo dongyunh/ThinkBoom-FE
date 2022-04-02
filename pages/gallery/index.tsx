@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GalleryCard } from '@components/common';
 import styled from 'styled-components';
+import { getAllGallery, gallerySelector } from '@redux/modules/gallery';
+import { useAppSelector, useAppDispatch } from '@redux/hooks';
 
 const Gallery = () => {
+  const dispatch = useAppDispatch();
+  const { galleryList } = useAppSelector(gallerySelector);
+
+  useEffect(() => {
+    dispatch(getAllGallery());
+  }, []);
   return (
     <Container>
       <Grid>
-        <GalleryCard type="brainwriting" title="제목" subject="주제" />
-        <GalleryCard type="sixhat" title="제목" subject="주제" />
-        <GalleryCard type="randomword" title="제목" subject="주제" />
-        <GalleryCard type="brainwriting" title="제목" subject="주제" />
-        <GalleryCard type="sixhat" title="제목" subject="주제" />
-        <GalleryCard type="randomword" title="제목" subject="주제" />
+        {galleryList.map(gallery => {
+          return (
+            <GalleryCard type={gallery.category} title={gallery.title} subject={gallery.subject} />
+          );
+        })}
       </Grid>
     </Container>
   );
