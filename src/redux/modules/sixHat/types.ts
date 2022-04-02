@@ -31,4 +31,5 @@ export type SixHatState = {
   userList: UserList;
   myHat: HatType;
   userCount: UserCount;
+  isDuplicated: boolean;
 };
