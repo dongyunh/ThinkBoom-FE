@@ -3,20 +3,32 @@ import { GalleryCard } from '@components/common';
 import styled from 'styled-components';
 import { getAllGallery, gallerySelector } from '@redux/modules/gallery';
 import { useAppSelector, useAppDispatch } from '@redux/hooks';
+import { useRouter } from 'next/router';
 
 const Gallery = () => {
   const dispatch = useAppDispatch();
   const { galleryList } = useAppSelector(gallerySelector);
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(getAllGallery());
   }, []);
+
+  const handleRouting = (category: string, roomId: string) => {
+    router.push(`/gallery/detail/${category}/${roomId}`);
+  };
+
   return (
     <Container>
       <Grid>
         {galleryList.map(gallery => {
           return (
-            <GalleryCard type={gallery.category} title={gallery.title} subject={gallery.subject} />
+            <GalleryCard
+              type={gallery.category}
+              title={gallery.title}
+              subject={gallery.subject}
+              onClick={() => handleRouting(gallery.category, gallery.roomId)}
+            />
           );
         })}
       </Grid>

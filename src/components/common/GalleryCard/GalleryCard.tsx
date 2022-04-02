@@ -9,13 +9,14 @@ type GalleryCardType = {
   type: 'randomword' | 'brainwriting' | 'sixhat';
   title: string;
   subject: string;
+  onClick: () => void;
 };
 
 type StyledProp = {
   Url: string;
 };
 
-const GalleryCard = ({ type, title, subject }: GalleryCardType) => {
+const GalleryCard = ({ type, title, subject, onClick }: GalleryCardType) => {
   const ImageObj = {
     randomword: '/asset/randomWord.png',
     brainwriting: '/asset/brainWriting.png',
@@ -23,13 +24,13 @@ const GalleryCard = ({ type, title, subject }: GalleryCardType) => {
   };
   return (
     <Card width={350} height={260}>
-      <>
+      <div onClick={onClick}>
         <Image Url={ImageObj[type]} />
         <TextWrapper>
           <Title>{title}</Title>
           <Subject>{subject}</Subject>
         </TextWrapper>
-      </>
+      </div>
     </Card>
   );
 };

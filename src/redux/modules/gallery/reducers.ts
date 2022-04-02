@@ -4,7 +4,14 @@ import { GalleryState } from './types';
 
 //initialState 선언
 const initalState: GalleryState = {
-  galleryList: [],
+  galleryList: [
+    {
+      roomId: '123123',
+      category: 'sixhat',
+      title: '제목',
+      subject: '주제',
+    },
+  ],
   randomWordDetail: [],
   brainWritingDetail: [],
   sixHatDetail: [],
