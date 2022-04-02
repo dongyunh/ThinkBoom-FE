@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { Button } from '../../../common';
 import styled from 'styled-components';
+import { themedPalette } from '@theme/styleTheme';
 
 type ResultModalProps = {
   onClickBtn1: () => void;
@@ -39,6 +40,7 @@ const MakeRoomContainer = styled.div`
 
 const Desc = styled.p`
   font-size: 22px;
+  color: ${themedPalette.main_text1};
 `;
 
 const TitleWrapper = styled.div`

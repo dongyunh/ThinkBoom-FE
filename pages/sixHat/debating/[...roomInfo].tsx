@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import {
   InteractivePage,
@@ -22,14 +22,11 @@ import { ChattingRoom } from '../../../src/components/common';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
 import { HatType, UserList } from '@redux/modules/sixHat/types';
-import { selectPermit } from '@redux/modules/permit';
+import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
 import { ToastContainer } from 'react-toastify';
 import copyUrlHelper from '@utils/copyUrlHelper';
 
 import 'react-toastify/dist/ReactToastify.css';
-
-//TODO : any 수정하기
-export const WaitingRoomContext = createContext<any>(null);
 
 type SettingPageProps = {
   roomInfo: string[];
@@ -63,12 +60,18 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ConnectedSocket = new HandleSocket(`${process.env.NEXT_PUBLIC_API_URL}/websocket`);
       ConnectedSocket.connectSH(senderId, roomId);
     }
-    return () => {
-      if (ConnectedSocket) {
-        ConnectedSocket.disConnect();
-      }
-    };
   }, [nickname]);
+
+  useEffect(() => {
+    window.onbeforeunload = function () {
+      ConnectedSocket.disConnect();
+    };
+
+    return () => {
+      window.onbeforeunload = null;
+      ConnectedSocket.disConnect();
+    };
+  }, []);
 
   const sendHatData = (hat: HatType) => {
     ConnectedSocket.sendHatData(nickname, hat);
@@ -105,6 +108,11 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     dispatch(clearChatHistory());
   };
 
+  const handleChatOpen = () => {
+    setIsChatOpen(!isChatOpen);
+    dispatch(setIsMessageArrived(false));
+  };
+
   const pages = [
     {
       component: (
@@ -128,13 +136,8 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     },
   ];
 
-  const contextValue = {
-    sendMessage,
-  };
-  console.log(isFull);
-  //닉네임이 없거나, 방이 가득차지 않았다면.
   return (
-    <WaitingRoomContext.Provider value={contextValue}>
+    <>
       <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
       <InteractivePage pages={pages} currentPage={currentPage} />
       {!nickname && isFull <= 1 && (
@@ -146,24 +149,25 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
         <ShareIcon />
       </ShareIconWrapper>
       {currentPage !== 2 && (
-        <ChatWrapper onClick={() => setIsChatOpen(!isChatOpen)}>
-          <ChatIcon />
+        <ChatWrapper onClick={handleChatOpen}>
+          <ChatIcon isChatOpen={isChatOpen} />
         </ChatWrapper>
       )}
       <TutorialIconWrapper>
         <TutorialIcon type="sixHat" />
       </TutorialIconWrapper>
 
-      {isChatOpen && (
+      {isChatOpen && currentPage !== 2 && (
         <ChattingContainer>
           <ChattingRoom
             myNickname={nickname}
             chatHistory={chatHistory}
-            onClick={() => setIsChatOpen(!isChatOpen)}
+            onClick={handleChatOpen}
+            sendMessage={sendMessage}
           />
         </ChattingContainer>
       )}
-    </WaitingRoomContext.Provider>
+    </>
   );
 };
 

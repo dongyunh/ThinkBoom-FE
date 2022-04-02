@@ -1,6 +1,6 @@
 export type DarkModeState = {
   theme: 'dark' | 'light' | 'default';
-  systemTheme: 'dark' | 'light' | 'not-ready';
+  systemTheme: 'dark' | 'light';
 };
 
 export type themeType = 'dark' | 'light';

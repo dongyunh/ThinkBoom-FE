@@ -4,11 +4,7 @@ import type { AppProps } from 'next/app';
 import { store } from '@redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { HeaderBar, Title, DarkModeToggle } from '@components/common';
-import Link from 'next/link';
-import Image from 'next/image';
-import Logo from '../public/asset/Logo.png';
-import styled from 'styled-components';
+import { HeaderBar } from '@components/common';
 
 export let persistor = persistStore(store);
 

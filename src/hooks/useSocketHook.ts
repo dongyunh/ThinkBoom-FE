@@ -11,6 +11,7 @@ import {
   getSubjectSH,
   updateCurrentPage,
 } from '../redux/modules/sixHat';
+import { setIsMessageArrived } from '@redux/modules/permit';
 import { getUserCount } from '../redux/modules/CountUser';
 
 import mixHatsHelper from '@utils/mixHatsHelper';
@@ -30,6 +31,7 @@ export type SixHatResponseData = {
   totalUser: number;
   currentUser: number;
   currentPage: number;
+  userList: UserList;
 };
 
 export type SixHatSendData = {
@@ -75,15 +77,12 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
             const response: SixHatResponseData = JSON.parse(data.body) as SixHatResponseData;
 
             if (response.type === 'ENTER') {
-              const userData: UserData = {
-                nickname: response.sender,
-                hat: 'none',
-              };
               const userCount = {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              dispatch(getUserList(userData));
+              console.log(response);
+              dispatch(getUserList(response.userList));
               dispatch(getUserCount(userCount));
             }
 
@@ -101,7 +100,7 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 message: response.message,
               };
               dispatch(getMessages(newMessage));
-              toast.info('메시지가 도착했습니다');
+              dispatch(setIsMessageArrived(true));
             }
 
             if (response.type === 'DEBATING') {
@@ -140,10 +139,12 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
     }
 
     disConnect() {
-      this.StompClient.disconnect(() => {}, {
-        senderId: this._senderId,
-        category: 'SH',
-      });
+      if (this.StompClient) {
+        this.StompClient.disconnect(() => {}, {
+          senderId: this._senderId,
+          category: 'SH',
+        });
+      }
     }
 
     // 웹소켓이 연결될 때 까지 실행하는 함수

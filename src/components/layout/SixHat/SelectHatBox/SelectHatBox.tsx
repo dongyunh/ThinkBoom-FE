@@ -3,13 +3,16 @@ import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
 import { Card } from '../../../common';
 import { HatImage } from '@components/common';
-import hatData from '../../../../mock/hatData';
+
 import { UserList, HatType } from '@redux/modules/sixHat/types';
 import { useAppSelector } from '@redux/hooks';
 import { sixHatSelector } from '@redux/modules/sixHat';
+import BGHatLeft from '../../../../../public/asset/backgrounds/bg_hat_left.png';
+import BGHatRight from '../../../../../public/asset/backgrounds/bg_hat_right.png';
+import Image from 'next/image';
+import useHatData from '@hooks/useHatData';
 
 type SelectHatBoxProps = {
-  subject: string;
   myHat: HatType;
   userList: UserList;
   onClickHat?: (arg: any) => void;
@@ -22,15 +25,9 @@ type StyleProps = {
   isMouseOver?: boolean;
 };
 
-const SelectHatBox = ({
-  subject,
-  myHat,
-  userList,
-  onClickHat,
-  onClickRandom,
-}: SelectHatBoxProps) => {
-  const [isMouseOver, setIsMouseOver] = useState(false);
-  const { isAdmin } = useAppSelector(sixHatSelector);
+const SelectHatBox = ({ myHat, userList, onClickHat, onClickRandom }: SelectHatBoxProps) => {
+  const { isAdmin, subject } = useAppSelector(sixHatSelector);
+  const hatData = useHatData();
 
   const handleOnClickHat = (hat: string) => {
     if (!onClickHat) return;
@@ -39,6 +36,9 @@ const SelectHatBox = ({
 
   return (
     <Container>
+      <BGLeft>
+        <Image src={BGHatLeft} alt="background_image" />
+      </BGLeft>
       <SubjectBox>
         {subject}
         {isAdmin && <RandomButton onClick={() => onClickRandom(userList)}>랜덤</RandomButton>}
@@ -63,23 +63,23 @@ const SelectHatBox = ({
           {hatData.map((hat, idx) => {
             return (
               <Card width={200} height={200} key={idx}>
-                {isMouseOver ? (
-                  <HatBox isMouseOver={isMouseOver}>
+                {hat.isOver ? (
+                  <HatBox isMouseOver={hat.isOver}>
                     <h3>{hat.text}</h3>
                     <DescText>{hat.desc}</DescText>
                     <TouchArea
-                      onMouseOver={() => setIsMouseOver(true)}
-                      onMouseOut={() => setIsMouseOver(false)}
+                      onMouseOver={() => hat.setIsOver()}
+                      onMouseOut={() => hat.setIsOver()}
                       onClick={() => handleOnClickHat(hat.value)}
                     />
                   </HatBox>
                 ) : (
                   <HatBox>
-                    <HatImage type={hat.value} width={120} height={120} />
+                    <HatImage type={hat.value as HatType} width={120} height={120} />
                     <div>{hat.text}</div>
                     <TouchArea
-                      onMouseOver={() => setIsMouseOver(true)}
-                      onMouseOut={() => setIsMouseOver(false)}
+                      onMouseOver={() => hat.setIsOver()}
+                      onMouseOut={() => hat.setIsOver()}
                       onClick={() => handleOnClickHat(hat.value)}
                     />
                   </HatBox>
@@ -89,6 +89,9 @@ const SelectHatBox = ({
           })}
         </CardListBox>
       </DownBox>
+      <BGRight>
+        <Image src={BGHatRight} alt="background_image" />
+      </BGRight>
     </Container>
   );
 };
@@ -98,6 +101,19 @@ const Container = styled.div`
   height: 586px;
   border: 5px solid ${themedPalette.border_1};
   border-radius: 18px;
+  position: relative;
+`;
+
+const BGLeft = styled.div`
+  position: absolute;
+  top: 0;
+  left: -220px;
+`;
+
+const BGRight = styled.div`
+  position: absolute;
+  top: 0;
+  right: -280px;
 `;
 
 const MyHatBox = styled.div`

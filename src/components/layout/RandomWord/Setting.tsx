@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { CenterLayout, SkipButton, SubjectTextField } from '@components/common';
+import { CenterLayout, SubjectTextField } from '@components/common';
 import styled from 'styled-components';
+import { themedPalette } from '@theme/styleTheme';
 
 type SettingProps = {
   onClick: () => void;
@@ -28,20 +29,19 @@ const SettingWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-`;
-
-const SkipButtonWrapper = styled.div`
-  padding-top: 30px;
+  padding-bottom: 120px;
 `;
 
 const Title = styled.div`
   font-size: 50px;
   font-weight: bold;
+  color: ${themedPalette.main_text1};
 `;
 
 const Desc = styled.div`
   text-align: center;
   padding-bottom: 20px;
+  color: ${themedPalette.main_text1};
 `;
 
 export { Setting };

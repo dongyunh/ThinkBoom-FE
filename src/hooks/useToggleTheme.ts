@@ -12,14 +12,13 @@ export function useToggleTheme() {
   };
 
   const toggle = (value: 'light' | 'dark') => {
-    console.log(theme);
     if (!theme) return;
     if (theme === 'dark') {
       dispatch(enableLightMode());
-      save('light');
+      save(value);
     } else if (theme === 'light') {
       dispatch(enableDarkMode());
-      save('dark');
+      save(value);
     }
   };
 
