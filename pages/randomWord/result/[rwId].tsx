@@ -39,6 +39,7 @@ const Result = ({ rwId }: ResultProps) => {
       <>
         <Title>선택된 단어</Title>
         <RandomWordResult wordList={pickedWordList} />
+        <Empty />
         <PrimaryButton text="완료" onClick={() => setIsOpen(true)} />
         {isOpen && <ResultModal onClickBtn1={handleDontShare} onClickBtn2={handleConfirm} />}
       </>
@@ -50,26 +51,8 @@ const Title = styled.h1`
   color: ${themedPalette.main_text1};
 `;
 
-const ResultGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  column-gap: 80px;
-  row-gap: 66px;
-  padding: 20px 0px 80px 0px;
-`;
-
-const Word = styled.div`
-  width: 318px;
-  height: 114px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 5px solid ${themedPalette.border_1};
-  border-radius: 12px;
-  font-size: 20px;
-  color: ${themedPalette.main_text1};
-  background-color: ${themedPalette.box_bg};
+const Empty = styled.div`
+  height: 50px;
 `;
 
 export default Result;

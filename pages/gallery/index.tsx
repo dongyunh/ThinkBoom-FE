@@ -20,10 +20,13 @@ const Gallery = () => {
 
   return (
     <Container>
+      <Title>갤러리</Title>
+      <Desc>다른 사람들의 랜덤워드, 브레인라이팅, 6hat thinking 결과물을 볼 수 있습니다. </Desc>
       <Grid>
-        {galleryList.map(gallery => {
+        {galleryList.map((gallery, idx) => {
           return (
             <GalleryCard
+              key={idx}
               type={gallery.category}
               title={gallery.title}
               subject={gallery.subject}
@@ -40,7 +43,19 @@ const Container = styled.div`
   padding-top: 150px;
   width: 100vw;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Title = styled.div`
+  font-weight: bold;
+  font-size: 40px;
+  padding-bottom: 10px;
+`;
+
+const Desc = styled.div`
+  font-size: 18px;
+  padding-bottom: 30px;
 `;
 
 const Grid = styled.div`
