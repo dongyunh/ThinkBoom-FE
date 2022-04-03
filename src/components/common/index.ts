@@ -21,6 +21,7 @@ export * from './CountingUser';
 export * from './Icon/ShareIcon';
 export * from './Icon/ChatIcon';
 export * from './Icon/TutorialIcon';
+export * from './Icon/GalleryIcon';
 export * from './Modals/MakeRoomModal';
 export * from './Modals/NicknameModal';
 export * from './Modals/LimitModal';

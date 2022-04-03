@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DarkModeToggle, CountingUser } from '../../common';
+import { DarkModeToggle, CountingUser, GalleryIcon } from '../../common';
 import Image from 'next/image';
 import Logo from '../../../../public/asset/Logo.png';
 import { useRouter } from 'next/router';
@@ -13,7 +13,7 @@ const HeaderBar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { userCount } = useAppSelector(selectUserCount);
-  const { userList: sixHatUserList } = useAppSelector(sixHatSelector); // NOTE : brainWriting도 이런 방식으로 가져와서 유저 리스트를 사용하시면 될 것 같아요!
+  const { userList: sixHatUserList } = useAppSelector(sixHatSelector);
 
   const showCpntCheckPathName = () => {
     if (router.pathname.includes('/sixHat/debating/')) {
@@ -30,7 +30,12 @@ const HeaderBar = () => {
     }
 
     if (router.pathname == '/') {
-      return <DarkModeToggle />;
+      return (
+        <Wrapper>
+          <DarkModeToggle />
+          <GalleryIcon />
+        </Wrapper>
+      );
     }
   };
 
@@ -68,6 +73,12 @@ const CountingAndTimer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 15px;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap:10px;
 `;
 
 export { HeaderBar };
