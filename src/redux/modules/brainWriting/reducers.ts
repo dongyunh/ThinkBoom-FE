@@ -18,6 +18,7 @@ import {
   requsetComment,
 } from './actions';
 import { BrainWritingState } from './types';
+import { PURGE } from 'redux-persist';
 
 const initialState: BrainWritingState = {
   StartCurrentPage: 0,
@@ -95,5 +96,8 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(timerData.fulfilled, (state, action) => {
       const { timers } = action.payload.data;
       state.BWtimer = timers;
+    })
+    .addCase(PURGE, (state, action) => {
+      return initialState;
     });
 });

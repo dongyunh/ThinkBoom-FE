@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useAppSelector } from '../../../redux/hooks';
 import { brainWritingSelector } from '@redux/modules/brainWriting';
-import { Title, PrimaryButton, HeaderBar, CountingUser } from '@components/common';
+import { Title, PrimaryButton } from '@components/common';
 import { BWSubjectTextField } from '../BWSubjectTextField';
 type BWWaitingRoomProps = {
   onClickSubmit?: (arg?: string) => void;
@@ -44,7 +44,6 @@ const BWWaitingRoom = ({ onClickSubmit, onClickComplete, onChange }: BWWaitingRo
         onClick={handleOnClickComplete}
         disabled={!(BWsubject && BWisAdmin && BWUserCount.totalUser == BWUserCount.currentUser)}
       />
-      <BackGroundImage />
     </Grid>
   );
 };
@@ -65,16 +64,6 @@ const TextFieldWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-`;
-
-const BackGroundImage = styled.div`
-  width: 110vw;
-  height: 100vh;
-  background-image: url('/asset/subject_background.png');
-  background-size: cover;
-  position: absolute;
-  z-index: -10;
-  bottom: 110px;
 `;
 
 const Empty = styled.div``;

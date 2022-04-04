@@ -13,10 +13,15 @@ import {
 } from '../redux/modules/sixHat';
 import { setIsMessageArrived } from '@redux/modules/permit';
 import { getUserCount } from '../redux/modules/CountUser';
-import { getSubjectBW,getMessagesBW ,getUserListBW,updateCurrentPageBW} from '../redux/modules/brainWriting';
+import {
+  getSubjectBW,
+  getMessagesBW,
+  getUserListBW,
+  updateCurrentPageBW,
+} from '../redux/modules/brainWriting';
 
 import mixHatsHelper from '@utils/mixHatsHelper';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 import { UserList, UserData, HatType } from '@redux/modules/sixHat/types';
 import { BWUserList, BWUserData } from '@redux/modules/brainWriting/types';
@@ -48,7 +53,7 @@ export type SixHatSendData = {
 };
 
 export type BrainWritingResponseData = {
-  type: 'ENTER' | 'TALK' | 'QUIT' |'SUBJECT'|'NEXTPAGE'
+  type: 'ENTER' | 'TALK' | 'QUIT' | 'SUBJECT' | 'NEXTPAGE';
   roomId: string | null;
   sender: string | null;
   senderId: number | null;
@@ -62,15 +67,14 @@ export type BrainWritingResponseData = {
 };
 
 export type BrainWritingSendData = {
-  type: 'ENTER' | 'TALK' | 'QUIT' | 'SUBJECT'|'NEXTPAGE'
+  type: 'ENTER' | 'TALK' | 'QUIT' | 'SUBJECT' | 'NEXTPAGE';
   roomId: string | null;
   sender: string | null;
   senderId: number | null;
   message: string | null;
   subject?: string;
-  currentPage? :number;
+  currentPage?: number;
 };
-
 
 export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
   const dispatch = useAppDispatch();
@@ -91,31 +95,25 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
       this._roomId = null;
       this._senderId = null;
     }
-    connectBW(senderId: number | null, roomId: string){
+    connectBW(senderId: number | null, roomId: string) {
       this._senderId = senderId;
       this._roomId = roomId;
-      console.log(senderId, roomId);
-  
-      this.StompClient.connect( {senderId: this._senderId} , () => {
+
+      this.StompClient.connect({ senderId: this._senderId }, () => {
         this.StompClient.subscribe(
           `/sub/api/brainwriting/rooms/${roomId}`,
           data => {
-            const response :  BrainWritingResponseData = JSON.parse(data.body)as BrainWritingResponseData;
-            console.log(response);
-            
+            const response: BrainWritingResponseData = JSON.parse(
+              data.body,
+            ) as BrainWritingResponseData;
+
             if (response.type === 'ENTER') {
-              // const User = {
-              //   nickname: response.sender,
-              // };
-              // console.log(User)
               const BWUserCount = {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              console.log(response)
-              console.log(response.totalUser,"total유저")
-              console.log(response.currentUser,"current유저")
-              
+
+
               dispatch(getUserListBW(response.BWUserList));
               dispatch(getUserCount(BWUserCount));
             }
@@ -128,24 +126,20 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
               dispatch(setIsMessageArrived(true));
               toast.info('메시지가 도착했습니다');
             }
-            
+
             if (response.type === 'SUBJECT') {
-              console.log('되돌아온 주제', response.subject);
               dispatch(getSubjectBW(response.subject));
               toast.info('주제가 공유되었습니다');
             }
             if (response.type === 'NEXTPAGE') {
               dispatch(updateCurrentPageBW(response.currentPage));
             }
-
           },
           { senderId: this._senderId, category: 'BW' },
         );
       });
-      
-  
     }
-    
+
     connectSH(senderId: number | null, roomId: string) {
       this._senderId = senderId;
       this._roomId = roomId;
@@ -161,9 +155,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              console.log(response);
-              console.log(response.totalUser,"total유저")
-              console.log(response.currentUser,"current유저")
               dispatch(getUserList(response.userList));
               dispatch(getUserCount(userCount));
             }
@@ -361,8 +352,8 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
         console.log('message 소켓 함수 에러', e);
       }
     };
-     //BW
-     BWsend = (data: BrainWritingSendData) => {
+    //BW
+    BWsend = (data: BrainWritingSendData) => {
       this.waitForConnection(this.StompClient, () => {
         this.StompClient.debug = () => {};
         this.StompClient.send(
@@ -370,7 +361,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
           { senderId: this._senderId },
           JSON.stringify(data),
         );
-        console.log(this._senderId)
       });
     };
     BWsendMessage = (sender: string, message: string) => {
@@ -421,13 +411,9 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
       }
     };
   }
-  
-
-  
 
   return HandleSocket;
 }
 function userData(userData: any): any {
   throw new Error('Function not implemented.');
 }
-

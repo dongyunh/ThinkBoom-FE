@@ -1,6 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { GetServerSideProps } from 'next';
-import { InteractivePage, WaitingRoom, ShareIcon, ChatIcon } from '../../../src/components/common';
 import { TutorialIcon } from '@components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { NicknameModal, LimitModal } from '../../../src/components/common';
@@ -11,7 +10,7 @@ import useSocketHook from '../../../src/hooks/useSocketHook';
 import { HatType, UserList } from '@redux/modules/sixHat/types';
 import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
 
-import { BWWaitingRoom } from '@components/common/BWWaitingRoom';
+import { WaitingRoom, InteractivePage, ShareIcon, ChatIcon } from '@components/common';
 import { BwCard } from '../../../src/components/common/BwCard';
 import { BwComment } from '@components/common/BwCommnet';
 import { VotingRoom } from '@components/layout/BrainWriting';
@@ -44,8 +43,6 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
   const { currentPage, nickname, chatHistory, senderId, BWsubject, BWUserCount } =
     useAppSelector(brainWritingSelector);
-  console.log(currentPage, '대기방 현재페이지');
-  console.log(BWUserCount, 'usercount');
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 
@@ -126,7 +123,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const pages = [
     {
       component: (
-        <BWWaitingRoom
+        <WaitingRoom
           onClickSubmit={handleSubmitSubject}
           onClickComplete={handleStartbrainWriting}
         />
@@ -214,7 +211,6 @@ const ChattingContainer = styled.div`
 `;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  console.log(context);
   const { query } = context;
   const { roomInfo } = query;
   return {

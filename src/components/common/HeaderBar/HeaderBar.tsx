@@ -19,10 +19,10 @@ const HeaderBar = () => {
   const { BWUserList: BrainWritingUserList } = useAppSelector(brainWritingSelector); //
 
   const showCpntCheckPathName = () => {
-    if (router.pathname.includes('/brainWriting/debating/')) {
+    if (router.pathname.includes('/brainWriting/ideate/')) {
       return (
         <CountingAndTimer>
-          <DarkModeToggle />
+          {/* <DarkModeToggle /> */}
           <CountingUser
             totalUser={userCount.totalUser}
             currentUser={userCount.currentUser}
@@ -35,7 +35,7 @@ const HeaderBar = () => {
     if (router.pathname.includes('/sixHat/debating/')) {
       return (
         <CountingAndTimer>
-          <DarkModeToggle />
+          {/* <DarkModeToggle /> */}
           <CountingUser
             totalUser={userCount.totalUser}
             currentUser={userCount.currentUser}
@@ -94,7 +94,7 @@ const CountingAndTimer = styled.div`
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  gap:10px;
+  gap: 10px;
 `;
 
 export { HeaderBar };

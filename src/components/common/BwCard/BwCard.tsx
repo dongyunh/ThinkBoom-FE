@@ -53,9 +53,6 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
     }
   }, [seconds]);
 
-  console.log(BWtimer, '리덕스 저장 타이머, BWtimer');
-  console.log(seconds, '현 페이지 타이머,seconds state');
-
   return (
     <CenterLayout>
       <>

@@ -202,7 +202,6 @@ const ChattingContainer = styled.div`
 `;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  console.log(context);
   const { query } = context;
   const { roomInfo } = query;
   return {

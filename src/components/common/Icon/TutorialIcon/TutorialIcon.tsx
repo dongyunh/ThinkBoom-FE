@@ -55,6 +55,7 @@ const TutorialImg = styled.div`
   bottom: 60px;
   right: 0px;
   width: 500px;
+  z-index: 9999;
 `;
 
 export { TutorialIcon };

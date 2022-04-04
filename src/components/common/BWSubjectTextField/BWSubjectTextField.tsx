@@ -30,7 +30,7 @@ const BWSubjectTextField = ({
   const [subject, setSubject] = useState<string>('');
   const { BWsubject: BWenteredSubject } = useAppSelector(brainWritingSelector);
   const [BWsubject, setBWSubject] = useState<string>('');
-  console.log(BWsubject);
+
   const handleGetSubject = () => {
     if (type == 'randomWord') {
       dispatch(getSubjectRW(subject));
