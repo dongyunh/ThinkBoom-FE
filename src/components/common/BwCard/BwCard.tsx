@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { postIdea, timerData, ideaCardCreate } from '../../../redux/modules/brainWriting/actions';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
 import { Timer } from '../Timer';
+import { useRouter } from 'next/router';
+
 type CardProps = {
   width: number;
   height: number;
@@ -24,18 +26,20 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
     useAppSelector(brainWritingSelector);
   const [disabled, setDisabled] = useState();
   const [idea, setIdea] = useState<string>('');
+  const router = useRouter();
+
   const SendIdea = () => {
     dispatch(postIdea({ senderId, idea, bwRoomid: bwRoomId }));
   };
 
-  const shareRoomId = window.location.pathname.split('/')[4];
+  const shareRoomId = router.pathname.split('/')[4];
   const [seconds, setSeconds] = useState(BWtimer);
+
   useEffect(() => {
     if (nickname) {
       dispatch(timerData(shareRoomId));
     }
   }, []);
-  //BWtimer= res.timerData
 
   useEffect(() => {
     if (seconds == null) {
