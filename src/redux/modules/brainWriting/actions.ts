@@ -58,14 +58,14 @@ export const getNickname = createAsyncThunk(
 
   export const ideaCardCreate = createAsyncThunk(
     `${prefix}/GET_TIMER_DATA`,async({shareRoomId,senderId }: TestType)=>{
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/create/${shareRoomId}`,
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api//create/${shareRoomId}`,
       {
         userId : senderId
       })
       .then((res)=>{
-        const dispatch = useAppDispatch()
+        // const dispatch = useAppDispatch()
         console.log(res,"idea 생성확인")
-        dispatch(timerData(shareRoomId))
+        // dispatch(timerData(shareRoomId))
       })
       // return response;
       
@@ -81,7 +81,7 @@ export const getNickname = createAsyncThunk(
     );
     export const requsetComment = createAsyncThunk(
       `${prefix}/GET_REQUEST_COMMENT`,async(bwRoomId: string| null )=>{
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api//${bwRoomId}`);
         console.log(response)
         return response;
         
