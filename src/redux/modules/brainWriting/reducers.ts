@@ -10,7 +10,7 @@ import {
   getMessagesBW,
   getUserListBW,
   getRoomIdBW,
-  ideaCardCreate,
+  initializeIdeaCard,
   getTimerBW,
   getTimerData,
   updateStartCurrentPageBW,

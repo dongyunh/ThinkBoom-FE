@@ -1,16 +1,11 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useAppDispatch } from '@redux/hooks';
-import { ChatData, BWUserData, BWUserCount, BWUserList } from './types';
+import { ChatData, BWUserData, BWUserCount, BWUserList, InitializeIdeaCardArgType } from './types';
 
 type GetNicknameArgType = {
   bwRoomId: string;
   nickname: string;
-};
-
-type TestType = {
-  shareRoomId: string;
-  senderId: number | null;
 };
 
 type PostIdeaArgType = {
@@ -49,15 +44,10 @@ export const getNickname = createAsyncThunk(
   },
 );
 
-export const ideaCardCreate = createAsyncThunk(
-  `${prefix}/GET_TIMER_DATA`,
-  async ({ shareRoomId, senderId }: TestType) => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/create/${shareRoomId}`,
-      {
-        userId: senderId,
-      },
-    );
+export const initializeIdeaCard = createAsyncThunk(
+  `${prefix}/INITIALIZE_IDEA_CARD`,
+  async ({ roomId }: InitializeIdeaCardArgType) => {
+    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${roomId}`);
   },
 );
 

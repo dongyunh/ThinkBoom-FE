@@ -13,6 +13,11 @@ export type BWUserCount = {
   totalUser: number;
   currentUser: number;
 };
+
+export type InitializeIdeaCardArgType = {
+  roomId: string;
+};
+
 export type BrainWritingState = {
   StartCurrentPage: number;
   currentPage: number;
