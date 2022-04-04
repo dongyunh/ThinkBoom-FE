@@ -26,7 +26,7 @@ type StyleProps = {
 
 const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { senderId, bwRoomId, nickname, BWtimer, BWisAdmin } = useAppSelector(brainWritingSelector);
+  const { senderId, bwRoomId, nickname, BWtimer, isAdmin } = useAppSelector(brainWritingSelector);
   const [idea, setIdea] = useState<string>('');
   const router = useRouter();
 
@@ -64,8 +64,8 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
           </StyledCard>
         </CardWrapper>
         <ButtonWrapper>
-          {BWisAdmin ? (
-            <PrimaryButton text="완료" disabled={!BWisAdmin} onClick={onClickComplete} />
+          {isAdmin ? (
+            <PrimaryButton text="완료" disabled={!isAdmin} onClick={onClickComplete} />
           ) : null}
         </ButtonWrapper>
       </>

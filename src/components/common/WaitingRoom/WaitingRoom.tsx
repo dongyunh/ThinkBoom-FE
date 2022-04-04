@@ -22,7 +22,7 @@ type WaitingRoomProps = {
 
 const WaitingRoom = ({ onClickSubmit, onClickComplete, onChange }: WaitingRoomProps) => {
   const { isAdmin: SHIsAdmin, subject: SHSubject } = useAppSelector(sixHatSelector);
-  const { BWisAdmin, BWsubject } = useAppSelector(brainWritingSelector);
+  const { isAdmin: BWIsAdmin, BWsubject } = useAppSelector(brainWritingSelector);
   const { userCount } = useAppSelector(selectUserCount);
   const router = useRouter();
   const currentService = router.pathname.split('/')[1];
@@ -44,7 +44,7 @@ const WaitingRoom = ({ onClickSubmit, onClickComplete, onChange }: WaitingRoomPr
 
   const checkIsDisabled = () => {
     if (currentService === 'brainWriting') {
-      return !(BWsubject && BWisAdmin && userCount.totalUser == userCount.currentUser);
+      return !(BWsubject && BWIsAdmin && userCount.totalUser == userCount.currentUser);
     } else if (currentService === 'sixHat') {
       return !(SHIsAdmin && SHSubject);
     }
@@ -56,7 +56,7 @@ const WaitingRoom = ({ onClickSubmit, onClickComplete, onChange }: WaitingRoomPr
       <TextFieldWrapper>
         <Title text="회의 주제" />
         <SubjectTextField
-          isAdmin={currentService === 'sixHat' ? SHIsAdmin : BWisAdmin}
+          isAdmin={currentService === 'sixHat' ? SHIsAdmin : BWIsAdmin}
           type={currentService === 'sixHat' ? 'sixHat' : 'brainWriting'}
           onChange={handleOnChange}
           onClick={handleOnclickSubmit}

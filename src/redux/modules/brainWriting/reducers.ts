@@ -25,7 +25,7 @@ const initialState: BrainWritingState = {
   StartCurrentPage: 0,
   currentPage: 0,
   nickname: null,
-  BWisAdmin: false,
+  isAdmin: false,
   BWisSubmit: false,
   BWsubject: undefined,
   senderId: null,
@@ -60,7 +60,7 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.BWisSubmit = action.payload;
     })
     .addCase(updateAdminState, (state, action) => {
-      state.BWisAdmin = action.payload;
+      state.isAdmin = action.payload;
     })
     .addCase(getMessagesBW, (state, action) => {
       if (state.chatHistory) {
