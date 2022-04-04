@@ -1,5 +1,5 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { GalleryState, DetailArgType } from './types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { DetailArgType } from './types';
 import axios from 'axios';
 
 const prefix = 'gallery';
@@ -14,7 +14,7 @@ export const getDetailGallery = createAsyncThunk(
   `${prefix}/GET_DETAIL_GALLERY`,
   async ({ category, roomId }: DetailArgType) => {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/${category}/${roomId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/gallery/${category}/${roomId}`,
     );
 
     return response.data;

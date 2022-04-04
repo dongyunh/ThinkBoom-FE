@@ -11,6 +11,15 @@ export type UserData = {
   hat: HatType;
 };
 
+export type GetNicknameArgType = {
+  shRoomId: string;
+  nickname: string;
+};
+
+export type SaveSixHatDataArgType = {
+  roomId?: string;
+};
+
 export type UserList = UserData[];
 
 export type ChatHistoryType = ChatData[];

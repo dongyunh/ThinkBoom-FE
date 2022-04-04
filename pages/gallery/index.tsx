@@ -23,10 +23,10 @@ const Gallery = () => {
       <Title>갤러리</Title>
       <Desc>다른 사람들의 랜덤워드, 브레인라이팅, 6hat thinking 결과물을 볼 수 있습니다. </Desc>
       <Grid>
-        {galleryList.map((gallery, idx) => {
+        {galleryList.map(gallery => {
           return (
             <GalleryCard
-              key={idx}
+              key={gallery.roomId}
               type={gallery.category}
               title={gallery.title}
               subject={gallery.subject}

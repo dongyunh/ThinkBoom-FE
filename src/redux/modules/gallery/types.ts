@@ -45,9 +45,20 @@ export type BrainWritingDataType = {
   voteResult: VoteResultType[];
 };
 
+export type ChatData = {
+  nickname: string;
+  hat: HatType;
+  message: string;
+};
+
+export type SixHatDataType = {
+  subject: string;
+  chatHistory: ChatData[];
+};
+
 export type GalleryState = {
   galleryList: Gallery[];
   randomWordDetail: string[];
   brainWritingDetail: BrainWritingDataType[];
-  sixHatDetail: string[];
+  sixHatDetail: SixHatDataType;
 };
