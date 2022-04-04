@@ -40,6 +40,7 @@ const Container = styled.div`
   width: 800px;
   height: 520px;
   border: 5px solid ${themedPalette.border_1};
+  background-color: ${themedPalette.box_bg};
   border-radius: 18px;
   margin-bottom: 30px;
 `;
@@ -47,13 +48,15 @@ const Container = styled.div`
 const SubjectBox = styled.div`
   width: 100%;
   height: 72px;
-  background-color: ${themedPalette.black};
+  background-color: ${themedPalette.box_subject};
   color: ${themedPalette.main_text2};
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 22px;
   position: relative;
+  border-radius: 13px 13px 0 0;
+  border-bottom: 5px solid ${themedPalette.border_1};
 `;
 
 const DownBox = styled.div`
