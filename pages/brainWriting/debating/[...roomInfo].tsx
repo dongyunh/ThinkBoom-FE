@@ -30,6 +30,7 @@ import { countSelector } from '@redux/modules/CountUser';
 import copyUrlHelper from '@utils/copyUrlHelper';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ChattingRoom } from '@components/common';
 
 //TODO : any 수정하기
 
@@ -80,13 +81,9 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     };
   }, []);
 
-  const BWsendMessage = (message: string) => {
+  const sendMessage = (message: string) => {
     ConnectedSocket.BWsendMessage(nickname, message);
   };
-
-  // const handelSendDebatingMessage = (message: string) => {
-  //   ConnectedSocket.sendMessageDB(nickname, message);
-  // };
 
   const handleNextPage = (pageNum: number) => {
     ConnectedSocket.BWsendCurrentPage(pageNum);
@@ -164,7 +161,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
         <ShareIcon />
       </ShareIconWrapper>
       {currentPage !== 4 && (
-        <ChatWrapper onClick={() => setIsChatOpen(!isChatOpen)}>
+        <ChatWrapper onClick={handleChatOpen}>
           <ChatIcon isChatOpen={isChatOpen} />
         </ChatWrapper>
       )}
@@ -172,13 +169,13 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
         <TutorialIcon type="brainWriting" />
       </TutorialIconWrapper>
 
-      {isChatOpen && (
+      {isChatOpen && currentPage !== 4 && (
         <ChattingContainer>
-          <BWChattingRoom
+          <ChattingRoom
             myNickname={nickname}
             chatHistory={chatHistory}
             onClick={handleChatOpen}
-            sendMessage={BWsendMessage}
+            sendMessage={sendMessage}
           />
         </ChattingContainer>
       )}
@@ -213,6 +210,7 @@ const ChattingContainer = styled.div`
   position: fixed;
   right: 70px;
   bottom: 130px;
+  z-index: 9999;
 `;
 
 export const getServerSideProps: GetServerSideProps = async context => {

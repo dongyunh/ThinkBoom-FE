@@ -18,7 +18,7 @@ import {
   clearChatHistory,
 } from '../../../src/redux/modules/sixHat';
 import { NicknameModal, LimitModal, RoutingAlertModal } from '../../../src/components/common';
-import { ChattingRoom } from '../../../src/components/common';
+import { ChattingRoom } from '@components/common';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
 import { HatType, UserList } from '@redux/modules/sixHat/types';

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { CenterLayout } from '../../../common';
-import { DevatingChatBox } from '../../SixHat/DevatingChatBox';
 import { VoteCard } from '@components/layout/BrainWriting/VotingRoom/VoteCard';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { VoteCardModal } from '@components/layout/BrainWriting/VotingRoom/VoteCardModal';
