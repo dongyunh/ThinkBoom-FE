@@ -32,6 +32,7 @@ const initialState: SixHatState = {
     totalUser: 0,
     currentUser: 0,
   },
+  isDuplicated: false,
 };
 
 //createReducer로 reducer 생성.
@@ -41,9 +42,13 @@ export const sixHatReducer = createReducer(initialState, builder => {
       state.currentPage = action.payload;
     })
     .addCase(getNickname.fulfilled, (state, action) => {
-      const { nickname, userId } = action.payload;
-      state.nickname = nickname;
-      state.senderId = userId;
+      const { nickname, userId, isDuplicated } = action.payload;
+      if (isDuplicated) {
+        state.isDuplicated = isDuplicated;
+      } else {
+        state.nickname = nickname;
+        state.senderId = userId;
+      }
     })
     .addCase(updateAdminState, (state, action) => {
       state.isAdmin = action.payload;

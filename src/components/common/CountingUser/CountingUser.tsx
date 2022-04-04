@@ -4,11 +4,12 @@ import { themedPalette } from '../../../theme/styleTheme';
 import UserCount from '../../../../public/asset/userCount.png';
 import Image from 'next/image';
 import { UserList } from '@redux/modules/sixHat/types';
+import { BWUserList } from '@redux/modules/brainWriting/types';
 
 type CountingUserProps = {
   totalUser?: number;
   currentUser?: number;
-  userList?: UserList;
+  userList?: UserList | BWUserList;
 };
 
 const CountingUser = ({ totalUser = 5, currentUser = 2, userList }: CountingUserProps) => {

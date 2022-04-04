@@ -43,6 +43,7 @@ export const postPickedWords = createAsyncThunk(
         wordList: pickedWordList,
       },
     );
+
     console.log(response.data.rwId);
   },
 );
