@@ -30,12 +30,11 @@ export const galleryReducer = createReducer(initalState, builder => {
           };
           return messageData;
         });
-        console.log('ㄹㅣ듀서 안에서 ', chatHistory);
         state.sixHatDetail.chatHistory = chatHistory;
       } else if (category === 'brainwriting') {
         state.brainWritingDetail = data;
       } else if (category === 'randomword') {
-        state.randomWordDetail = data;
+        state.randomWordDetail = data.wordList;
       }
     });
 });

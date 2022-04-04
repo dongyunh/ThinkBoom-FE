@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
 import { Message } from '../DebatingChatBox';
-import { sixHatSelector } from '../../../../redux/modules/sixHat';
-import { useAppSelector, useAppDispatch } from '../../../../redux/hooks';
+import { ChatData } from '@redux/modules/gallery/types';
 
-const ResultBox = ({}) => {
-  const { subject, chatHistory, nickname } = useAppSelector(sixHatSelector);
+type ResultBoxProps = {
+  subject: string;
+  chatHistory: ChatData[];
+};
 
+const ResultBox = ({ subject, chatHistory }: ResultBoxProps) => {
   return (
     <Container>
       <SubjectBox>{subject}</SubjectBox>

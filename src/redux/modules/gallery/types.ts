@@ -56,6 +56,11 @@ export type SixHatDataType = {
   chatHistory: ChatData[];
 };
 
+export type PaginationInfo = {
+  page: number;
+  size: number;
+};
+
 export type GalleryState = {
   galleryList: Gallery[];
   randomWordDetail: string[];
