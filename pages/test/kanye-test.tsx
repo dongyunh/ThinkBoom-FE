@@ -6,8 +6,6 @@ const Kanye = () => {
   const dispatch = useAppDispatch();
   const { data, pending, error } = useAppSelector(kanyeQuoteSelector);
 
-  console.log(data);
-
   return (
     <div>
       <h2>Generate random Kanye West quote</h2>

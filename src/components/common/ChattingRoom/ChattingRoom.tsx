@@ -19,8 +19,6 @@ const ChattingRoom = ({ chatHistory, myNickname, onClick, sendMessage }: Chattin
     onClick();
   };
 
-  console.log(chatHistory);
-
   return (
     <Container>
       <ChattingHeader>

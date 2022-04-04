@@ -19,7 +19,6 @@ const BWChattingRoom = ({ chatHistory, myNickname, onClick, sendMessage }: BWCha
     onClick();
   };
 
-  console.log(chatHistory);
 
   return (
     <Container>

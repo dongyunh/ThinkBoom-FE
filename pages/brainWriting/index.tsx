@@ -15,8 +15,6 @@ const BrainWriting = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { currentPage, StartCurrentPage } = useAppSelector(brainWritingSelector);
-  console.log(currentPage, '현재페이지,index쪽 current');
-  console.log(StartCurrentPage, '현재페이지,index쪽 startcurrent');
 
   const handleNextPage = (pageNum: number) => {
     dispatch(updateStartCurrentPageBW(pageNum));
@@ -39,7 +37,6 @@ const BrainWriting = () => {
         time,
       })
       .then(res => {
-        console.log(res);
         const { roomId } = res.data;
         handleMoveSettingPage(title, roomId);
         handleUpdateAmdinState();
@@ -50,7 +47,6 @@ const BrainWriting = () => {
 
   useEffect(() => {
     return () => {
-      console.log('확인!');
       dispatch(updateCurrentPageBW(0));
     };
   }, []);

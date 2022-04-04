@@ -19,7 +19,6 @@ const Detail = ({ roomInfo }: DetailProps) => {
   useEffect(() => {
     dispatch(getDetailGallery({ category, roomId }));
   }, []);
-  console.log(sixHatDetail);
 
   const renderComponents = () => {
     if (category === 'randomword') {

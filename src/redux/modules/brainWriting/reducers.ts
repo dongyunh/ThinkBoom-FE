@@ -56,7 +56,6 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.senderId = userId;
     })
     .addCase(changeIsSubmitState, (state, action) => {
-      console.log(action.payload);
       state.BWisSubmit = action.payload;
     })
     .addCase(updateAdminState, (state, action) => {
@@ -74,33 +73,27 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.chatHistory = [];
     })
     .addCase(getSubjectBW, (state, action) => {
-      console.log(action.payload);
       state.BWsubject = action.payload;
     })
     .addCase(getRoomIdBW, (state, action) => {
-      console.log(action.payload);
       state.bwRoomId = action.payload;
     })
     .addCase(getTimerBW, (state, action) => {
-      console.log(action.payload);
       state.BWtimer = action.payload;
     })
     .addCase(getUserCount, (state, action) => {
       state.BWUserCount = action.payload;
     })
     .addCase(requsetComment.fulfilled, (state, action) => {
-      console.log(action.payload);
       const { bwIdeaListItemList } = action.payload.data;
       state.commentData = bwIdeaListItemList;
     })
     .addCase(postIdea.fulfilled, (state, action) => {
-      console.log(action.payload);
       const { userId, idea } = action.payload;
       state.idea = idea;
       state.userId = userId;
     })
     .addCase(timerData.fulfilled, (state, action) => {
-      console.log(action.payload);
       const { timers } = action.payload.data;
       state.BWtimer = timers;
     })

@@ -98,7 +98,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
     connectBW(senderId: number | null, roomId: string) {
       this._senderId = senderId;
       this._roomId = roomId;
-      console.log(senderId, roomId);
 
       this.StompClient.connect({ senderId: this._senderId }, () => {
         this.StompClient.subscribe(
@@ -114,6 +113,7 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 currentUser: response.currentUser,
               };
 
+
               dispatch(getUserListBW(response.BWUserList));
               dispatch(getUserCount(BWUserCount));
             }
@@ -128,7 +128,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
             }
 
             if (response.type === 'SUBJECT') {
-              console.log('되돌아온 주제', response.subject);
               dispatch(getSubjectBW(response.subject));
               toast.info('주제가 공유되었습니다');
             }
@@ -156,9 +155,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              console.log(response);
-              console.log(response.totalUser, 'total유저');
-              console.log(response.currentUser, 'current유저');
               dispatch(getUserList(response.userList));
               dispatch(getUserCount(userCount));
             }
@@ -365,7 +361,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
           { senderId: this._senderId },
           JSON.stringify(data),
         );
-        console.log(this._senderId);
       });
     };
     BWsendMessage = (sender: string, message: string) => {

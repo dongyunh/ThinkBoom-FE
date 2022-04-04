@@ -27,7 +27,6 @@ export const getRandomWord = createAsyncThunk(`${prefix}/GET_RANDOM_WORD`, async
 
 export const getResultWord = createAsyncThunk(`${prefix}/GET_RESULT_WORD`, async (rwId: string) => {
   const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/gallery/randomWord/${rwId}`);
-  console.log(response.data.wordList);
   return response.data.wordList;
 });
 
@@ -44,6 +43,5 @@ export const postPickedWords = createAsyncThunk(
       },
     );
 
-    console.log(response.data.rwId);
   },
 );
