@@ -7,7 +7,9 @@ import { DarkModeToggle } from '@components/common/DarkModeToggle';
 import { useAppDispatch } from '@redux/hooks';
 import { enableDarkMode, enableLightMode } from '@redux/modules/darkMode';
 import BGMainLeft from '../public/asset/backgrounds/bg_main_left.png';
+import BGDarkMainLeft from '../public/asset/backgrounds/bg_dark_main_left.png';
 import BGMainRight from '../public/asset/backgrounds/bg_main_right.png';
+import BGDarkMainRight from '../public/asset/backgrounds/bg_dark_main_right.png';
 import Image from 'next/image';
 import { useThemeEffect } from '@hooks/useThemeEffect';
 import { themedPalette } from '@theme/styleTheme';
@@ -18,9 +20,9 @@ import { persistor } from './_app';
 const Home: NextPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const theme = localStorage.getItem('theme');
 
   const loadTheme = () => {
-    const theme = localStorage.getItem('theme');
     if (!theme) return;
     if (theme === 'dark') {
       dispatch(enableDarkMode());
@@ -46,7 +48,7 @@ const Home: NextPage = () => {
         </DescWrapper>
         <CardWrapper>
           <BGLeft>
-            <Image src={BGMainLeft} width={200} height={400} />
+            <Image src={theme === 'dark' ? BGDarkMainLeft : BGMainLeft} />
           </BGLeft>
           <Main.Card width={280} height={330} onMouseUp={() => router.push('/randomWord')}>
             <CardContent>
@@ -70,7 +72,7 @@ const Home: NextPage = () => {
             </CardContent>
           </Main.Card>
           <BGRight>
-            <Image src={BGMainRight} width={150} height={400} />
+            <Image src={theme === 'dark' ? BGDarkMainRight : BGMainRight} />
           </BGRight>
         </CardWrapper>
       </Grid>
@@ -92,13 +94,13 @@ const Grid = styled.div`
 const BGLeft = styled.div`
   position: absolute;
   top: -50px;
-  left: -210px;
+  left: -250px;
 `;
 
 const BGRight = styled.div`
   position: absolute;
-  top: -50px;
-  right: -160px;
+  top: -80px;
+  right: -200px;
 `;
 
 const DescWrapper = styled.div`
