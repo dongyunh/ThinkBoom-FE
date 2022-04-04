@@ -6,6 +6,7 @@ import v8n from 'v8n';
 import { useAppSelector } from '@redux/hooks';
 import { selectSixHat } from '@redux/modules/sixHat';
 import { ValidationType, ErrorTextType } from '../types';
+import { themedPalette } from '@theme/styleTheme';
 
 type NicknameModalProps = {
   title: string;
@@ -80,6 +81,7 @@ const Title = styled.h1`
   text-align: center;
   margin: 0;
   padding-bottom: 22px;
+  color: ${themedPalette.main_text1};
 `;
 
 const TitleWrapper = styled.div`
