@@ -17,6 +17,8 @@ import {
   getUserCount,
   requsetComment,
   updateTimerData,
+  setIsTimerCalled,
+  getUpdatedTimerData,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -40,6 +42,7 @@ const initialState: BrainWritingState = {
   },
   BWUserList: [],
   commentData: [],
+  isTimerCalled: false,
 };
 
 //createReducer로 reducer 생성.
@@ -95,11 +98,19 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.userId = userId;
     })
     .addCase(getTimerData.fulfilled, (state, action) => {
-      const { timers } = action.payload.data;
+      const { timers } = action.payload;
       state.BWtimer = timers;
+      state.isTimerCalled = true;
     })
     .addCase(updateTimerData, (state, action) => {
       state.BWtimer = action.payload;
+    })
+    .addCase(setIsTimerCalled, (state, action) => {
+      state.isTimerCalled = action.payload;
+    })
+    .addCase(getUpdatedTimerData.fulfilled, (state, action) => {
+      const { timers } = action.payload;
+      state.BWtimer = timers;
     })
     .addCase(PURGE, (state, action) => {
       return initialState;

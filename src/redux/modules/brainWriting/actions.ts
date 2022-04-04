@@ -53,30 +53,18 @@ export const ideaCardCreate = createAsyncThunk(
   `${prefix}/GET_TIMER_DATA`,
   async ({ shareRoomId, senderId }: TestType) => {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api//create/${shareRoomId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/create/${shareRoomId}`,
       {
         userId: senderId,
       },
     );
   },
 );
-export const getTimerData = createAsyncThunk(
-  `${prefix}/GET_TIMER_DATA`,
-  async (bwRoomId: string | null) => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/timer/${bwRoomId}`,
-    );
-
-    return response;
-  },
-);
-
-export const updateTimerData = createAction<number | null>(`${prefix}/UPDATE_TIMER_DATA`);
 
 export const requsetComment = createAsyncThunk(
   `${prefix}/GET_REQUEST_COMMENT`,
   async (bwRoomId: string | null) => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api//${bwRoomId}`);
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/${bwRoomId}`);
     return response;
   },
 );
@@ -93,3 +81,27 @@ export const postIdea = createAsyncThunk(
     return response.data;
   },
 );
+
+export const getTimerData = createAsyncThunk(
+  `${prefix}/GET_TIMER_DATA`,
+  async (bwRoomId: string | null) => {
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/timer/${bwRoomId}`,
+    );
+
+    return response.data;
+  },
+);
+export const getUpdatedTimerData = createAsyncThunk(
+  `${prefix}/GET_UPDATED_TIMER_DATA`,
+  async (bwRoomId: string | null) => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/timer/${bwRoomId}`,
+    );
+
+    return response.data;
+  },
+);
+
+export const updateTimerData = createAction<number | null>(`${prefix}/UPDATE_TIMER_DATA`);
+export const setIsTimerCalled = createAction<boolean>(`${prefix}/SET_IS_TIMER_CALLED`);

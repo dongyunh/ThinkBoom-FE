@@ -8,6 +8,7 @@ import {
   updateTimerData,
   postIdea,
   getTimerData,
+  getUpdatedTimerData,
 } from '@redux/modules/brainWriting';
 import { Timer } from '../Timer';
 import { useRouter } from 'next/router';
@@ -26,27 +27,35 @@ type StyleProps = {
 
 const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { senderId, bwRoomId, nickname, BWtimer, isAdmin } = useAppSelector(brainWritingSelector);
+  const { senderId, bwRoomId, nickname, BWtimer, isAdmin, isTimerCalled } =
+    useAppSelector(brainWritingSelector);
   const [idea, setIdea] = useState<string>('');
   const router = useRouter();
+  const roomInfo = router.query.roomInfo as string[];
+  const BWRoomId = roomInfo[1];
 
   const SendIdea = () => {
     dispatch(postIdea({ senderId, idea, bwRoomid: bwRoomId }));
   };
 
-  const shareRoomId = router.pathname.split('/')[4];
-
   useEffect(() => {
-    if (nickname) {
-      dispatch(getTimerData(shareRoomId));
+    if (!isTimerCalled) {
+      dispatch(getTimerData(BWRoomId));
+    }
+    if (isTimerCalled) {
+      dispatch(getUpdatedTimerData(BWRoomId));
     }
   }, []);
 
   useEffect(() => {
     if (BWtimer !== null) {
       const interval = setInterval(() => {
-        if (BWtimer === 0) clearInterval(interval);
-        else updateTimerData(BWtimer - 1);
+        if (BWtimer === 0) {
+          onClickComplete();
+          clearInterval(interval);
+        } else {
+          dispatch(updateTimerData(BWtimer - 1));
+        }
       }, 1000);
       return () => clearInterval(interval);
     }

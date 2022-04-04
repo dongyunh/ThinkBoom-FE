@@ -29,4 +29,5 @@ export type BrainWritingState = {
   BWUserCount: BWUserCount;
   chatHistory?: ChatHistoryType;
   commentData: [];
+  isTimerCalled: boolean;
 };
