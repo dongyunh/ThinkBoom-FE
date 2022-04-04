@@ -40,6 +40,7 @@ const TextField = styled.input`
   background-color: transparent;
   font-size: 18px;
   height: 100%;
+  color: ${themedPalette.main_text1};
 `;
 
 const TextFieldContainer = styled.div`
@@ -61,7 +62,7 @@ const Button = styled.button`
   right: 15px;
   border: none;
   background-color: transparent;
-  color: #8a8a8a;
+  color: ${themedPalette.main_text1};
   cursor: pointer;
 `;
 

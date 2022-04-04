@@ -31,6 +31,7 @@ export const galleryReducer = createReducer(initalState, builder => {
           return messageData;
         });
         state.sixHatDetail.chatHistory = chatHistory;
+        state.sixHatDetail.subject = data.subject;
       } else if (category === 'brainwriting') {
         state.brainWritingDetail = data;
       } else if (category === 'randomword') {

@@ -100,6 +100,7 @@ const Container = styled.div`
   width: 1044px;
   height: 586px;
   border: 5px solid ${themedPalette.border_1};
+  background-color: ${themedPalette.box_bg};
   border-radius: 18px;
   position: relative;
 `;
@@ -130,13 +131,15 @@ const MyHatBox = styled.div`
 const SubjectBox = styled.div`
   width: 100%;
   height: 72px;
-  background-color: ${themedPalette.black};
+  background-color: ${themedPalette.box_subject};
   color: ${themedPalette.main_text2};
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 22px;
   position: relative;
+  border-radius: 13px 13px 0 0;
+  border-bottom: 5px solid ${themedPalette.border_1};
 `;
 
 const RandomButton = styled.button`
@@ -183,7 +186,9 @@ const UserListColumn = styled.div`
   flex-direction: column;
 `;
 
-const UserNickname = styled.div``;
+const UserNickname = styled.div`
+  color: ${themedPalette.main_text1};
+`;
 
 const UserProfile = styled.div`
   display: flex;
@@ -203,7 +208,8 @@ const HatBox = styled.div<StyleProps>`
   border-radius: 12px;
   padding: 20px;
   position: relative;
-  ${props => props.isMouseOver && `background-color : #EEEEEE`};
+  color: ${themedPalette.main_text1};
+  ${props => props.isMouseOver && `background-color : #2B2C31`};
 `;
 
 const TouchArea = styled.div`
