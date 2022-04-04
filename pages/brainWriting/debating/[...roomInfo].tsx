@@ -1,32 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { GetServerSideProps } from 'next';
-import {
-  InteractivePage,
-  WaitingRoom,
-  ShareIcon,
-  ChatIcon,
-  TutorialIcon,
-} from '../../../src/components/common';
-import { SelectHat, DebatingRoom } from '../../../src/components/layout/SixHat';
+import { InteractivePage, WaitingRoom, ShareIcon, ChatIcon } from '../../../src/components/common';
+import { TutorialIcon } from '@components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
-import {
-  updateCurrentPage,
-  changeIsSubmitState,
-  sixHatSelector,
-  getNickname,
-  getMyHat,
-  clearChatHistory,
-} from '../../../src/redux/modules/sixHat';
-import { NicknameModal, LimitModal, RoutingAlertModal } from '../../../src/components/common';
-import { ChattingRoom } from '@components/common';
+import { NicknameModal, LimitModal } from '../../../src/components/common';
+import { RoutingAlertModal } from '../../../src/components/common/Modals/RoutingAlertModal';
+import { BWChattingRoom } from '../../../src/components/common/BWChattingRoom';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
 import { HatType, UserList } from '@redux/modules/sixHat/types';
 import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
-import { ToastContainer } from 'react-toastify';
-import copyUrlHelper from '@utils/copyUrlHelper';
 
+import { BWWaitingRoom } from '@components/common/BWWaitingRoom';
+import { BwCard } from '../../../src/components/common/BwCard';
+import { BwComment } from '@components/common/BwCommnet';
+import { VotingRoom } from '@components/layout/BrainWriting';
+import {
+  getNickname,
+  updateCurrentPageBW,
+  brainWritingSelector,
+  changeIsSubmitState,
+  clearChatHistory,
+  ideaCardCreate,
+  getTimerBW,
+  requsetComment,
+} from '../../../src/redux/modules/brainWriting';
+
+import { countSelector } from '@redux/modules/CountUser';
+import copyUrlHelper from '@utils/copyUrlHelper';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ChattingRoom } from '@components/common';
+
+//TODO : any 수정하기
 
 type SettingPageProps = {
   roomInfo: string[];
@@ -36,29 +42,32 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, senderId, userCount, myHat } =
-    useAppSelector(sixHatSelector);
+  const { currentPage, nickname, chatHistory, senderId, BWsubject, BWUserCount } =
+    useAppSelector(brainWritingSelector);
+  console.log(currentPage, '대기방 현재페이지');
+  console.log(BWUserCount, 'usercount');
+
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isFull, setIsFull] = useState(0);
   const [roomTitle, roomId] = roomInfo;
 
-  const HandleSocket = useSocketHook('sixhat');
+  const HandleSocket = useSocketHook('brainwriting');
 
   useEffect(() => {
-    if (userCount.totalUser !== 0) {
-      setIsFull(userCount.currentUser / userCount.totalUser);
+    if (BWUserCount.totalUser !== 0) {
+      setIsFull(BWUserCount.currentUser / BWUserCount.totalUser);
     }
     return () => {
       setIsFull(0);
     };
-  }, [userCount]);
+  }, [BWUserCount]);
 
   useEffect(() => {
     if (nickname) {
       ConnectedSocket = new HandleSocket(`${process.env.NEXT_PUBLIC_API_URL}/websocket`);
-      ConnectedSocket.connectSH(senderId, roomId);
+      ConnectedSocket.connectBW(senderId, roomId);
     }
   }, [nickname]);
 
@@ -66,46 +75,47 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     window.onbeforeunload = function () {
       ConnectedSocket.disConnect();
     };
-
     return () => {
       window.onbeforeunload = null;
       ConnectedSocket.disConnect();
     };
   }, []);
 
-  const sendHatData = (hat: HatType) => {
-    ConnectedSocket.sendHatData(nickname, hat);
-    dispatch(getMyHat(hat));
-  };
-
   const sendMessage = (message: string) => {
-    ConnectedSocket.sendMessage(nickname, message);
-  };
-
-  const handelSendDebatingMessage = (message: string) => {
-    ConnectedSocket.sendMessageDB(nickname, message, myHat);
+    ConnectedSocket.BWsendMessage(nickname, message);
   };
 
   const handleNextPage = (pageNum: number) => {
-    ConnectedSocket.sendCurrentPage(pageNum);
+    ConnectedSocket.BWsendCurrentPage(pageNum);
   };
 
-  const handleSubmitSubject = (_subject?: string) => {
-    ConnectedSocket.submitSubject(_subject);
+  const handleSubmitSubject = (subject?: string) => {
+    ConnectedSocket.BWsubmitSubject(subject);
     dispatch(changeIsSubmitState(true));
   };
 
+  const handleStartbrainWriting = () => {
+    handleNextPage(1);
+    dispatch(getTimerBW(null));
+    dispatch(ideaCardCreate({ shareRoomId: roomId, senderId }));
+  };
+
   const handleUpdateNickname = async (enteredName: string) => {
-    dispatch(getNickname({ shRoomId: roomId, nickname: enteredName }));
+    dispatch(getNickname({ bwRoomId: roomId, nickname: enteredName }));
   };
 
-  const handleSendRandomHat = (userHatList: UserList) => {
-    ConnectedSocket.sendRandomHatData(userHatList);
-  };
+  // const handleSendRandomHat = (userHatList: UserList) => {
+  //   ConnectedSocket.sendRandomHatData(userHatList);
+  // };
 
-  const handleCompleteSelect = () => {
+  const handleSendIdea = () => {
     handleNextPage(2);
+    dispatch(requsetComment(roomId));
     dispatch(clearChatHistory());
+  };
+
+  const handleSendComment = () => {
+    handleNextPage(3);
   };
 
   const handleChatOpen = () => {
@@ -116,26 +126,28 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const pages = [
     {
       component: (
-        <WaitingRoom
+        <BWWaitingRoom
           onClickSubmit={handleSubmitSubject}
-          onClickComplete={() => handleNextPage(1)}
+          onClickComplete={handleStartbrainWriting}
         />
       ),
     },
     {
       component: (
-        <SelectHat
-          onClick={sendHatData}
-          onClickComplete={handleCompleteSelect}
-          onClickRandom={handleSendRandomHat}
-        />
+        <BwCard width={510} height={515} subject={BWsubject} onClickComplete={handleSendIdea} />
       ),
     },
     {
-      component: <DebatingRoom onClick={handelSendDebatingMessage} />,
+      component: (
+        <BwComment width={510} height={515} subject={BWsubject} onClick={handleSendComment} />
+      ),
+    },
+    {
+      component: <VotingRoom />,
     },
   ];
 
+  //닉네임이 없거나, 방이 가득차지 않았다면.
   return (
     <>
       <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
@@ -148,16 +160,16 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       <ShareIconWrapper onClick={copyUrlHelper}>
         <ShareIcon />
       </ShareIconWrapper>
-      {currentPage !== 2 && (
+      {currentPage !== 4 && (
         <ChatWrapper onClick={handleChatOpen}>
           <ChatIcon isChatOpen={isChatOpen} />
         </ChatWrapper>
       )}
       <TutorialIconWrapper>
-        <TutorialIcon type="sixHat" />
+        <TutorialIcon type="brainWriting" />
       </TutorialIconWrapper>
 
-      {isChatOpen && currentPage !== 2 && (
+      {isChatOpen && currentPage !== 4 && (
         <ChattingContainer>
           <ChattingRoom
             myNickname={nickname}
