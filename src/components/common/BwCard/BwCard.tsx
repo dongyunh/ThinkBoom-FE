@@ -55,7 +55,6 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
   return (
     <CenterLayout>
       <>
-        <Timer seconds={BWtimer} />
         <CardWrapper>
           <StyledCard width={width} height={height}>
             <StlyeSubject>{subject}</StlyeSubject>
