@@ -44,8 +44,6 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
   const { currentPage, nickname, chatHistory, senderId, BWsubject, BWUserCount } =
     useAppSelector(brainWritingSelector);
-  console.log(currentPage, '대기방 현재페이지');
-  console.log(BWUserCount, 'usercount');
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 

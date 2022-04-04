@@ -23,7 +23,7 @@ const BrainWriting = () => {
   };
 
   const handleMoveSettingPage = (title: string | null, roomId: string) => {
-    router.push(`/brainWriting/debating/${title}/${roomId}`);
+    router.push(`/brainWriting/ideate/${title}/${roomId}`);
   };
 
   const handleUpdateAmdinState = () => {

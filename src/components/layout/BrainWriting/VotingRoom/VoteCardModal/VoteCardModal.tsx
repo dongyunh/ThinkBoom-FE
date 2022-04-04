@@ -12,7 +12,6 @@ interface propsType {
 }
 const VoteCardModal = (props: propsType) => {
   const router = useRouter();
-  //   console.log(props.closeModal);
 
   const moveToMain = () => {
     router.push('/');
@@ -20,13 +19,15 @@ const VoteCardModal = (props: propsType) => {
 
   return (
     <VoteModal>
-      <DetailCard width={400} height={630}>
-        sdsss
-      </DetailCard>
-      <CloseIcon
-        onClick={props.closeModal}
-        sx={{ position: 'absolute', top: 30, left: 340, cursor: 'pointer' }}
-      />
+      <>
+        <DetailCard width={400} height={630}>
+          sdsss
+        </DetailCard>
+        <CloseIcon
+          onClick={props.closeModal}
+          sx={{ position: 'absolute', top: 30, left: 340, cursor: 'pointer' }}
+        />
+      </>
     </VoteModal>
   );
 };
