@@ -26,8 +26,6 @@ export type BrainWritingState = {
   BWisSubmit: boolean;
   BWsubject?: string;
   senderId: number | null;
-  idea: string | null;
-  userId: number | null;
   bwRoomId: string | null;
   BWtimer: number | null;
   BWUserList: BWUserList;

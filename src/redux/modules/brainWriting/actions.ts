@@ -51,24 +51,21 @@ export const initializeIdeaCard = createAsyncThunk(
   },
 );
 
+export const postIdea = createAsyncThunk(
+  `${prefix}/POST_IDEA`,
+  async ({ senderId, idea, bwRoomid }: PostIdeaArgType) => {
+    axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomid}`, {
+      userId: senderId,
+      idea: idea,
+    });
+  },
+);
+
 export const requsetComment = createAsyncThunk(
   `${prefix}/GET_REQUEST_COMMENT`,
   async (bwRoomId: string | null) => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/${bwRoomId}`);
     return response;
-  },
-);
-export const postIdea = createAsyncThunk(
-  `${prefix}/POST_IDEA`,
-  async ({ senderId, idea, bwRoomid }: PostIdeaArgType) => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomid}`,
-      {
-        userId: senderId,
-        idea: idea,
-      },
-    );
-    return response.data;
   },
 );
 
