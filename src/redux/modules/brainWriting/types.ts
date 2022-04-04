@@ -30,4 +30,5 @@ export type BrainWritingState = {
   chatHistory?: ChatHistoryType;
   commentData: [];
   isTimerCalled: boolean;
+  isTimerOver: boolean;
 };
