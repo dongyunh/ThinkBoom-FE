@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import { CenterLayout } from '../../common';
+import { CenterLayout } from '..';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
 import { timerData } from '../../../redux/modules/brainWriting/actions';
 import { Timer } from '../Timer';
