@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { CenterLayout, PrimaryButton } from '../../common';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { postIdea, timerData, ideaCardCreate } from '../../../redux/modules/brainWriting/actions';
-import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import {
+  brainWritingSelector,
+  updateTimerData,
+  postIdea,
+  getTimerData,
+} from '@redux/modules/brainWriting';
 import { Timer } from '../Timer';
 import { useRouter } from 'next/router';
 
@@ -22,9 +26,7 @@ type StyleProps = {
 
 const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { senderId, bwRoomId, BWsubject, nickname, BWtimer, BWisAdmin } =
-    useAppSelector(brainWritingSelector);
-  const [disabled, setDisabled] = useState();
+  const { senderId, bwRoomId, nickname, BWtimer, BWisAdmin } = useAppSelector(brainWritingSelector);
   const [idea, setIdea] = useState<string>('');
   const router = useRouter();
 
@@ -33,34 +35,27 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
   };
 
   const shareRoomId = router.pathname.split('/')[4];
-  const [seconds, setSeconds] = useState(BWtimer);
 
   useEffect(() => {
     if (nickname) {
-      dispatch(timerData(shareRoomId));
+      dispatch(getTimerData(shareRoomId));
     }
   }, []);
 
   useEffect(() => {
-    if (seconds == null) {
-      setSeconds(BWtimer);
-    }
-  }, [BWtimer]);
-
-  useEffect(() => {
-    if (seconds !== null) {
+    if (BWtimer !== null) {
       const interval = setInterval(() => {
-        if (seconds === 0) clearInterval(interval);
-        else setSeconds(seconds - 1);
+        if (BWtimer === 0) clearInterval(interval);
+        else updateTimerData(BWtimer - 1);
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [seconds]);
+  }, [BWtimer]);
 
   return (
     <CenterLayout>
       <>
-        <Timer seconds={seconds} />
+        <Timer seconds={BWtimer} />
         <CardWrapper>
           <StyledCard width={width} height={height}>
             <StlyeSubject>{subject}</StlyeSubject>

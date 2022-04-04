@@ -2,7 +2,7 @@ import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useAppDispatch } from '@redux/hooks';
 import { ChatData, BWUserData, BWUserCount, BWUserList } from './types';
-import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event';
+
 type GetNicknameArgType = {
   bwRoomId: string;
   nickname: string;
@@ -17,10 +17,6 @@ type PostIdeaArgType = {
   bwRoomid: string | null;
   senderId: number | null;
   idea: string;
-};
-
-type IdeaCardArgType = {
-  roomId: null;
 };
 
 const prefix = 'brainWriting';
@@ -46,7 +42,6 @@ export const getNickname = createAsyncThunk(
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/user/nickname/${bwRoomId}`,
       {
-        //   bwRoomId: bwRoomId,
         nickname: nickname,
       },
     );
@@ -65,7 +60,7 @@ export const ideaCardCreate = createAsyncThunk(
     );
   },
 );
-export const timerData = createAsyncThunk(
+export const getTimerData = createAsyncThunk(
   `${prefix}/GET_TIMER_DATA`,
   async (bwRoomId: string | null) => {
     const response = await axios.get(
@@ -75,6 +70,9 @@ export const timerData = createAsyncThunk(
     return response;
   },
 );
+
+export const updateTimerData = createAction<number | null>(`${prefix}/UPDATE_TIMER_DATA`);
+
 export const requsetComment = createAsyncThunk(
   `${prefix}/GET_REQUEST_COMMENT`,
   async (bwRoomId: string | null) => {

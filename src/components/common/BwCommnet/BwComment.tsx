@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { CenterLayout } from '../../common';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
-import { timerData } from '../../../redux/modules/brainWriting/actions';
+import { getTimerData } from '../../../redux/modules/brainWriting/actions';
 import { Timer } from '../Timer';
 type CardProps = {
   width: number;
@@ -31,10 +31,10 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const [seconds, setSeconds] = useState(BWtimer);
   useEffect(() => {
     if (nickname) {
-      dispatch(timerData(shareRoomId));
+      dispatch(getTimerData(shareRoomId));
     }
   }, []);
-  //BWtimer= res.timerData
+  //BWtimer= res.getTimerData
 
   useEffect(() => {
     if (seconds == null) {

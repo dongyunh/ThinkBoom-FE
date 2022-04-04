@@ -12,10 +12,11 @@ import {
   getRoomIdBW,
   ideaCardCreate,
   getTimerBW,
-  timerData,
+  getTimerData,
   updateStartCurrentPageBW,
   getUserCount,
   requsetComment,
+  updateTimerData,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -93,9 +94,12 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.idea = idea;
       state.userId = userId;
     })
-    .addCase(timerData.fulfilled, (state, action) => {
+    .addCase(getTimerData.fulfilled, (state, action) => {
       const { timers } = action.payload.data;
       state.BWtimer = timers;
+    })
+    .addCase(updateTimerData, (state, action) => {
+      state.BWtimer = action.payload;
     })
     .addCase(PURGE, (state, action) => {
       return initialState;

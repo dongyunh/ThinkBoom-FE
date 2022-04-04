@@ -4,7 +4,7 @@ import { CenterLayout } from '../../../common';
 import { VoteCard } from '@components/layout/BrainWriting/VotingRoom/VoteCard';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { VoteCardModal } from '@components/layout/BrainWriting/VotingRoom/VoteCardModal';
-import { timerData, brainWritingSelector } from '@redux/modules/brainWriting';
+import { getTimerData, brainWritingSelector } from '@redux/modules/brainWriting';
 import { Modal } from '@components/common/Modals';
 
 type VotingRoom = {
@@ -15,7 +15,7 @@ const VotingRoom = () => {
   // const dispatch = useAppDispatch();
   // const { senderId, bwRoomId, BWsubject } = useAppSelector(brainWritingSelector);
   // useEffect(() => {
-  //   dispatch(timerData(bwRoomId));
+  //   dispatch(getTimerData(bwRoomId));
   // }, []);
 
   return (
