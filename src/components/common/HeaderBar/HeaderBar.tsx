@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useAppSelector, useAppDispatch } from '@redux/hooks';
 import { selectUserCount } from '@redux/modules/CountUser';
 import { sixHatSelector } from '@redux/modules/sixHat';
+import { brainWritingSelector } from '@redux/modules/brainWriting';
 import { selectPermit, setRoutingModalOpen } from '@redux/modules/permit';
 
 const HeaderBar = () => {
@@ -15,7 +16,22 @@ const HeaderBar = () => {
   const { userCount } = useAppSelector(selectUserCount);
   const { userList: sixHatUserList } = useAppSelector(sixHatSelector); // NOTE : brainWriting도 이런 방식으로 가져와서 유저 리스트를 사용하시면 될 것 같아요!
 
+  const { BWUserList: BrainWritingUserList } = useAppSelector(brainWritingSelector); //
+
   const showCpntCheckPathName = () => {
+    if (router.pathname.includes('/brainWriting/debating/')) {
+      return (
+        <CountingAndTimer>
+          <DarkModeToggle />
+          <CountingUser
+            totalUser={userCount.totalUser}
+            currentUser={userCount.currentUser}
+            userList={BrainWritingUserList}
+          />
+        </CountingAndTimer>
+      );
+    }
+
     if (router.pathname.includes('/sixHat/debating/')) {
       return (
         <CountingAndTimer>

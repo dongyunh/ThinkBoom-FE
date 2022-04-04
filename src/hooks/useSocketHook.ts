@@ -16,7 +16,7 @@ import { getUserCount } from '../redux/modules/CountUser';
 import { getSubjectBW,getMessagesBW ,getUserListBW,updateCurrentPageBW} from '../redux/modules/brainWriting';
 
 import mixHatsHelper from '@utils/mixHatsHelper';
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 import { UserList, UserData, HatType } from '@redux/modules/sixHat/types';
 import { BWUserList, BWUserData } from '@redux/modules/brainWriting/types';
