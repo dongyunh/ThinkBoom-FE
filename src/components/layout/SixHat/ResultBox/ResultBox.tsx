@@ -1,28 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
-import { Message, ChatTextField } from '../DevatingChatBox';
-import { sixHatSelector } from '../../../../redux/modules/sixHat';
-import { useAppSelector } from '../../../../redux/hooks';
+import { Message } from '../DebatingChatBox';
+import { ChatData } from '@redux/modules/gallery/types';
 
-type StyleProps = {
-  width?: number;
-  height?: number;
-  isMouseOver?: boolean;
+type ResultBoxProps = {
+  subject: string;
+  chatHistory: ChatData[];
 };
 
-const ResultBox = ({}) => {
-  const { subject, chatHistory, nickname } = useAppSelector(sixHatSelector);
-
-  const hatName = {
-    red: '빨간모자',
-    blue: '파란모자',
-    white: '하얀모자',
-    black: '검정모자',
-    yellow: '노란모자',
-    green: '초록모자',
-  };
-
+const ResultBox = ({ subject, chatHistory }: ResultBoxProps) => {
   return (
     <Container>
       <SubjectBox>{subject}</SubjectBox>
@@ -34,9 +21,9 @@ const ResultBox = ({}) => {
                 return (
                   <Message
                     key={idx}
-                    isMe={data.nickname === nickname}
+                    isMe={false}
                     message={data.message}
-                    hatName={hatName[data.hat]}
+                    nickname={data.nickname}
                     hat={data.hat}
                   />
                 );
@@ -99,5 +86,3 @@ const MessageBox = styled.div`
 `;
 
 export { ResultBox };
-
-// NOTE : 이 페이지에서 처리해야 할 내용 1.모자선택시 로직 2.랜덤 로직

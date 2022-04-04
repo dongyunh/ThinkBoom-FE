@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from '../Modal/Modal';
 import { TextField, Button } from '../../../common';
 import styled from 'styled-components';
@@ -13,7 +13,7 @@ type NicknameModalProps = {
 };
 
 const NicknameModal = ({ title, onClick }: NicknameModalProps) => {
-  const { userList } = useAppSelector(selectSixHat);
+  const { isDuplicated } = useAppSelector(selectSixHat);
   const [nickname, setNickname] = useState<string>();
   const [isError, setIsError] = useState<ValidationType>({
     isLengthOver: false,
@@ -23,11 +23,10 @@ const NicknameModal = ({ title, onClick }: NicknameModalProps) => {
   const lengthValidation = v8n().string().length(2, 6);
 
   const checkValidation = (_nickname: string) => {
-    const isThereNickname = userList.map(user => user.nickname).includes(_nickname);
     setNickname(_nickname);
     setIsError({
       isLengthOver: !lengthValidation.test(_nickname),
-      isDuplicated: isThereNickname,
+      isDuplicated: isDuplicated,
     });
   };
 
@@ -40,6 +39,12 @@ const NicknameModal = ({ title, onClick }: NicknameModalProps) => {
     lengthErrorText: '닉네임은 2~6자 이내로 설정해주세요',
     duplicatedErrorText: '다른 팀원이 사용중인 닉네임입니다.',
   };
+
+  useEffect(() => {
+    if (isDuplicated) {
+      setIsError({ isLengthOver: false, isDuplicated: isDuplicated });
+    }
+  }, [isDuplicated]);
 
   return (
     <Modal>

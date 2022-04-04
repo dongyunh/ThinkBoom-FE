@@ -7,6 +7,7 @@ import { postPickedWords } from '../../../../utils/postPickedWords';
 import { Card, PrimaryButton } from '@components/common';
 import { useRouter } from 'next/router';
 
+
 const SelectWordBox = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();

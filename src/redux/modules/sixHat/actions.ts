@@ -1,10 +1,14 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { ChatData, UserData, HatType, UserList, UserCount } from './types';
+import {
+  ChatData,
+  UserData,
+  HatType,
+  UserList,
+  UserCount,
+  GetNicknameArgType,
+  SaveSixHatDataArgType,
+} from './types';
 import axios from 'axios';
-type GetNicknameArgType = {
-  shRoomId: string;
-  nickname: string;
-};
 
 const prefix = 'sixHat';
 
@@ -30,7 +34,6 @@ export const getSixHatResult = createAsyncThunk(`${prefix}/GET_SIX_HAT_RESULT`, 
 export const getNickname = createAsyncThunk(
   `${prefix}/GET_NICKNAME`,
   async ({ shRoomId, nickname }: GetNicknameArgType) => {
-    console.log(shRoomId, nickname);
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/sixHat/user/nickname`,
       {
@@ -39,5 +42,12 @@ export const getNickname = createAsyncThunk(
       },
     );
     return response.data;
+  },
+);
+
+export const saveSixHatData = createAsyncThunk(
+  `${prefix}/SAVE_SIXHAT_DATA`,
+  async ({ roomId }: SaveSixHatDataArgType) => {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/sixHat/save/gallery/${roomId}`);
   },
 );

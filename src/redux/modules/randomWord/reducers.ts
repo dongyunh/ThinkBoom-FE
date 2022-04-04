@@ -8,6 +8,7 @@ import {
   getResultWord,
 } from './actions';
 import { PURGE } from 'redux-persist';
+import { toast } from 'react-toastify';
 
 export type RandomWordState = {
   currentPage: number;
@@ -34,10 +35,12 @@ export const randomWordReducer = createReducer(initialState, builder => {
       state.currentPage = action.payload;
     })
     .addCase(selectWord, (state, action) => {
-      if (state.pickedWordList.length > 5) return;
+      if (state.pickedWordList.length > 5) {
+        toast.info('단어는 6개까지 선택할 수 있습니다');
+        return;
+      }
       const { word, idx } = action.payload;
       state.randomWordList[idx] = '';
-      console.log(state.randomWordList);
       state.pickedWordList.push(word);
     })
     .addCase(getRandomWord.pending, state => {
