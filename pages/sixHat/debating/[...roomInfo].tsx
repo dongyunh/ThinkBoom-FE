@@ -7,7 +7,7 @@ import {
   ChatIcon,
   TutorialIcon,
 } from '../../../src/components/common';
-import { SelectHat, DevatingRoom } from '../../../src/components/layout/SixHat';
+import { SelectHat, DebatingRoom } from '../../../src/components/layout/SixHat';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import {
   updateCurrentPage,
@@ -132,7 +132,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ),
     },
     {
-      component: <DevatingRoom onClick={handelSendDebatingMessage} />,
+      component: <DebatingRoom onClick={handelSendDebatingMessage} />,
     },
   ];
 

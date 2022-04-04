@@ -1,17 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
-import { Message, ChatTextField } from '../DevatingChatBox';
+import { Message, ChatTextField } from '.';
 import { sixHatSelector } from '../../../../redux/modules/sixHat';
 import { useAppSelector } from '../../../../redux/hooks';
 import { HatImage } from '@components/common';
 import HatData from '../../../../mock/hatData';
 
-type DevatingChatBoxProps = {
+type DebatingChatBoxProps = {
   onClick: (arg: string) => void;
 };
 
-const DevatingChatBox = ({ onClick }: DevatingChatBoxProps) => {
+const DebatingChatBox = ({ onClick }: DebatingChatBoxProps) => {
   const { subject, chatHistory, nickname, userList, myHat } = useAppSelector(sixHatSelector);
   const [isShowHatDesc, setIsShowHatDesc] = useState(false);
 
@@ -178,6 +178,6 @@ const MessageBox = styled.div`
   }
 `;
 
-export { DevatingChatBox };
+export { DebatingChatBox };
 
 // NOTE : 이 페이지에서 처리해야 할 내용 1.모자선택시 로직 2.랜덤 로직

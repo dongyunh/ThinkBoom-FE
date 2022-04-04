@@ -115,6 +115,7 @@ const SubDesc = styled.div`
 `;
 
 const MainDesc = styled.h1`
+  font-size: 40px;
   color: ${themedPalette.main_text1};
 `;
 

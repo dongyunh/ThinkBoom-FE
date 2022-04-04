@@ -1,20 +1,25 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { GalleryState, DetailArgType } from './types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { DetailArgType, PaginationInfo } from './types';
 import axios from 'axios';
 
 const prefix = 'gallery';
 
-export const getAllGallery = createAsyncThunk(`${prefix}/GET_ALL_GALLERY`, async () => {
-  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/gallery`);
+export const getAllGallery = createAsyncThunk(
+  `${prefix}/GET_ALL_GALLERY`,
+  async ({ page, size }: PaginationInfo) => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/gallery?page=${page}&size=${size}`,
+    );
 
-  return response.data;
-});
+    return response.data;
+  },
+);
 
 export const getDetailGallery = createAsyncThunk(
   `${prefix}/GET_DETAIL_GALLERY`,
   async ({ category, roomId }: DetailArgType) => {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/${category}/${roomId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/gallery/${category}/${roomId}`,
     );
 
     return response.data;

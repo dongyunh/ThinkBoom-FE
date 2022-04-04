@@ -4,6 +4,8 @@ import { getDetailGallery, selectGallery } from '@redux/modules/gallery';
 import { GetServerSideProps } from 'next';
 import { Category } from '@redux/modules/gallery/types';
 import { RandomWordResult } from '@components/layout/RandomWord';
+import { ResultBox as SixHatResult } from '@components/layout/SixHat';
+import { CenterLayout } from '@components/common';
 
 type DetailProps = {
   roomInfo: [Category, string];
@@ -11,23 +13,27 @@ type DetailProps = {
 
 const Detail = ({ roomInfo }: DetailProps) => {
   const dispatch = useAppDispatch();
-  const { randomWordDetail } = useAppSelector(selectGallery);
+  const { randomWordDetail, sixHatDetail } = useAppSelector(selectGallery);
   const [category, roomId] = roomInfo;
 
   useEffect(() => {
     dispatch(getDetailGallery({ category, roomId }));
   }, []);
+  console.log(randomWordDetail);
 
   const renderComponents = () => {
     if (category === 'randomword') {
       return <RandomWordResult wordList={randomWordDetail} />;
     }
+    if (category === 'sixhat') {
+      return <SixHatResult subject={sixHatDetail.subject} chatHistory={sixHatDetail.chatHistory} />;
+    }
   };
 
   return (
-    <div>
-      {category}, {roomId}
-    </div>
+    <CenterLayout>
+      <div>{renderComponents()}</div>
+    </CenterLayout>
   );
 };
 
