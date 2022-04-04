@@ -198,6 +198,7 @@ const ChattingContainer = styled.div`
   position: fixed;
   right: 70px;
   bottom: 130px;
+  z-index: 9999;
 `;
 
 export const getServerSideProps: GetServerSideProps = async context => {

@@ -41,6 +41,7 @@ const TextField = styled.input`
   background-color: transparent;
   font-size: 18px;
   height: 100%;
+  color: ${themedPalette.main_text1};
 `;
 
 const TextFieldContainer = styled.div`

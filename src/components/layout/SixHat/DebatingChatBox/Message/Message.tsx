@@ -57,6 +57,7 @@ const NicknameBox = styled.span``;
 
 const Box = styled.div`
   border: 5px solid ${themedPalette.border_1};
+  color: ${themedPalette.main_text1};
   border-radius: 18px;
   padding: 10px 20px;
   display: flex;

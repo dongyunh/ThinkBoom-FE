@@ -51,7 +51,7 @@ const Container = styled.div`
   height: 600px;
   border: 5px solid ${themedPalette.border_1};
   border-radius: 5px;
-  background-color: ${themedPalette.bg_page1};
+  background-color: ${themedPalette.waiting_chatting_bg};
   display: flex;
   flex-direction: column;
   padding: 30px;
