@@ -47,7 +47,8 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
 
   return (
     <CenterLayout>
-      <>
+      <Container>
+        <Empty />
         <CardWrapper>
           <StyledCard width={width} height={height}>
             <StlyeSubject>{subject}</StlyeSubject>
@@ -60,17 +61,24 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
             <PrimaryButton text="완료" disabled={!isAdmin} onClick={onClickComplete} />
           ) : null}
         </ButtonWrapper>
-      </>
+      </Container>
     </CenterLayout>
   );
 };
 
+const Empty = styled.div``;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+`;
+
 const CardWrapper = styled.div`
   position: relative;
-  margin-top: 150px;
+  padding-bottom: 50px;
 `;
 const ButtonWrapper = styled.div`
-  padding-top: 10px;
   margin: auto;
 `;
 
@@ -102,6 +110,11 @@ const StyledIdea = styled.textarea`
   font-size: 20px;
   resize: none;
   padding: 30px;
+  outline: none;
+  transition: 0.3s ease-in-out;
+  :focus {
+    border: 5px solid #2962ff;
+  }
 `;
 
 const StyledButton = styled.button`
