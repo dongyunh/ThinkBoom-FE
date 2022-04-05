@@ -10,9 +10,11 @@ import {
   getVoteTimerData,
 } from '@redux/modules/brainWriting';
 
+import { RoomId } from '@redux/modules/brainWriting/types';
+
 type UseTimerProps = {
   type: 'sixhat' | 'brainwritingIdea' | 'brainwritingVote';
-  roomId: string;
+  roomId: RoomId;
 };
 
 const useTimer = ({ type, roomId }: UseTimerProps) => {

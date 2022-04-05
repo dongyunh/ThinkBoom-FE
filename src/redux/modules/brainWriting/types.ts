@@ -23,9 +23,14 @@ export type InitializeIdeaCardArgType = {
 };
 
 export type PostIdeaArgType = {
-  bwRoomId: RoomId;
+  roomId: RoomId;
   userId: UserId;
   idea: string;
+};
+
+export type GetNicknameArgType = {
+  roomId: string;
+  nickname: string;
 };
 
 export type GetIdeaArgType = {
@@ -76,7 +81,7 @@ export type BrainWritingState = {
   BWsubject?: string;
   userId: number | null;
   ideaId: number;
-  bwRoomId: string | null;
+  roomId: RoomId;
   BWtimer: number | null;
   BWUserList: BWUserList;
   BWUserCount: BWUserCount;

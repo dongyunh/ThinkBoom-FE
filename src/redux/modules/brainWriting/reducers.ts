@@ -8,7 +8,7 @@ import {
   getSubjectBW,
   getMessagesBW,
   getUserListBW,
-  getRoomIdBW,
+  getRoomId,
   getTimerData,
   updateStartCurrentPageBW,
   getUserCount,
@@ -37,7 +37,7 @@ const initialState: BrainWritingState = {
   ideaId: 0,
   BWtimer: null,
   chatHistory: [],
-  bwRoomId: null,
+  roomId: null,
   BWUserCount: {
     totalUser: 0,
     currentUser: 0,
@@ -86,8 +86,8 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(getSubjectBW, (state, action) => {
       state.BWsubject = action.payload;
     })
-    .addCase(getRoomIdBW, (state, action) => {
-      state.bwRoomId = action.payload;
+    .addCase(getRoomId, (state, action) => {
+      state.roomId = action.payload;
     })
 
     .addCase(getUserCount, (state, action) => {

@@ -26,7 +26,6 @@ import { ChattingRoom } from '@components/common';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 type SettingPageProps = {
   roomInfo: string[];
 };
@@ -91,7 +90,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   };
 
   const handleUpdateNickname = async (enteredName: string) => {
-    dispatch(getNickname({ bwRoomId: roomId, nickname: enteredName }));
+    dispatch(getNickname({ roomId, nickname: enteredName }));
   };
 
   const handleCompleteIdeaPage = () => {

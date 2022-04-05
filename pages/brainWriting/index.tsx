@@ -5,7 +5,7 @@ import {
   updateCurrentPageBW,
   brainWritingSelector,
   updateAdminState,
-  getRoomIdBW,
+  getRoomId,
 } from '@redux/modules/brainWriting';
 import { useRouter } from 'next/router';
 import axios from 'axios';
@@ -40,7 +40,7 @@ const BrainWriting = () => {
         const { roomId } = res.data;
         handleMoveSettingPage(title, roomId);
         handleUpdateAmdinState();
-        dispatch(getRoomIdBW(roomId));
+        dispatch(getRoomId(roomId));
       });
   };
 
