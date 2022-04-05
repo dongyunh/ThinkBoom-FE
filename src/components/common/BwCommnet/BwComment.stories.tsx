@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import React from 'react';
 import { BwComment } from './BwComment';
-// import GlobalStyles from '@theme/GlobalStyles';
+// import GlobalStyles from 'theme/GlobalStyles';
 
 export default {
   title: 'Common/BwComment',

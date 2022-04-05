@@ -1,10 +1,10 @@
 import '../styles/globals.css';
 import { Provider } from 'react-redux';
 import type { AppProps } from 'next/app';
-import { store } from '@redux/store';
+import { store } from 'redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { HeaderBar } from '@components/common';
+import { HeaderBar } from 'components/common';
 
 export let persistor = persistStore(store);
 

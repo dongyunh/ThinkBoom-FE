@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../../theme/styleTheme';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { VoteCardModal } from '@components/layout/BrainWriting/VotingRoom/VoteCardModal';
-import { Modal } from '@components/common/Modals';
+import { VoteCardModal } from 'components/layout/BrainWriting/VotingRoom/VoteCardModal';
+import { Modal } from 'components/common/Modals';
 
 type VoteCardProps = {
   width: number;

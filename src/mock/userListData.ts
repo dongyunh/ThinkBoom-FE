@@ -1,4 +1,4 @@
-import { UserList } from '@redux/modules/sixHat/types';
+import { UserList } from 'redux/modules/sixHat/types';
 
 const userList: UserList = [
   {

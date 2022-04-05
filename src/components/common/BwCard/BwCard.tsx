@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { CenterLayout, PrimaryButton } from '../../common';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   brainWritingSelector,
   updateTimerData,
   postIdea,
   getTimerData,
   getUpdatedTimerData,
-} from '@redux/modules/brainWriting';
+} from 'redux/modules/brainWriting';
 import { useRouter } from 'next/router';
-import useTimer from '@hooks/useTimer';
+import useTimer from 'hooks/useTimer';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

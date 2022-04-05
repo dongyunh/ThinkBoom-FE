@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import UserCount from '../../../../public/asset/userCount.png';
 import Image from 'next/image';
-import { UserList } from '@redux/modules/sixHat/types';
-import { BWUserList } from '@redux/modules/brainWriting/types';
+import { UserList } from 'redux/modules/sixHat/types';
+import { BWUserList } from 'redux/modules/brainWriting/types';
 
 type CountingUserProps = {
   totalUser?: number;

@@ -1,17 +1,17 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { GetServerSideProps } from 'next';
-import { TutorialIcon } from '@components/common/Icon/TutorialIcon';
+import { TutorialIcon } from 'components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { NicknameModal, LimitModal } from '../../../src/components/common';
 import { RoutingAlertModal } from '../../../src/components/common/Modals/RoutingAlertModal';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
-import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
+import { selectPermit, setIsMessageArrived } from 'redux/modules/permit';
 
-import { WaitingRoom, InteractivePage, ShareIcon, ChatIcon } from '@components/common';
+import { WaitingRoom, InteractivePage, ShareIcon, ChatIcon } from 'components/common';
 import { BwCard } from '../../../src/components/common/BwCard';
-import { BwComment } from '@components/common/BwCommnet';
-import { VotingRoom } from '@components/layout/BrainWriting';
+import { BwComment } from 'components/common/BwCommnet';
+import { VotingRoom } from 'components/layout/BrainWriting';
 import {
   getNickname,
   brainWritingSelector,
@@ -20,8 +20,8 @@ import {
   initializeIdeaCard,
 } from '../../../src/redux/modules/brainWriting';
 
-import copyUrlHelper from '@utils/copyUrlHelper';
-import { ChattingRoom } from '@components/common';
+import copyUrlHelper from 'utils/copyUrlHelper';
+import { ChattingRoom } from 'components/common';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

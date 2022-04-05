@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
 import { Card } from '../../../common';
-import { HatImage } from '@components/common';
+import { HatImage } from 'components/common';
 
-import { UserList, HatType } from '@redux/modules/sixHat/types';
-import { useAppSelector } from '@redux/hooks';
-import { sixHatSelector } from '@redux/modules/sixHat';
+import { UserList, HatType } from 'redux/modules/sixHat/types';
+import { useAppSelector } from 'redux/hooks';
+import { sixHatSelector } from 'redux/modules/sixHat';
 import BGHatLeft from '../../../../../public/asset/backgrounds/bg_hat_left.png';
 import BGHatRight from '../../../../../public/asset/backgrounds/bg_hat_right.png';
 import Image from 'next/image';
-import useHatData from '@hooks/useHatData';
+import useHatData from 'hooks/useHatData';
 
 type SelectHatBoxProps = {
   myHat: HatType;

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
-import { selectDarkMode, setSystemTheme } from '@redux/modules/darkMode';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { selectDarkMode, setSystemTheme } from 'redux/modules/darkMode';
 
 export function useThemeEffect() {
   const dispatch = useAppDispatch();

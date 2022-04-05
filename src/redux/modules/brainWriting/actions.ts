@@ -72,13 +72,16 @@ export const getIdea = createAsyncThunk(
   },
 );
 
-export const getIdeaList = createAsyncThunk(`${prefix}/GET_IDEA`, async (roomId: string | null) => {
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/voteview/${roomId}`,
-  );
+export const getIdeaList = createAsyncThunk(
+  `${prefix}/GET_IDEA_LIST`,
+  async (roomId: string | null) => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/voteview/${roomId}`,
+    );
 
-  return response.data;
-});
+    return response.data;
+  },
+);
 
 export const voteIdea = createAsyncThunk(
   `${prefix}/VOTE_IDEA`,

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { InteractivePage, StartPage, MakeRoomModal } from '../../src/components/common';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   updateCurrentPageBW,
   brainWritingSelector,
   updateAdminState,
   getRoomId,
-} from '@redux/modules/brainWriting';
+} from 'redux/modules/brainWriting';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { updateStartCurrentPageBW } from '../../src/redux/modules/brainWriting/actions';

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   brainWritingSelector,
   getTimerData,
@@ -8,9 +8,9 @@ import {
   setIsTimerCalled,
   setIsTimerOver,
   getVoteTimerData,
-} from '@redux/modules/brainWriting';
+} from 'redux/modules/brainWriting';
 
-import { RoomId } from '@redux/modules/brainWriting/types';
+import { RoomId } from 'redux/modules/brainWriting/types';
 
 type UseTimerProps = {
   type: 'sixhat' | 'brainwritingIdea' | 'brainwritingVote';

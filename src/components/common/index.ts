@@ -15,7 +15,6 @@ export * from './ChattingRoom';
 export * from './Title';
 export * from './Desc';
 export * from './DarkModeToggle';
-export * from './SkipButton';
 export * from './HatImage';
 export * from './CountingUser';
 export * from './Icon/ShareIcon';

@@ -11,7 +11,7 @@ import {
   getSubjectSH,
   updateCurrentPage,
 } from '../redux/modules/sixHat';
-import { setIsMessageArrived } from '@redux/modules/permit';
+import { setIsMessageArrived } from 'redux/modules/permit';
 import { getUserCount } from '../redux/modules/CountUser';
 import {
   getSubjectBW,
@@ -20,13 +20,13 @@ import {
   updateCurrentPageBW,
   initializeTimerData,
   setIsFirstComment,
-} from '@redux/modules/brainWriting';
+} from 'redux/modules/brainWriting';
 
 import mixHatsHelper from '@utils/mixHatsHelper';
 import { toast } from 'react-toastify';
 
-import { UserList, UserData, HatType } from '@redux/modules/sixHat/types';
-import { BWUserList, BWUserData } from '@redux/modules/brainWriting/types';
+import { UserList, UserData, HatType } from 'redux/modules/sixHat/types';
+import { BWUserList, BWUserData } from 'redux/modules/brainWriting/types';
 export type SixHatResponseData = {
   type: 'ENTER' | 'TALK' | 'HAT' | 'QUIT' | 'SUBJECT' | 'RANDOMHAT' | 'DEBATING' | 'NEXTPAGE';
   roomId: string | null;

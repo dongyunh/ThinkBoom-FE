@@ -9,8 +9,8 @@ import {
   setIsFirstComment,
   setIsTimerOver,
   postComment,
-} from '@redux/modules/brainWriting';
-import useTimer from '@hooks/useTimer';
+} from 'redux/modules/brainWriting';
+import useTimer from 'hooks/useTimer';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

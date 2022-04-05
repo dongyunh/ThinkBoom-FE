@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../../theme/styleTheme';
 import { HatType } from '../../../../../redux/modules/sixHat/types';
-import { HatImage } from '@components/common';
+import { HatImage } from 'components/common';
 
 type MessageProps = {
   message: string | null;

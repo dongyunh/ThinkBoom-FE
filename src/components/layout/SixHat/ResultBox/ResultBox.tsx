@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
 import { Message } from '../DebatingChatBox';
-import { ChatData } from '@redux/modules/gallery/types';
+import { ChatData } from 'redux/modules/gallery/types';
 
 type ResultBoxProps = {
   subject: string;

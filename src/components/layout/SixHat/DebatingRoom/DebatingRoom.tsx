@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { CenterLayout, PrimaryButton } from '../../../common';
 import { DebatingChatBox } from '../DebatingChatBox';
-import { useAppSelector, useAppDispatch } from '@redux/hooks';
-import { selectSixHat, saveSixHatData } from '@redux/modules/sixHat';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { selectSixHat, saveSixHatData } from 'redux/modules/sixHat';
 import { useRouter } from 'next/router';
 
 type DebatingRoom = {
