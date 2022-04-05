@@ -36,7 +36,8 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const dispatch = useAppDispatch();
   const [contents, setContents] = useState<string>('');
   const [comment, setComment] = useState<string>('');
-  const { BWtimer, viewIdea, isFirstComment, isTimerOver } = useAppSelector(brainWritingSelector);
+  const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId } =
+    useAppSelector(brainWritingSelector);
   const [isFocused, setIsFocused] = useState(false);
 
   const router = useRouter();
@@ -52,7 +53,7 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   //처음 불러오는 코멘트일 때만 작동 시켜줄 기능. 이후 새로고침시에 작동x
   useEffect(() => {
     if (isFirstComment) {
-      dispatch(getIdea(BWRoomId));
+      dispatch(getIdea({ roomId: BWRoomId, userId }));
       dispatch(setIsFirstComment(false));
     }
   }, []);
@@ -65,7 +66,7 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
    */
   useEffect(() => {
     if (isTimerOver) {
-      dispatch(getIdea(BWRoomId));
+      dispatch(getIdea({ roomId: BWRoomId, userId }));
       dispatch(setIsTimerOver(false));
     }
   }, [isTimerOver]);

@@ -149,7 +149,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   //닉네임이 없거나, 방이 가득차지 않았다면.
   return (
     <>
-      <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
+      {currentPage === 0 && <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />}
       <InteractivePage pages={pages} currentPage={currentPage} />
       {!nickname && isFull <= 1 && (
         <NicknameModal title={roomTitle} onClick={handleUpdateNickname} />

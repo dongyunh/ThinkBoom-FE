@@ -9,6 +9,7 @@ import {
   InitializeIdeaCardArgType,
   PostIdeaArgType,
   GetIdeaPayLoadType,
+  GetIdeaArgType,
 } from './types';
 
 type GetNicknameArgType = {
@@ -64,12 +65,15 @@ export const postIdea = createAsyncThunk(
   },
 );
 
-export const getIdea = createAsyncThunk(`${prefix}/GET_IDEA`, async (bwRoomId: string | null) => {
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`,
-  );
-  return response.data as GetIdeaPayLoadType;
-});
+export const getIdea = createAsyncThunk(
+  `${prefix}/GET_IDEA`,
+  async ({ roomId, userId }: GetIdeaArgType) => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${roomId}?userId=${userId}`,
+    );
+    return response.data as GetIdeaPayLoadType;
+  },
+);
 
 export const getTimerData = createAsyncThunk(
   `${prefix}/GET_TIMER_DATA`,

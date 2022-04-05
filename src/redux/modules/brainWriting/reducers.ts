@@ -94,13 +94,8 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.BWUserCount = action.payload;
     })
     .addCase(getIdea.fulfilled, (state, action) => {
-      const { bwIdeaListItemList, isLastComment } = action.payload;
-      const ideaData = bwIdeaListItemList.filter(data => {
-        if (data.viewUserId === state.userId) {
-          return data;
-        }
-      })[0];
-      state.viewIdea = ideaData.idea;
+      const { idea, isLastComment } = action.payload;
+      state.viewIdea = idea;
       state.isLastComment = isLastComment;
     })
     .addCase(setIsFirstComment, (state, action) => {

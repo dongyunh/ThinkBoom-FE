@@ -24,6 +24,11 @@ export type PostIdeaArgType = {
   idea: string;
 };
 
+export type GetIdeaArgType = {
+  roomId: string | null;
+  userId: number | null;
+};
+
 export type GetIdeaType = {
   viewUserId: number;
   ideaId: number;
@@ -33,7 +38,9 @@ export type GetIdeaType = {
 export type GetIdeaPayLoadType = {
   isFirstComment: boolean;
   isLastComment: boolean;
-  bwIdeaListItemList: GetIdeaType[];
+  viewUserId: number;
+  ideaId: number;
+  idea: string;
 };
 
 export type BrainWritingState = {
