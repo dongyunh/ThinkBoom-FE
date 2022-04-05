@@ -9,6 +9,10 @@ export type ChatHistoryType = ChatData[];
 
 export type BWUserList = BWUserData[];
 
+export type UserId = number | null;
+
+export type RoomId = string | null;
+
 export type BWUserCount = {
   totalUser: number;
   currentUser: number;
@@ -19,14 +23,14 @@ export type InitializeIdeaCardArgType = {
 };
 
 export type PostIdeaArgType = {
-  bwRoomId: string | null;
-  userId: number | null;
+  bwRoomId: RoomId;
+  userId: UserId;
   idea: string;
 };
 
 export type GetIdeaArgType = {
-  roomId: string | null;
-  userId: number | null;
+  roomId: RoomId;
+  userId: UserId;
 };
 
 export type GetIdeaType = {
@@ -43,9 +47,15 @@ export type GetIdeaPayLoadType = {
   idea: string;
 };
 
-export type PostCommentArgType = {
-  userId: number | null;
+export type VoteIdeaArgType = {
+  userId: UserId;
+  votedIdeaList: number[];
   roomId: string | null;
+};
+
+export type PostCommentArgType = {
+  userId: UserId;
+  roomId: RoomId;
   ideaId: number;
   comment: string;
 };

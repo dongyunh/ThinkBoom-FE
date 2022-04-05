@@ -11,6 +11,7 @@ import {
   GetIdeaPayLoadType,
   GetIdeaArgType,
   PostCommentArgType,
+  VoteIdeaArgType,
 } from './types';
 
 type GetNicknameArgType = {
@@ -83,13 +84,20 @@ export const getIdeaList = createAsyncThunk(`${prefix}/GET_IDEA`, async (roomId:
   console.log(response);
 });
 
-export const voteIdea = createAsyncThunk(`${prefix}/VOTE_IDEA`, async (roomId: string | null) => {
-  const response = await axios.patch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/vote/${roomId}`,
-  );
+export const voteIdea = createAsyncThunk(
+  `${prefix}/VOTE_IDEA`,
+  async ({ userId, votedIdeaList, roomId }: VoteIdeaArgType) => {
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/vote/${roomId}`,
+      {
+        userId,
+        votedIdeaList,
+      },
+    );
 
-  console.log(response);
-});
+    console.log(response);
+  },
+);
 
 export const postComment = createAsyncThunk(
   `${prefix}/POST_COMMENT`,
