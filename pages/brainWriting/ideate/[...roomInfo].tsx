@@ -108,7 +108,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     dispatch(clearChatHistory());
   };
 
-  const handleSendComment = () => {
+  const handleCompleteCommentPage = () => {
     handleNextPage(3);
   };
 
@@ -138,7 +138,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     },
     {
       component: (
-        <BwComment width={510} height={515} subject={BWsubject} onClick={handleSendComment} />
+        <BwComment
+          width={510}
+          height={515}
+          subject={BWsubject}
+          onClick={handleCompleteCommentPage}
+        />
       ),
     },
     {

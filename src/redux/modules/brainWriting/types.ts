@@ -43,6 +43,13 @@ export type GetIdeaPayLoadType = {
   idea: string;
 };
 
+export type PostCommentArgType = {
+  userId: number | null;
+  roomId: string | null;
+  ideaId: number;
+  comment: string;
+};
+
 export type BrainWritingState = {
   StartCurrentPage: number;
   currentPage: number;
@@ -51,6 +58,7 @@ export type BrainWritingState = {
   BWisSubmit: boolean;
   BWsubject?: string;
   userId: number | null;
+  ideaId: number;
   bwRoomId: string | null;
   BWtimer: number | null;
   BWUserList: BWUserList;

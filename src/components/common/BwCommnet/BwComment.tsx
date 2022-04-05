@@ -11,6 +11,7 @@ import {
   setIsFirstComment,
   setIsTimerOver,
   setIsTimerCalled,
+  postComment,
 } from '@redux/modules/brainWriting';
 import { useRouter } from 'next/router';
 import useTimer from '@hooks/useTimer';
@@ -36,19 +37,13 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const dispatch = useAppDispatch();
   const [contents, setContents] = useState<string>('');
   const [comment, setComment] = useState<string>('');
-  const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId } =
+  const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId, ideaId } =
     useAppSelector(brainWritingSelector);
   const [isFocused, setIsFocused] = useState(false);
 
   const router = useRouter();
   const roomInfo = router.query.roomInfo as string[];
   const BWRoomId = roomInfo[1];
-
-  const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter') {
-      setComment(contents);
-    }
-  };
 
   //처음 불러오는 코멘트일 때만 작동 시켜줄 기능. 이후 새로고침시에 작동x
   useEffect(() => {
@@ -77,8 +72,20 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
     }
   }, [BWtimer]);
 
-  const sendcomment = () => {
-    setComment(contents);
+  const handlePostComment = () => {
+    const postCommentArgData = {
+      roomId: BWRoomId,
+      ideaId,
+      userId,
+      comment,
+    };
+    dispatch(postComment(postCommentArgData));
+  };
+
+  const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      handlePostComment();
+    }
   };
 
   useTimer({ type: 'brainwriting', roomId: BWRoomId });
@@ -99,12 +106,12 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   maxLength={200}
-                  placeholder="댓글을 입력해주세요."
+                  placeholder="코멘트를 입력해주세요"
                   onKeyPress={e => onKeyPress(e)}
                   onChange={e => setContents(e.target.value)}
                 />
 
-                <StyledButton onClick={sendcomment}>입력</StyledButton>
+                <StyledButton onClick={handlePostComment}>입력</StyledButton>
               </StyledTextarea>
             </StyledCard>
           </CardWrapper>

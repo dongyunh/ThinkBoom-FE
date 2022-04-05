@@ -10,6 +10,7 @@ import {
   PostIdeaArgType,
   GetIdeaPayLoadType,
   GetIdeaArgType,
+  PostCommentArgType,
 } from './types';
 
 type GetNicknameArgType = {
@@ -72,6 +73,22 @@ export const getIdea = createAsyncThunk(
       `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${roomId}?userId=${userId}`,
     );
     return response.data as GetIdeaPayLoadType;
+  },
+);
+
+export const postComment = createAsyncThunk(
+  `${prefix}/POST_COMMENT`,
+  async ({ ideaId, userId, comment, roomId }: PostCommentArgType) => {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/comment/${roomId}`,
+      {
+        ideaId,
+        userId,
+        comment,
+      },
+    );
+
+    console.log(response);
   },
 );
 
