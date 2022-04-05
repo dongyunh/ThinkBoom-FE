@@ -18,9 +18,9 @@ type StyleProps = {
 };
 
 const VoteCard = ({ width, height, onClick, children }: VoteCardProps) => {
-  const [modal, setModal] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const closeModal = () => {
-    setModal(false);
+    setIsModalOpen(false);
   };
   const handleVote = () => {};
 
@@ -31,7 +31,7 @@ const VoteCard = ({ width, height, onClick, children }: VoteCardProps) => {
           width={width}
           height={height}
           onClick={() => {
-            setModal(!modal);
+            setIsModalOpen(!isModalOpen);
           }}
         >
           {children}
@@ -41,7 +41,7 @@ const VoteCard = ({ width, height, onClick, children }: VoteCardProps) => {
         </StyledCard>
         <AfterCard width={width} height={height} />
       </CardWrapper>
-      {modal === true ? <VoteCardModal closeModal={closeModal} /> : null}
+      {isModalOpen && <VoteCardModal closeModal={closeModal} />}
     </>
   );
 };

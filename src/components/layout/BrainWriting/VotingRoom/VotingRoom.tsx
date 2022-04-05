@@ -15,7 +15,7 @@ type VotingRoom = {
 
 const VotingRoom = () => {
   const dispatch = useAppDispatch();
-  const {  roomId } = useAppSelector(brainWritingSelector);
+  const { roomId, ideaList } = useAppSelector(brainWritingSelector);
 
   useEffect(() => {
     dispatch(getIdeaList(roomId));
@@ -26,9 +26,13 @@ const VotingRoom = () => {
   return (
     <CenterLayout>
       <Container>
-        <VoteCard width={330} height={200}>
-          sss
-        </VoteCard>
+        {ideaList.map(idea => {
+          return (
+            <VoteCard key={idea.ideaId} width={330} height={200}>
+              {idea.idea}
+            </VoteCard>
+          );
+        })}
       </Container>
     </CenterLayout>
   );
