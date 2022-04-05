@@ -15,6 +15,9 @@ import {
 import { useRouter } from 'next/router';
 import useTimer from '@hooks/useTimer';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 type CardProps = {
   width: number;
   height: number;
@@ -39,8 +42,6 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const router = useRouter();
   const roomInfo = router.query.roomInfo as string[];
   const BWRoomId = roomInfo[1];
-
-  const [seconds, setSeconds] = useState(BWtimer);
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
@@ -69,37 +70,46 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
     }
   }, [isTimerOver]);
 
+  useEffect(() => {
+    if (BWtimer === 10) {
+      toast.info('10초 뒤에 다른 사람의 아이디어를 받게 됩니다. 코멘트 입력을 완료해주세요.');
+    }
+  }, [BWtimer]);
+
   const sendcomment = () => {
     setComment(contents);
   };
 
-  useTimer({ type: 'brainwriting', roomId: BWRoomId, isRotate: true });
+  useTimer({ type: 'brainwriting', roomId: BWRoomId });
 
   return (
-    <CenterLayout>
-      <Container>
-        <Title>코멘트를 입력해주세요</Title>
-        <CardWrapper>
-          <StyledCard width={width} height={height}>
-            <StlyeSubject>{subject}</StlyeSubject>
-            <OtherIdea>{viewIdea}</OtherIdea>
-            <MyComment>{comment}</MyComment>
-            <StyledTextarea isFocused={isFocused}>
-              <TextField
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                maxLength={200}
-                placeholder="댓글을 입력해주세요."
-                onKeyPress={e => onKeyPress(e)}
-                onChange={e => setContents(e.target.value)}
-              />
+    <>
+      <ToastContainer position="bottom-left" autoClose={10000} theme="dark" />
+      <CenterLayout>
+        <Container>
+          <Title>코멘트를 입력해주세요</Title>
+          <CardWrapper>
+            <StyledCard width={width} height={height}>
+              <StlyeSubject>{subject}</StlyeSubject>
+              <OtherIdea>{viewIdea}</OtherIdea>
+              <MyComment>{comment}</MyComment>
+              <StyledTextarea isFocused={isFocused}>
+                <TextField
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  maxLength={200}
+                  placeholder="댓글을 입력해주세요."
+                  onKeyPress={e => onKeyPress(e)}
+                  onChange={e => setContents(e.target.value)}
+                />
 
-              <StyledButton onClick={sendcomment}>입력</StyledButton>
-            </StyledTextarea>
-          </StyledCard>
-        </CardWrapper>
-      </Container>
-    </CenterLayout>
+                <StyledButton onClick={sendcomment}>입력</StyledButton>
+              </StyledTextarea>
+            </StyledCard>
+          </CardWrapper>
+        </Container>
+      </CenterLayout>
+    </>
   );
 };
 

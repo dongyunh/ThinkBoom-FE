@@ -13,6 +13,9 @@ import {
 import { useRouter } from 'next/router';
 import useTimer from '@hooks/useTimer';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 type CardProps = {
   width: number;
   height: number;
@@ -27,7 +30,7 @@ type StyleProps = {
 
 const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { userId, bwRoomId, isAdmin, isTimerOver } = useAppSelector(brainWritingSelector);
+  const { userId, bwRoomId, isAdmin, isTimerOver, BWtimer } = useAppSelector(brainWritingSelector);
   const [idea, setIdea] = useState<string>('');
   const router = useRouter();
   const roomInfo = router.query.roomInfo as string[];
@@ -43,26 +46,35 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
     }
   }, [isTimerOver]);
 
-  useTimer({ type: 'brainwriting', roomId: BWRoomId, isRotate: false });
+  useEffect(() => {
+    if (BWtimer === 10) {
+      toast.info('10초 뒤에 아이디어 입력이 완료됩니다. 아이디어 입력을 완료해주세요.');
+    }
+  }, [BWtimer]);
+
+  useTimer({ type: 'brainwriting', roomId: BWRoomId });
 
   return (
-    <CenterLayout>
-      <Container>
-        <Empty />
-        <CardWrapper>
-          <StyledCard width={width} height={height}>
-            <StlyeSubject>{subject}</StlyeSubject>
-            <StyledIdea onChange={e => setIdea(e.target.value)}>{children}</StyledIdea>
-            <StyledButton onClick={SendIdea}>작성</StyledButton>
-          </StyledCard>
-        </CardWrapper>
-        <ButtonWrapper>
-          {isAdmin ? (
-            <PrimaryButton text="완료" disabled={!isAdmin} onClick={onClickComplete} />
-          ) : null}
-        </ButtonWrapper>
-      </Container>
-    </CenterLayout>
+    <>
+      <ToastContainer position="bottom-left" autoClose={10000} theme="dark" />
+      <CenterLayout>
+        <Container>
+          <Empty />
+          <CardWrapper>
+            <StyledCard width={width} height={height}>
+              <StlyeSubject>{subject}</StlyeSubject>
+              <StyledIdea onChange={e => setIdea(e.target.value)}>{children}</StyledIdea>
+              <StyledButton onClick={SendIdea}>작성</StyledButton>
+            </StyledCard>
+          </CardWrapper>
+          <ButtonWrapper>
+            {isAdmin ? (
+              <PrimaryButton text="완료" disabled={!isAdmin} onClick={onClickComplete} />
+            ) : null}
+          </ButtonWrapper>
+        </Container>
+      </CenterLayout>
+    </>
   );
 };
 

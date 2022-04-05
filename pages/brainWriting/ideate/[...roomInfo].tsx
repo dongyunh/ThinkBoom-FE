@@ -28,9 +28,10 @@ import {
 
 import { countSelector } from '@redux/modules/CountUser';
 import copyUrlHelper from '@utils/copyUrlHelper';
+import { ChattingRoom } from '@components/common';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ChattingRoom } from '@components/common';
 
 //TODO : any 수정하기
 
