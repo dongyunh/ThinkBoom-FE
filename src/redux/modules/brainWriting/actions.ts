@@ -54,24 +54,20 @@ export const initializeIdeaCard = createAsyncThunk(
 
 export const postIdea = createAsyncThunk(
   `${prefix}/POST_IDEA`,
-  async ({ senderId, idea, bwRoomId }: PostIdeaArgType) => {
+  async ({ userId, idea, bwRoomId }: PostIdeaArgType) => {
     axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`, {
-      userId: senderId,
-      idea: idea,
+      userId,
+      idea,
     });
   },
 );
 
-export const getIdea = createAsyncThunk(
-  `${prefix}/GET_IDEA`,
-  async (bwRoomId: string | null) => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`,
-    );
-    console.log(response);
-    return response;
-  },
-);
+export const getIdea = createAsyncThunk(`${prefix}/GET_IDEA`, async (bwRoomId: string | null) => {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`,
+  );
+  return response.data;
+});
 
 export const getTimerData = createAsyncThunk(
   `${prefix}/GET_TIMER_DATA`,

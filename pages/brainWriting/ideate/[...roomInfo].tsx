@@ -41,7 +41,7 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, senderId, BWsubject, BWUserCount } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount } =
     useAppSelector(brainWritingSelector);
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
@@ -64,7 +64,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   useEffect(() => {
     if (nickname) {
       ConnectedSocket = new HandleSocket(`${process.env.NEXT_PUBLIC_API_URL}/websocket`);
-      ConnectedSocket.connectBW(senderId, roomId);
+      ConnectedSocket.connectBW(userId, roomId);
     }
   }, [nickname]);
 

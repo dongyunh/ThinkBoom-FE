@@ -27,14 +27,14 @@ type StyleProps = {
 
 const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { senderId, bwRoomId, isAdmin, isTimerOver } = useAppSelector(brainWritingSelector);
+  const { userId, bwRoomId, isAdmin, isTimerOver } = useAppSelector(brainWritingSelector);
   const [idea, setIdea] = useState<string>('');
   const router = useRouter();
   const roomInfo = router.query.roomInfo as string[];
   const BWRoomId = roomInfo[1];
 
   const SendIdea = () => {
-    dispatch(postIdea({ senderId, idea, bwRoomId }));
+    dispatch(postIdea({ userId, idea, bwRoomId }));
   };
 
   useEffect(() => {

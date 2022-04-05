@@ -31,7 +31,7 @@ const initialState: BrainWritingState = {
   isAdmin: false,
   BWisSubmit: false,
   BWsubject: undefined,
-  senderId: null,
+  userId: null,
   BWtimer: null,
   chatHistory: [],
   bwRoomId: null,
@@ -57,7 +57,7 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(getNickname.fulfilled, (state, action) => {
       const { nickname, userId } = action.payload;
       state.nickname = nickname;
-      state.senderId = userId;
+      state.userId = userId;
     })
     .addCase(changeIsSubmitState, (state, action) => {
       state.BWisSubmit = action.payload;
@@ -89,7 +89,7 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.BWUserCount = action.payload;
     })
     .addCase(getIdea.fulfilled, (state, action) => {
-      const { bwIdeaListItemList } = action.payload.data;
+      const { bwIdeaListItemList } = action.payload;
       state.commentData = bwIdeaListItemList;
     })
 

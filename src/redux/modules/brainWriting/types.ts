@@ -20,7 +20,7 @@ export type InitializeIdeaCardArgType = {
 
 export type PostIdeaArgType = {
   bwRoomId: string | null;
-  senderId: number | null;
+  userId: number | null;
   idea: string;
 };
 
@@ -31,7 +31,7 @@ export type BrainWritingState = {
   isAdmin: boolean;
   BWisSubmit: boolean;
   BWsubject?: string;
-  senderId: number | null;
+  userId: number | null;
   bwRoomId: string | null;
   BWtimer: number | null;
   BWUserList: BWUserList;
