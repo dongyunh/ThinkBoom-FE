@@ -10,12 +10,16 @@ import {
   getMessagesBW,
   getUserListBW,
   getRoomIdBW,
-  ideaCardCreate,
+  initializeIdeaCard,
   getTimerBW,
-  timerData,
+  getTimerData,
   updateStartCurrentPageBW,
   getUserCount,
   requsetComment,
+  updateTimerData,
+  setIsTimerCalled,
+  getUpdatedTimerData,
+  setIsTimerOver,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -24,12 +28,10 @@ const initialState: BrainWritingState = {
   StartCurrentPage: 0,
   currentPage: 0,
   nickname: null,
-  BWisAdmin: false,
+  isAdmin: false,
   BWisSubmit: false,
   BWsubject: undefined,
   senderId: null,
-  idea: null,
-  userId: null,
   BWtimer: null,
   chatHistory: [],
   bwRoomId: null,
@@ -39,6 +41,8 @@ const initialState: BrainWritingState = {
   },
   BWUserList: [],
   commentData: [],
+  isTimerCalled: false,
+  isTimerOver: false,
 };
 
 //createReducer로 reducer 생성.
@@ -59,7 +63,7 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.BWisSubmit = action.payload;
     })
     .addCase(updateAdminState, (state, action) => {
-      state.BWisAdmin = action.payload;
+      state.isAdmin = action.payload;
     })
     .addCase(getMessagesBW, (state, action) => {
       if (state.chatHistory) {
@@ -88,14 +92,24 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       const { bwIdeaListItemList } = action.payload.data;
       state.commentData = bwIdeaListItemList;
     })
-    .addCase(postIdea.fulfilled, (state, action) => {
-      const { userId, idea } = action.payload;
-      state.idea = idea;
-      state.userId = userId;
-    })
-    .addCase(timerData.fulfilled, (state, action) => {
-      const { timers } = action.payload.data;
+
+    .addCase(getTimerData.fulfilled, (state, action) => {
+      const { timers } = action.payload;
       state.BWtimer = timers;
+      state.isTimerCalled = true;
+    })
+    .addCase(updateTimerData, (state, action) => {
+      state.BWtimer = action.payload;
+    })
+    .addCase(setIsTimerCalled, (state, action) => {
+      state.isTimerCalled = action.payload;
+    })
+    .addCase(getUpdatedTimerData.fulfilled, (state, action) => {
+      const { timers } = action.payload;
+      state.BWtimer = timers;
+    })
+    .addCase(setIsTimerOver, (state, action) => {
+      state.isTimerOver = action.payload;
     })
     .addCase(PURGE, (state, action) => {
       return initialState;

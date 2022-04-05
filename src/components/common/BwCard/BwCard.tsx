@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { CenterLayout, PrimaryButton } from '../../common';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { postIdea, timerData, ideaCardCreate } from '../../../redux/modules/brainWriting/actions';
-import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
-import { Timer } from '../Timer';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import {
+  brainWritingSelector,
+  updateTimerData,
+  postIdea,
+  getTimerData,
+  getUpdatedTimerData,
+} from '@redux/modules/brainWriting';
+import { useRouter } from 'next/router';
+import useTimer from '@hooks/useTimer';
+
 type CardProps = {
   width: number;
   height: number;
@@ -20,43 +27,28 @@ type StyleProps = {
 
 const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { senderId, bwRoomId, BWsubject, nickname, BWtimer, BWisAdmin } =
-    useAppSelector(brainWritingSelector);
-  const [disabled, setDisabled] = useState();
+  const { senderId, bwRoomId, isAdmin, isTimerOver } = useAppSelector(brainWritingSelector);
   const [idea, setIdea] = useState<string>('');
+  const router = useRouter();
+  const roomInfo = router.query.roomInfo as string[];
+  const BWRoomId = roomInfo[1];
+
   const SendIdea = () => {
-    dispatch(postIdea({ senderId, idea, bwRoomid: bwRoomId }));
+    dispatch(postIdea({ senderId, idea, bwRoomId }));
   };
 
-  const shareRoomId = window.location.pathname.split('/')[4];
-  const [seconds, setSeconds] = useState(BWtimer);
   useEffect(() => {
-    if (nickname) {
-      dispatch(timerData(shareRoomId));
+    if (isTimerOver) {
+      onClickComplete();
     }
-  }, []);
-  //BWtimer= res.timerData
+  }, [isTimerOver]);
 
-  useEffect(() => {
-    if (seconds == null) {
-      setSeconds(BWtimer);
-    }
-  }, [BWtimer]);
-
-  useEffect(() => {
-    if (seconds !== null) {
-      const interval = setInterval(() => {
-        if (seconds === 0) clearInterval(interval);
-        else setSeconds(seconds - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [seconds]);
+  useTimer({ type: 'brainwriting', roomId: BWRoomId });
 
   return (
     <CenterLayout>
-      <>
-        <Timer seconds={seconds} />
+      <Container>
+        <Empty />
         <CardWrapper>
           <StyledCard width={width} height={height}>
             <StlyeSubject>{subject}</StlyeSubject>
@@ -65,21 +57,28 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
           </StyledCard>
         </CardWrapper>
         <ButtonWrapper>
-          {BWisAdmin ? (
-            <PrimaryButton text="완료" disabled={!BWisAdmin} onClick={onClickComplete} />
+          {isAdmin ? (
+            <PrimaryButton text="완료" disabled={!isAdmin} onClick={onClickComplete} />
           ) : null}
         </ButtonWrapper>
-      </>
+      </Container>
     </CenterLayout>
   );
 };
 
+const Empty = styled.div``;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+`;
+
 const CardWrapper = styled.div`
   position: relative;
-  margin-top: 150px;
+  padding-bottom: 50px;
 `;
 const ButtonWrapper = styled.div`
-  padding-top: 10px;
   margin: auto;
 `;
 
@@ -111,6 +110,11 @@ const StyledIdea = styled.textarea`
   font-size: 20px;
   resize: none;
   padding: 30px;
+  outline: none;
+  transition: 0.3s ease-in-out;
+  :focus {
+    border: 5px solid #2962ff;
+  }
 `;
 
 const StyledButton = styled.button`

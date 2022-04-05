@@ -9,25 +9,35 @@ export type ChatHistoryType = ChatData[];
 
 export type BWUserList = BWUserData[];
 
-
 export type BWUserCount = {
   totalUser: number;
   currentUser: number;
 };
+
+export type InitializeIdeaCardArgType = {
+  roomId: string;
+};
+
+export type PostIdeaArgType = {
+  bwRoomId: string | null;
+  senderId: number | null;
+  idea: string;
+};
+
 export type BrainWritingState = {
-  StartCurrentPage:number,
-    currentPage: number;
-    nickname: string | null;
-    BWisAdmin: boolean;
-    BWisSubmit: boolean;
-    BWsubject?: string;
-    senderId: number | null,
-    idea: string | null,
-    userId: number | null,
-    bwRoomId: string | null,
-    BWtimer : number | null,
-    BWUserList: BWUserList;
-    BWUserCount: BWUserCount;
-    chatHistory?: ChatHistoryType;
-    commentData: []
-  };
+  StartCurrentPage: number;
+  currentPage: number;
+  nickname: string | null;
+  isAdmin: boolean;
+  BWisSubmit: boolean;
+  BWsubject?: string;
+  senderId: number | null;
+  bwRoomId: string | null;
+  BWtimer: number | null;
+  BWUserList: BWUserList;
+  BWUserCount: BWUserCount;
+  chatHistory?: ChatHistoryType;
+  commentData: [];
+  isTimerCalled: boolean;
+  isTimerOver: boolean;
+};

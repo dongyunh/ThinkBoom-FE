@@ -20,7 +20,7 @@ import {
   brainWritingSelector,
   changeIsSubmitState,
   clearChatHistory,
-  ideaCardCreate,
+  initializeIdeaCard,
   getTimerBW,
   requsetComment,
 } from '../../../src/redux/modules/brainWriting';
@@ -94,16 +94,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const handleStartbrainWriting = () => {
     handleNextPage(1);
     dispatch(getTimerBW(null));
-    dispatch(ideaCardCreate({ shareRoomId: roomId, senderId }));
+    dispatch(initializeIdeaCard({ roomId }));
   };
 
   const handleUpdateNickname = async (enteredName: string) => {
     dispatch(getNickname({ bwRoomId: roomId, nickname: enteredName }));
   };
-
-  // const handleSendRandomHat = (userHatList: UserList) => {
-  //   ConnectedSocket.sendRandomHatData(userHatList);
-  // };
 
   const handleSendIdea = () => {
     handleNextPage(2);

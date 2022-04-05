@@ -27,3 +27,4 @@ export * from './Modals/NicknameModal';
 export * from './Modals/LimitModal';
 export * from './Modals/RoutingAlertModal';
 export * from './GalleryCard';
+export * from './Timer';

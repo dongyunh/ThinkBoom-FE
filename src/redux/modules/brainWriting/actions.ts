@@ -1,26 +1,18 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useAppDispatch } from '@redux/hooks';
-import { ChatData, BWUserData, BWUserCount, BWUserList } from './types';
-import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event';
+import {
+  ChatData,
+  BWUserData,
+  BWUserCount,
+  BWUserList,
+  InitializeIdeaCardArgType,
+  PostIdeaArgType,
+} from './types';
+
 type GetNicknameArgType = {
   bwRoomId: string;
   nickname: string;
-};
-
-type TestType = {
-  shareRoomId: string;
-  senderId: number | null;
-};
-
-type PostIdeaArgType = {
-  bwRoomid: string | null;
-  senderId: number | null;
-  idea: string;
-};
-
-type IdeaCardArgType = {
-  roomId: null;
 };
 
 const prefix = 'brainWriting';
@@ -46,7 +38,6 @@ export const getNickname = createAsyncThunk(
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/user/nickname/${bwRoomId}`,
       {
-        //   bwRoomId: bwRoomId,
         nickname: nickname,
       },
     );
@@ -54,44 +45,52 @@ export const getNickname = createAsyncThunk(
   },
 );
 
-export const ideaCardCreate = createAsyncThunk(
-  `${prefix}/GET_TIMER_DATA`,
-  async ({ shareRoomId, senderId }: TestType) => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api//create/${shareRoomId}`,
-      {
-        userId: senderId,
-      },
-    );
+export const initializeIdeaCard = createAsyncThunk(
+  `${prefix}/INITIALIZE_IDEA_CARD`,
+  async ({ roomId }: InitializeIdeaCardArgType) => {
+    axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${roomId}`);
   },
 );
-export const timerData = createAsyncThunk(
+
+export const postIdea = createAsyncThunk(
+  `${prefix}/POST_IDEA`,
+  async ({ senderId, idea, bwRoomId }: PostIdeaArgType) => {
+    axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`, {
+      userId: senderId,
+      idea: idea,
+    });
+  },
+);
+
+export const requsetComment = createAsyncThunk(
+  `${prefix}/GET_REQUEST_COMMENT`,
+  async (bwRoomId: string | null) => {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/${bwRoomId}`);
+    return response;
+  },
+);
+
+export const getTimerData = createAsyncThunk(
   `${prefix}/GET_TIMER_DATA`,
+  async (bwRoomId: string | null) => {
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/timer/${bwRoomId}`,
+    );
+
+    return response.data;
+  },
+);
+export const getUpdatedTimerData = createAsyncThunk(
+  `${prefix}/GET_UPDATED_TIMER_DATA`,
   async (bwRoomId: string | null) => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/timer/${bwRoomId}`,
     );
 
-    return response;
-  },
-);
-export const requsetComment = createAsyncThunk(
-  `${prefix}/GET_REQUEST_COMMENT`,
-  async (bwRoomId: string | null) => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api//${bwRoomId}`);
-    return response;
-  },
-);
-export const postIdea = createAsyncThunk(
-  `${prefix}/POST_IDEA`,
-  async ({ senderId, idea, bwRoomid }: PostIdeaArgType) => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomid}`,
-      {
-        userId: senderId,
-        idea: idea,
-      },
-    );
     return response.data;
   },
 );
+
+export const updateTimerData = createAction<number | null>(`${prefix}/UPDATE_TIMER_DATA`);
+export const setIsTimerCalled = createAction<boolean>(`${prefix}/SET_IS_TIMER_CALLED`);
+export const setIsTimerOver = createAction<boolean>(`${prefix}/SET_IS_TIMER_OVER`);

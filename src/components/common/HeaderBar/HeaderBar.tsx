@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { DarkModeToggle, CountingUser, GalleryIcon } from '../../common';
+import { DarkModeToggle, CountingUser, GalleryIcon, Timer } from '../../common';
 import Image from 'next/image';
 import Logo from '../../../../public/asset/Logo.png';
 import { useRouter } from 'next/router';
@@ -16,7 +16,7 @@ const HeaderBar = () => {
   const { userCount } = useAppSelector(selectUserCount);
   const { userList: sixHatUserList } = useAppSelector(sixHatSelector);
 
-  const { BWUserList: BrainWritingUserList } = useAppSelector(brainWritingSelector); //
+  const { BWUserList: BrainWritingUserList, BWtimer } = useAppSelector(brainWritingSelector); //
 
   const showCpntCheckPathName = () => {
     if (router.pathname.includes('/brainWriting/ideate/')) {
@@ -28,6 +28,7 @@ const HeaderBar = () => {
             currentUser={userCount.currentUser}
             userList={BrainWritingUserList}
           />
+          <Timer seconds={BWtimer} />
         </CountingAndTimer>
       );
     }
