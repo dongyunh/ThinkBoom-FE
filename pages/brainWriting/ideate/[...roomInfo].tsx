@@ -50,6 +50,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const [isFull, setIsFull] = useState(0);
   const [roomTitle, roomId] = roomInfo;
 
+
   const HandleSocket = useSocketHook('brainwriting');
 
   useEffect(() => {
@@ -103,7 +104,6 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   const handleSendIdea = () => {
     handleNextPage(2);
-    dispatch(getIdea(roomId));
     dispatch(clearChatHistory());
   };
 

@@ -40,7 +40,7 @@ const initialState: BrainWritingState = {
     currentUser: 0,
   },
   BWUserList: [],
-  commentData: [],
+  viewIdea: '',
   isTimerCalled: false,
   isTimerOver: false,
 };
@@ -56,6 +56,7 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     })
     .addCase(getNickname.fulfilled, (state, action) => {
       const { nickname, userId } = action.payload;
+      console.log('닉네임을 저장하겠다', userId);
       state.nickname = nickname;
       state.userId = userId;
     })
@@ -89,8 +90,13 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.BWUserCount = action.payload;
     })
     .addCase(getIdea.fulfilled, (state, action) => {
-      const { bwIdeaListItemList } = action.payload;
-      state.commentData = bwIdeaListItemList;
+      const bwIdeaListItemList = action.payload;
+      const viewIdea = bwIdeaListItemList.filter(data => {
+        if (data.viewUserId === state.userId) {
+          return data;
+        }
+      })[0].idea;
+      state.viewIdea = viewIdea;
     })
 
     .addCase(getTimerData.fulfilled, (state, action) => {

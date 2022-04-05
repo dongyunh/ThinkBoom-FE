@@ -24,6 +24,14 @@ export type PostIdeaArgType = {
   idea: string;
 };
 
+export type GetIdeaType = {
+  viewUserId: number;
+  ideaId: number;
+  idea: string;
+};
+
+export type GetIdeaPayLoadType = GetIdeaType[];
+
 export type BrainWritingState = {
   StartCurrentPage: number;
   currentPage: number;
@@ -37,7 +45,7 @@ export type BrainWritingState = {
   BWUserList: BWUserList;
   BWUserCount: BWUserCount;
   chatHistory?: ChatHistoryType;
-  commentData: [];
+  viewIdea: string;
   isTimerCalled: boolean;
   isTimerOver: boolean;
 };

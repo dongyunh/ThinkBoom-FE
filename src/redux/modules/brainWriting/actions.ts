@@ -8,6 +8,7 @@ import {
   BWUserList,
   InitializeIdeaCardArgType,
   PostIdeaArgType,
+  GetIdeaPayLoadType,
 } from './types';
 
 type GetNicknameArgType = {
@@ -66,7 +67,7 @@ export const getIdea = createAsyncThunk(`${prefix}/GET_IDEA`, async (bwRoomId: s
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`,
   );
-  return response.data;
+  return response.data.bwIdeaListItemList as GetIdeaPayLoadType;
 });
 
 export const getTimerData = createAsyncThunk(

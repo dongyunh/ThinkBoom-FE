@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { CenterLayout } from '../../common';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
-import { getTimerData } from '../../../redux/modules/brainWriting/actions';
+import { getTimerData, getIdea } from '@redux/modules/brainWriting';
+import { useRouter } from 'next/router';
 
 type CardProps = {
   width: number;
@@ -25,35 +26,16 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const dispatch = useAppDispatch();
   const [contents, setContents] = useState<string>('');
   const [comment, setComment] = useState<string>('');
-  const { nickname, BWtimer } = useAppSelector(brainWritingSelector);
+  const { nickname, BWtimer, viewIdea } = useAppSelector(brainWritingSelector);
   const [isFocused, setIsFocused] = useState(false);
   const handleSendMessage = () => {
     contents;
   };
-  const shareRoomId = window.location.pathname.split('/')[4];
+  const router = useRouter();
+  const roomInfo = router.query.roomInfo as string[];
+  const BWRoomId = roomInfo[1];
+
   const [seconds, setSeconds] = useState(BWtimer);
-  useEffect(() => {
-    if (nickname) {
-      dispatch(getTimerData(shareRoomId));
-    }
-  }, []);
-  //BWtimer= res.getTimerData
-
-  useEffect(() => {
-    if (seconds == null) {
-      setSeconds(BWtimer);
-    }
-  }, [BWtimer]);
-
-  useEffect(() => {
-    if (seconds !== null) {
-      const interval = setInterval(() => {
-        if (seconds === 0) clearInterval(interval);
-        else setSeconds(seconds - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [seconds]);
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
@@ -61,9 +43,12 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
     }
   };
 
+  useEffect(() => {
+    dispatch(getIdea(BWRoomId));
+  }, []);
+
   const sendcomment = () => {
     setComment(contents);
-    // dispatch(sendCommentData(cont))
   };
 
   return (
@@ -73,8 +58,8 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
         <CardWrapper>
           <StyledCard width={width} height={height}>
             <StlyeSubject>{subject}</StlyeSubject>
-            <div></div>
-            <StyledIdea onClick={onClick}>{comment}</StyledIdea>
+            <OtherIdea>{viewIdea}</OtherIdea>
+            <MyComment>{comment}</MyComment>
             <StyledTextarea isFocused={isFocused}>
               <TextField
                 onFocus={() => setIsFocused(true)}
@@ -128,7 +113,9 @@ const StlyeSubject = styled.h3`
   font-size: 28px;
 `;
 
-const StyledIdea = styled.div`
+const OtherIdea = styled.div``;
+
+const MyComment = styled.div`
   height: 50%;
   width: 82%;
   border-radius: 12px;
