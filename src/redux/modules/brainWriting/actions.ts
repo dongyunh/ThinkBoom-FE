@@ -83,23 +83,20 @@ export const getIdeaList = createAsyncThunk(
   },
 );
 
-export const voteIdea = createAsyncThunk(
-  `${prefix}/VOTE_IDEA`,
-  async ({ userId, roomId }: VoteIdeaArgType, { getState }) => {
-    const { brainWriting } = getState() as RootState;
-    const { votedIdeaList } = brainWriting;
+export const voteIdea = createAsyncThunk(`${prefix}/VOTE_IDEA`, async ({}, { getState }) => {
+  const { brainWriting } = getState() as RootState;
+  const { votedIdeaList, userId, roomId } = brainWriting;
 
-    const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/vote/${roomId}`,
-      {
-        userId,
-        votedIdeaList,
-      },
-    );
+  const response = await axios.patch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/vote/${roomId}`,
+    {
+      userId,
+      votedIdeaList,
+    },
+  );
 
-    console.log(response);
-  },
-);
+  console.log(response);
+});
 
 export const getVotedIdeaList = createAction<number>(`${prefix}/GET_VOTED_IDEA_LIST`);
 
