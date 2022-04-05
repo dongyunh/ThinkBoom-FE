@@ -81,7 +81,7 @@ export const getIdeaList = createAsyncThunk(`${prefix}/GET_IDEA`, async (roomId:
     `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/voteview/${roomId}`,
   );
 
-  console.log(response);
+  return response.data
 });
 
 export const voteIdea = createAsyncThunk(

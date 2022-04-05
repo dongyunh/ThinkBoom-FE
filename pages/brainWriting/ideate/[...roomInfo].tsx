@@ -4,7 +4,6 @@ import { TutorialIcon } from '@components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { NicknameModal, LimitModal } from '../../../src/components/common';
 import { RoutingAlertModal } from '../../../src/components/common/Modals/RoutingAlertModal';
-import { BWChattingRoom } from '../../../src/components/common/BWChattingRoom';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
 import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';

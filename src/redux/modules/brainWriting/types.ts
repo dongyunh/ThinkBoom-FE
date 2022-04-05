@@ -65,10 +65,7 @@ export type Idea = {
   commentList: { comment: string }[];
 };
 
-export type IdeaList = {
-  subject: string;
-  ideaList: Idea[];
-};
+export type IdeaList = Idea[];
 
 export type BrainWritingState = {
   StartCurrentPage: number;
@@ -90,4 +87,5 @@ export type BrainWritingState = {
   isFirstComment: boolean;
   isLastComment: boolean;
   votedIdeaList: number[];
+  ideaList: IdeaList;
 };

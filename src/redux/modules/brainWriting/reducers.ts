@@ -6,15 +6,14 @@ import {
   clearChatHistory,
   changeIsSubmitState,
   getSubjectBW,
-  postIdea,
   getMessagesBW,
   getUserListBW,
   getRoomIdBW,
-  initializeIdeaCard,
   getTimerData,
   updateStartCurrentPageBW,
   getUserCount,
   getIdea,
+  getIdeaList,
   updateTimerData,
   setIsTimerCalled,
   getUpdatedTimerData,
@@ -50,6 +49,7 @@ const initialState: BrainWritingState = {
   isFirstComment: false,
   isLastComment: false,
   votedIdeaList: [],
+  ideaList: [],
 };
 
 //createReducer로 reducer 생성.
@@ -63,7 +63,6 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     })
     .addCase(getNickname.fulfilled, (state, action) => {
       const { nickname, userId } = action.payload;
-      console.log('닉네임을 저장하겠다', userId);
       state.nickname = nickname;
       state.userId = userId;
     })
@@ -99,6 +98,10 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.ideaId = ideaId;
       state.viewIdea = idea;
       state.isLastComment = isLastComment;
+    })
+    .addCase(getIdeaList.fulfilled, (state, action) => {
+      const { ideaList } = action.payload;
+      state.ideaList = ideaList;
     })
     .addCase(setIsFirstComment, (state, action) => {
       state.isFirstComment = action.payload;
