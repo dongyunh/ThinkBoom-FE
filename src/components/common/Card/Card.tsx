@@ -6,16 +6,18 @@ type CardProps = {
   width: number;
   height: number;
   children?: React.ReactChild;
+  isPointer?: boolean;
 };
 
 type StyleProps = {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
+  isPointer?: boolean;
 };
 
-const Card = ({ width, height, children }: CardProps) => {
+const Card = ({ width, height, children, isPointer = true }: CardProps) => {
   return (
-    <CardWrapper>
+    <CardWrapper isPointer={isPointer}>
       <StyledCard width={width} height={height}>
         {children}
       </StyledCard>
@@ -24,9 +26,9 @@ const Card = ({ width, height, children }: CardProps) => {
   );
 };
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.div<StyleProps>`
   position: relative;
-  cursor: pointer;
+  ${props => props.isPointer && `cursor: pointer;`}
 `;
 
 const StyledCard = styled.div<StyleProps>`
@@ -39,7 +41,6 @@ const StyledCard = styled.div<StyleProps>`
   transition: 0.2s ease-in-out;
   overflow: hidden;
   z-index: 1;
-
   :hover {
     transform: translate(8px, 8px);
   }

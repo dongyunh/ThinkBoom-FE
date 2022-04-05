@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import { CenterLayout } from '../../../common';
 import { VoteCard } from 'components/layout/BrainWriting/VotingRoom/VoteCard';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
-import { VoteCardModal } from 'components/layout/BrainWriting/VotingRoom/VoteCardModal';
 import { getIdeaList, brainWritingSelector } from 'redux/modules/brainWriting';
-import { Modal } from 'components/common/Modals';
-import { useRouter } from 'next/router';
 import useTimer from 'hooks/useTimer';
 
 type VotingRoom = {
