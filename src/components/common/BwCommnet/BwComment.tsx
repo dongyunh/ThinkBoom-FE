@@ -6,7 +6,7 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { CenterLayout } from '../../common';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
 import { getTimerData } from '../../../redux/modules/brainWriting/actions';
-import { Timer } from '../Timer';
+
 type CardProps = {
   width: number;
   height: number;
@@ -14,9 +14,11 @@ type CardProps = {
   onChange?: () => void;
   onClick: () => void;
 };
+
 type StyleProps = {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
+  isFocused?: boolean;
 };
 
 const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => {
@@ -24,6 +26,7 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const [contents, setContents] = useState<string>('');
   const [comment, setComment] = useState<string>('');
   const { nickname, BWtimer } = useAppSelector(brainWritingSelector);
+  const [isFocused, setIsFocused] = useState(false);
   const handleSendMessage = () => {
     contents;
   };
@@ -65,15 +68,17 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
 
   return (
     <CenterLayout>
-      <>
-        <h3>코멘트를 입력해주세요</h3>
+      <Container>
+        <Title>코멘트를 입력해주세요</Title>
         <CardWrapper>
           <StyledCard width={width} height={height}>
             <StlyeSubject>{subject}</StlyeSubject>
             <div></div>
             <StyledIdea onClick={onClick}>{comment}</StyledIdea>
-            <StyledTextarea>
+            <StyledTextarea isFocused={isFocused}>
               <TextField
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 maxLength={200}
                 placeholder="댓글을 입력해주세요."
                 onKeyPress={e => onKeyPress(e)}
@@ -84,14 +89,26 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
             </StyledTextarea>
           </StyledCard>
         </CardWrapper>
-      </>
+      </Container>
     </CenterLayout>
   );
 };
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  align-items: center;
+  gap: 20px;
+`;
+
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: bold;
+`;
+
 const CardWrapper = styled.div`
   position: relative;
-  margin-top: 150px;
 `;
 
 const StyledCard = styled.div<StyleProps>`
@@ -114,20 +131,20 @@ const StlyeSubject = styled.h3`
 const StyledIdea = styled.div`
   height: 50%;
   width: 82%;
-  /* border: 5px solid ${themedPalette.border_1}; */
   border-radius: 12px;
   position: relative;
   text-align: center;
   margin: auto;
   font-size: 20px;
   padding: 30px;
+  overflow-y: scroll;
 `;
 
-const StyledTextarea = styled.div`
+const StyledTextarea = styled.div<StyleProps>`
   height: 25%;
   width: 82%;
   background-color: ${themedPalette.component_2};
-  border: 5px solid ${themedPalette.border_1};
+  border: 5px solid ${props => (props.isFocused ? `#2962ff` : themedPalette.border_1)};
   border-radius: 12px;
   display: flex;
   position: relative;
@@ -137,6 +154,7 @@ const StyledTextarea = styled.div`
   font-size: 20px;
 `;
 const TextField = styled.textarea`
+  padding: 10px;
   width: 70%;
   box-sizing: border-box;
   outline: none;
