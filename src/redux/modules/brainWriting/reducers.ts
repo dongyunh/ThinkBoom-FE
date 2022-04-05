@@ -20,6 +20,7 @@ import {
   setIsTimerCalled,
   getUpdatedTimerData,
   setIsTimerOver,
+  initializeTimerData,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -116,6 +117,10 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     })
     .addCase(setIsTimerOver, (state, action) => {
       state.isTimerOver = action.payload;
+    })
+    .addCase(initializeTimerData, (state, action) => {
+      state.isTimerOver = false;
+      state.isTimerCalled = false;
     })
     .addCase(PURGE, (state, action) => {
       return initialState;

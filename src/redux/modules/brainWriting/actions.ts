@@ -94,3 +94,4 @@ export const getUpdatedTimerData = createAsyncThunk(
 export const updateTimerData = createAction<number | null>(`${prefix}/UPDATE_TIMER_DATA`);
 export const setIsTimerCalled = createAction<boolean>(`${prefix}/SET_IS_TIMER_CALLED`);
 export const setIsTimerOver = createAction<boolean>(`${prefix}/SET_IS_TIMER_OVER`);
+export const initializeTimerData = createAction(`${prefix}/INITIALIZE_TIMER_DATA`);

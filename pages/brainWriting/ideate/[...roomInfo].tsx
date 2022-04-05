@@ -23,6 +23,7 @@ import {
   initializeIdeaCard,
   getTimerBW,
   getIdea,
+  initializeTimerData,
 } from '../../../src/redux/modules/brainWriting';
 
 import { countSelector } from '@redux/modules/CountUser';
@@ -49,7 +50,6 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isFull, setIsFull] = useState(0);
   const [roomTitle, roomId] = roomInfo;
-
 
   const HandleSocket = useSocketHook('brainwriting');
 
@@ -102,7 +102,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     dispatch(getNickname({ bwRoomId: roomId, nickname: enteredName }));
   };
 
-  const handleSendIdea = () => {
+  const handleCompleteIdeaPage = () => {
     handleNextPage(2);
     dispatch(clearChatHistory());
   };
@@ -127,7 +127,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     },
     {
       component: (
-        <BwCard width={510} height={515} subject={BWsubject} onClickComplete={handleSendIdea} />
+        <BwCard
+          width={510}
+          height={515}
+          subject={BWsubject}
+          onClickComplete={handleCompleteIdeaPage}
+        />
       ),
     },
     {

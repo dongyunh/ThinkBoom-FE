@@ -7,6 +7,7 @@ import { CenterLayout } from '../../common';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
 import { getTimerData, getIdea } from '@redux/modules/brainWriting';
 import { useRouter } from 'next/router';
+import useTimer from '@hooks/useTimer';
 
 type CardProps = {
   width: number;
@@ -28,9 +29,7 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const [comment, setComment] = useState<string>('');
   const { nickname, BWtimer, viewIdea } = useAppSelector(brainWritingSelector);
   const [isFocused, setIsFocused] = useState(false);
-  const handleSendMessage = () => {
-    contents;
-  };
+  
   const router = useRouter();
   const roomInfo = router.query.roomInfo as string[];
   const BWRoomId = roomInfo[1];
@@ -50,6 +49,8 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const sendcomment = () => {
     setComment(contents);
   };
+
+  useTimer({ type: 'brainwriting', roomId: BWRoomId });
 
   return (
     <CenterLayout>
