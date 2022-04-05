@@ -50,6 +50,17 @@ export type PostCommentArgType = {
   comment: string;
 };
 
+export type Idea = {
+  ideaId: number;
+  idea: string;
+  commentList: { comment: string }[];
+};
+
+export type IdeaList = {
+  subject: string;
+  ideaList: Idea[];
+};
+
 export type BrainWritingState = {
   StartCurrentPage: number;
   currentPage: number;
