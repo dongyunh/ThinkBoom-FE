@@ -19,7 +19,7 @@ export type BWUserCount = {
 };
 
 export type InitializeIdeaCardArgType = {
-  roomId: string;
+  roomId: RoomId;
 };
 
 export type PostIdeaArgType = {
@@ -29,7 +29,7 @@ export type PostIdeaArgType = {
 };
 
 export type GetNicknameArgType = {
-  roomId: string;
+  roomId: RoomId;
   nickname: string;
 };
 

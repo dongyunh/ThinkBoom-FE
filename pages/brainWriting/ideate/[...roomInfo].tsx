@@ -34,14 +34,14 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, roomId, ideaList } =
     useAppSelector(brainWritingSelector);
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isFull, setIsFull] = useState(0);
-  const [roomTitle, roomId] = roomInfo;
+  const [roomTitle] = roomInfo;
 
   const HandleSocket = useSocketHook('brainwriting');
 
@@ -137,7 +137,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ),
     },
     {
-      component: <VotingRoom />,
+      component: <VotingRoom roomId={roomId} ideaList={ideaList} />,
     },
   ];
 

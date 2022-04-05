@@ -4,15 +4,17 @@ import { CenterLayout } from '../../../common';
 import { VoteCard } from 'components/layout/BrainWriting/VotingRoom/VoteCard';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { getIdeaList, brainWritingSelector } from 'redux/modules/brainWriting';
+import { RoomId, IdeaList } from 'redux/modules/brainWriting/types';
 import useTimer from 'hooks/useTimer';
 
-type VotingRoom = {
+type VotingRoomType = {
   onClick: (arg: string) => void;
+  roomId: RoomId;
+  ideaList: IdeaList;
 };
 
-const VotingRoom = () => {
+const VotingRoom = ({ roomId, ideaList, onClick }: VotingRoomType) => {
   const dispatch = useAppDispatch();
-  const { roomId, ideaList } = useAppSelector(brainWritingSelector);
 
   useEffect(() => {
     dispatch(getIdeaList(roomId));
