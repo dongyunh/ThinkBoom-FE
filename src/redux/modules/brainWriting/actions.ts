@@ -80,7 +80,7 @@ export const getIdeaList = createAsyncThunk(`${prefix}/GET_IDEA`, async (roomId:
     `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/voteview/${roomId}`,
   );
 
-  console.log(response)
+  console.log(response);
 });
 
 export const postComment = createAsyncThunk(
@@ -114,6 +114,17 @@ export const getUpdatedTimerData = createAsyncThunk(
   async (bwRoomId: string | null) => {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/timer/${bwRoomId}`,
+    );
+
+    return response.data;
+  },
+);
+
+export const getVoteTimerData = createAsyncThunk(
+  `${prefix}/GET_VOTE_TIMER_DATA`,
+  async (bwRoomId: string | null) => {
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/vote/timer/${bwRoomId}`,
     );
 
     return response.data;

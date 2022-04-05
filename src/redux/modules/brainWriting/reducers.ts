@@ -21,6 +21,7 @@ import {
   setIsTimerOver,
   initializeTimerData,
   setIsFirstComment,
+  getVoteTimerData,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -106,6 +107,9 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.isTimerCalled = true;
     })
     .addCase(updateTimerData, (state, action) => {
+      state.BWtimer = action.payload;
+    })
+    .addCase(getVoteTimerData, (state, action) => {
       state.BWtimer = action.payload;
     })
     .addCase(setIsTimerCalled, (state, action) => {
