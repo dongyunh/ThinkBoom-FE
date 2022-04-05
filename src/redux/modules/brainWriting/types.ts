@@ -30,7 +30,11 @@ export type GetIdeaType = {
   idea: string;
 };
 
-export type GetIdeaPayLoadType = GetIdeaType[];
+export type GetIdeaPayLoadType = {
+  isFirstComment: boolean;
+  isLastComment: boolean;
+  bwIdeaListItemList: GetIdeaType[];
+};
 
 export type BrainWritingState = {
   StartCurrentPage: number;
@@ -48,4 +52,6 @@ export type BrainWritingState = {
   viewIdea: string;
   isTimerCalled: boolean;
   isTimerOver: boolean;
+  isFirstComment: boolean;
+  isLastComment: boolean;
 };
