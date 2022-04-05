@@ -19,6 +19,7 @@ import {
   getUserListBW,
   updateCurrentPageBW,
   initializeTimerData,
+  setIsFirstComment,
 } from '@redux/modules/brainWriting';
 
 import mixHatsHelper from '@utils/mixHatsHelper';
@@ -132,7 +133,10 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
               toast.info('주제가 공유되었습니다');
             }
             if (response.type === 'NEXTPAGE') {
-              if (response.currentPage === 1 || response.currentPage === 2) {
+              if (response.currentPage === 1) {
+                dispatch(setIsFirstComment(true));
+                dispatch(initializeTimerData());
+              } else if (response.currentPage === 2) {
                 dispatch(initializeTimerData());
               }
               dispatch(updateCurrentPageBW(response.currentPage));

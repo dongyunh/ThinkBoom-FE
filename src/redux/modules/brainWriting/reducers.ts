@@ -21,6 +21,7 @@ import {
   getUpdatedTimerData,
   setIsTimerOver,
   initializeTimerData,
+  setIsFirstComment,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -93,17 +94,18 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.BWUserCount = action.payload;
     })
     .addCase(getIdea.fulfilled, (state, action) => {
-      const { bwIdeaListItemList, isFirstComment, isLastComment } = action.payload;
+      const { bwIdeaListItemList, isLastComment } = action.payload;
       const ideaData = bwIdeaListItemList.filter(data => {
         if (data.viewUserId === state.userId) {
           return data;
         }
       })[0];
       state.viewIdea = ideaData.idea;
-      state.isFirstComment = isFirstComment;
       state.isLastComment = isLastComment;
     })
-
+    .addCase(setIsFirstComment, (state, action) => {
+      state.isFirstComment = action.payload;
+    })
     .addCase(getTimerData.fulfilled, (state, action) => {
       const { timers } = action.payload;
       state.BWtimer = timers;

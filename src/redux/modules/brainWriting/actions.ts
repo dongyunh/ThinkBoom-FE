@@ -32,6 +32,7 @@ export const changeIsSubmitState = createAction<boolean>(`${prefix}/CHANGE_IS_SU
 
 export const clearChatHistory = createAction(`${prefix}/CLEAR_CHAT_HISTORY`);
 export const getUserCount = createAction<BWUserCount>(`${prefix}/GET_TOTAL_USER_COUNT`);
+export const setIsFirstComment = createAction<boolean>(`${prefix}/SET_IS_FIRST_COMMNET`);
 
 export const getNickname = createAsyncThunk(
   `${prefix}/GET_NICKNAME`,

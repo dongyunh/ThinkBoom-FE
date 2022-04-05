@@ -5,7 +5,13 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { CenterLayout } from '../../common';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
-import { getTimerData, getIdea } from '@redux/modules/brainWriting';
+import {
+  getTimerData,
+  getIdea,
+  setIsFirstComment,
+  setIsTimerOver,
+  setIsTimerCalled,
+} from '@redux/modules/brainWriting';
 import { useRouter } from 'next/router';
 import useTimer from '@hooks/useTimer';
 
@@ -27,9 +33,9 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const dispatch = useAppDispatch();
   const [contents, setContents] = useState<string>('');
   const [comment, setComment] = useState<string>('');
-  const { nickname, BWtimer, viewIdea } = useAppSelector(brainWritingSelector);
+  const { BWtimer, viewIdea, isFirstComment, isTimerOver } = useAppSelector(brainWritingSelector);
   const [isFocused, setIsFocused] = useState(false);
-  
+
   const router = useRouter();
   const roomInfo = router.query.roomInfo as string[];
   const BWRoomId = roomInfo[1];
@@ -42,15 +48,32 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
     }
   };
 
+  //처음 불러오는 코멘트일 때만 작동 시켜줄 기능. 이후 새로고침시에 작동x
   useEffect(() => {
-    dispatch(getIdea(BWRoomId));
+    if (isFirstComment) {
+      dispatch(getIdea(BWRoomId));
+      dispatch(setIsFirstComment(false));
+    }
   }, []);
+
+  /**
+   * 타이머가 오버되었을 때,
+   * 1. 아이디어를 새롭게 불러오기
+   * 2. 타임오버를 false로 바꿔주기
+   * 3. 타임호출을 false로 바꿔주기
+   */
+  useEffect(() => {
+    if (isTimerOver) {
+      dispatch(getIdea(BWRoomId));
+      dispatch(setIsTimerOver(false));
+    }
+  }, [isTimerOver]);
 
   const sendcomment = () => {
     setComment(contents);
   };
 
-  useTimer({ type: 'brainwriting', roomId: BWRoomId });
+  useTimer({ type: 'brainwriting', roomId: BWRoomId, isRotate: true });
 
   return (
     <CenterLayout>

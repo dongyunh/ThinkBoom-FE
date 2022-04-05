@@ -12,14 +12,16 @@ import {
 type UseTimerProps = {
   type: 'sixhat' | 'brainwriting';
   roomId: string;
+  isRotate: boolean;
 };
 
-const useTimer = ({ type, roomId }: UseTimerProps) => {
+const useTimer = ({ type, roomId, isRotate }: UseTimerProps) => {
   const dispatch = useAppDispatch();
   const { isTimerCalled, BWtimer } = useAppSelector(brainWritingSelector);
 
+  //타이머 오버시 타이머 반복을 원하지 않을 경우 사용할 useEffect
   useEffect(() => {
-    if (type === 'brainwriting') {
+    if (type === 'brainwriting' || !isRotate) {
       if (!isTimerCalled) {
         dispatch(getTimerData(roomId));
       }
@@ -28,6 +30,18 @@ const useTimer = ({ type, roomId }: UseTimerProps) => {
       }
     }
   }, []);
+
+  //타이머 오버시 타이머 반복을 원하는 경우 사용할 useEffect
+  useEffect(() => {
+    if (type === 'brainwriting' || isRotate) {
+      if (!isTimerCalled) {
+        dispatch(getTimerData(roomId));
+      }
+      if (isTimerCalled) {
+        dispatch(getUpdatedTimerData(roomId));
+      }
+    }
+  }, [isTimerCalled]);
 
   useEffect(() => {
     if (BWtimer !== null) {

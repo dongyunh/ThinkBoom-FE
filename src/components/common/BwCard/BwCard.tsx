@@ -43,7 +43,7 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
     }
   }, [isTimerOver]);
 
-  useTimer({ type: 'brainwriting', roomId: BWRoomId });
+  useTimer({ type: 'brainwriting', roomId: BWRoomId, isRotate: false });
 
   return (
     <CenterLayout>
