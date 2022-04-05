@@ -7,7 +7,6 @@ import { RoutingAlertModal } from '../../../src/components/common/Modals/Routing
 import { BWChattingRoom } from '../../../src/components/common/BWChattingRoom';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
-import { HatType, UserList } from '@redux/modules/sixHat/types';
 import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
 
 import { WaitingRoom, InteractivePage, ShareIcon, ChatIcon } from '@components/common';
@@ -16,23 +15,18 @@ import { BwComment } from '@components/common/BwCommnet';
 import { VotingRoom } from '@components/layout/BrainWriting';
 import {
   getNickname,
-  updateCurrentPageBW,
   brainWritingSelector,
   changeIsSubmitState,
   clearChatHistory,
   initializeIdeaCard,
-  getIdea,
-  initializeTimerData,
 } from '../../../src/redux/modules/brainWriting';
 
-import { countSelector } from '@redux/modules/CountUser';
 import copyUrlHelper from '@utils/copyUrlHelper';
 import { ChattingRoom } from '@components/common';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-//TODO : any 수정하기
 
 type SettingPageProps = {
   roomInfo: string[];
@@ -149,7 +143,6 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     },
   ];
 
-  //닉네임이 없거나, 방이 가득차지 않았다면.
   return (
     <>
       {currentPage === 0 && <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />}
