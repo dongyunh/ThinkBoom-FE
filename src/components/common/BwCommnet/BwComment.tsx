@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { CenterLayout } from '../../common';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
 import {
@@ -23,8 +22,7 @@ type CardProps = {
   width: number;
   height: number;
   subject: string | undefined;
-  onChange?: () => void;
-  onClick: () => void;
+  onClickComplete: () => void;
 };
 
 type StyleProps = {
@@ -33,9 +31,9 @@ type StyleProps = {
   isFocused?: boolean;
 };
 
-const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => {
+const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId, ideaId } =
+  const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId, ideaId, isLastComment } =
     useAppSelector(brainWritingSelector);
 
   const [comment, setComment] = useState<string>('');
@@ -45,7 +43,6 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
   const roomInfo = router.query.roomInfo as string[];
   const BWRoomId = roomInfo[1];
 
-  //처음 불러오는 코멘트일 때만 작동 시켜줄 기능. 이후 새로고침시에 작동x
   useEffect(() => {
     if (isFirstComment) {
       dispatch(getIdea({ roomId: BWRoomId, userId }));
@@ -53,14 +50,14 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
     }
   }, []);
 
-  /**
-   * 타이머가 오버되었을 때,
-   * 1. 아이디어를 새롭게 불러오기
-   * 2. 타임오버를 false로 바꿔주기
-   * 3. 타임호출을 false로 바꿔주기
-   */
   useEffect(() => {
     if (isTimerOver) {
+
+      if (isLastComment) {
+        onClickComplete();
+        return;
+      }
+      
       dispatch(getIdea({ roomId: BWRoomId, userId }));
       dispatch(setIsTimerOver(false));
     }
@@ -71,6 +68,7 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
       toast.info('10초 뒤에 다른 사람의 아이디어를 받게 됩니다. 코멘트 입력을 완료해주세요.');
     }
   }, [BWtimer]);
+
 
   const handlePostComment = () => {
     const postCommentArgData = {

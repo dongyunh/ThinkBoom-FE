@@ -142,7 +142,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
           width={510}
           height={515}
           subject={BWsubject}
-          onClick={handleCompleteCommentPage}
+          onClickComplete={handleCompleteCommentPage}
         />
       ),
     },
