@@ -22,7 +22,7 @@ import {
   clearChatHistory,
   initializeIdeaCard,
   getTimerBW,
-  requsetComment,
+  getIdea,
 } from '../../../src/redux/modules/brainWriting';
 
 import { countSelector } from '@redux/modules/CountUser';
@@ -103,7 +103,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   const handleSendIdea = () => {
     handleNextPage(2);
-    dispatch(requsetComment(roomId));
+    dispatch(getIdea(roomId));
     dispatch(clearChatHistory());
   };
 

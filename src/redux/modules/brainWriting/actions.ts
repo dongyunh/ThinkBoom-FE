@@ -62,10 +62,13 @@ export const postIdea = createAsyncThunk(
   },
 );
 
-export const requsetComment = createAsyncThunk(
-  `${prefix}/GET_REQUEST_COMMENT`,
+export const getIdea = createAsyncThunk(
+  `${prefix}/GET_IDEA`,
   async (bwRoomId: string | null) => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/${bwRoomId}`);
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`,
+    );
+    console.log(response);
     return response;
   },
 );

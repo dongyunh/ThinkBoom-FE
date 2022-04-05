@@ -15,7 +15,7 @@ import {
   getTimerData,
   updateStartCurrentPageBW,
   getUserCount,
-  requsetComment,
+  getIdea,
   updateTimerData,
   setIsTimerCalled,
   getUpdatedTimerData,
@@ -88,7 +88,7 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(getUserCount, (state, action) => {
       state.BWUserCount = action.payload;
     })
-    .addCase(requsetComment.fulfilled, (state, action) => {
+    .addCase(getIdea.fulfilled, (state, action) => {
       const { bwIdeaListItemList } = action.payload.data;
       state.commentData = bwIdeaListItemList;
     })
