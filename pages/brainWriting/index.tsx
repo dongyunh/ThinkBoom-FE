@@ -9,7 +9,7 @@ import {
 } from '@redux/modules/brainWriting';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { getTimerBW, updateStartCurrentPageBW } from '../../src/redux/modules/brainWriting/actions';
+import { updateStartCurrentPageBW } from '../../src/redux/modules/brainWriting/actions';
 
 const BrainWriting = () => {
   const router = useRouter();
@@ -41,7 +41,6 @@ const BrainWriting = () => {
         handleMoveSettingPage(title, roomId);
         handleUpdateAmdinState();
         dispatch(getRoomIdBW(roomId));
-        dispatch(getTimerBW(null));
       });
   };
 

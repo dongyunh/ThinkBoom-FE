@@ -21,7 +21,6 @@ import {
   changeIsSubmitState,
   clearChatHistory,
   initializeIdeaCard,
-  getTimerBW,
   getIdea,
   initializeTimerData,
 } from '../../../src/redux/modules/brainWriting';
@@ -95,7 +94,6 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   const handleStartbrainWriting = () => {
     handleNextPage(1);
-    dispatch(getTimerBW(null));
     dispatch(initializeIdeaCard({ roomId }));
   };
 

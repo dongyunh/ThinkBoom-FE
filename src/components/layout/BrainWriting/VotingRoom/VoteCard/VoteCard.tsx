@@ -8,7 +8,7 @@ import { Modal } from '@components/common/Modals';
 type VoteCardProps = {
   width: number;
   height: number;
-  onClick: () => void;
+  onClick?: () => void;
   children?: React.ReactChild;
 };
 

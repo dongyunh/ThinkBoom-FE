@@ -11,7 +11,6 @@ import {
   getUserListBW,
   getRoomIdBW,
   initializeIdeaCard,
-  getTimerBW,
   getTimerData,
   updateStartCurrentPageBW,
   getUserCount,
@@ -88,9 +87,7 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(getRoomIdBW, (state, action) => {
       state.bwRoomId = action.payload;
     })
-    .addCase(getTimerBW, (state, action) => {
-      state.BWtimer = action.payload;
-    })
+
     .addCase(getUserCount, (state, action) => {
       state.BWUserCount = action.payload;
     })

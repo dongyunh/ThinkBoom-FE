@@ -4,33 +4,42 @@ import { CenterLayout } from '../../../common';
 import { VoteCard } from '@components/layout/BrainWriting/VotingRoom/VoteCard';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
 import { VoteCardModal } from '@components/layout/BrainWriting/VotingRoom/VoteCardModal';
-import { getTimerData, brainWritingSelector } from '@redux/modules/brainWriting';
+import { getIdeaList } from '@redux/modules/brainWriting';
 import { Modal } from '@components/common/Modals';
+import { useRouter } from 'next/router';
 
 type VotingRoom = {
   onClick: (arg: string) => void;
 };
 
 const VotingRoom = () => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   // const { senderId, bwRoomId, BWsubject } = useAppSelector(brainWritingSelector);
-  // useEffect(() => {
-  //   dispatch(getTimerData(bwRoomId));
-  // }, []);
+  const router = useRouter();
+  const roomInfo = router.query.roomInfo as string[];
+  const BWRoomId = roomInfo[1];
+  
+  useEffect(() => {
+    dispatch(getIdeaList(BWRoomId));
+  }, []);
 
   return (
     <CenterLayout>
-      <VoteCard width={330} height={200}>
-        sss
-      </VoteCard>
-      <VoteCard width={330} height={200}>
-        sdsd
-      </VoteCard>
-      <VoteCard width={330} height={200}>
-        sssddd
-      </VoteCard>
+      <Container>
+        <VoteCard width={330} height={200}>
+          sss
+        </VoteCard>
+      </Container>
     </CenterLayout>
   );
 };
+
+const Container = styled.div`
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 330px;
+  grid-auto-columns: 1fr 2fr;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
+`;
 
 export { VotingRoom };

@@ -26,7 +26,6 @@ export const updateCurrentPageBW = createAction<number>(`${prefix}/UPDATE_CURREN
 export const updateAdminState = createAction<boolean>(`${prefix}/UPDATE_ADMIN_STATE`);
 export const getSubjectBW = createAction<string>(`${prefix}/GET_SUBJECT`);
 export const getRoomIdBW = createAction<string>(`${prefix}/GET_ROOMID`);
-export const getTimerBW = createAction<number | null>(`${prefix}/GET_TIMER`);
 export const getMessagesBW = createAction<ChatData>(`${prefix}/GET_MESSAGES`);
 
 export const getUserListBW = createAction<BWUserList>(`${prefix}/GET_USER_LIST`);
@@ -75,6 +74,14 @@ export const getIdea = createAsyncThunk(
     return response.data as GetIdeaPayLoadType;
   },
 );
+
+export const getIdeaList = createAsyncThunk(`${prefix}/GET_IDEA`, async (roomId: string | null) => {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/voteview/${roomId}`,
+  );
+
+  console.log(response)
+});
 
 export const postComment = createAsyncThunk(
   `${prefix}/POST_COMMENT`,
