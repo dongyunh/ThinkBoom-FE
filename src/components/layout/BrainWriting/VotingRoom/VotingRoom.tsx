@@ -7,6 +7,7 @@ import { VoteCardModal } from '@components/layout/BrainWriting/VotingRoom/VoteCa
 import { getIdeaList } from '@redux/modules/brainWriting';
 import { Modal } from '@components/common/Modals';
 import { useRouter } from 'next/router';
+import useTimer from '@hooks/useTimer';
 
 type VotingRoom = {
   onClick: (arg: string) => void;
@@ -18,10 +19,12 @@ const VotingRoom = () => {
   const router = useRouter();
   const roomInfo = router.query.roomInfo as string[];
   const BWRoomId = roomInfo[1];
-  
+
   useEffect(() => {
     dispatch(getIdeaList(BWRoomId));
   }, []);
+
+  useTimer({ type: 'brainwritingVote', roomId: BWRoomId });
 
   return (
     <CenterLayout>

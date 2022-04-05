@@ -52,7 +52,7 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
     }
   }, [BWtimer]);
 
-  useTimer({ type: 'brainwriting', roomId: BWRoomId });
+  useTimer({ type: 'brainwritingIdea', roomId: BWRoomId });
 
   return (
     <>

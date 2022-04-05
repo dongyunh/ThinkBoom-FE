@@ -52,12 +52,11 @@ const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
 
   useEffect(() => {
     if (isTimerOver) {
-
       if (isLastComment) {
         onClickComplete();
         return;
       }
-      
+
       dispatch(getIdea({ roomId: BWRoomId, userId }));
       dispatch(setIsTimerOver(false));
     }
@@ -68,7 +67,6 @@ const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
       toast.info('10초 뒤에 다른 사람의 아이디어를 받게 됩니다. 코멘트 입력을 완료해주세요.');
     }
   }, [BWtimer]);
-
 
   const handlePostComment = () => {
     const postCommentArgData = {
@@ -86,7 +84,7 @@ const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
     }
   };
 
-  useTimer({ type: 'brainwriting', roomId: BWRoomId });
+  useTimer({ type: 'brainwritingIdea', roomId: BWRoomId });
 
   return (
     <>

@@ -7,10 +7,11 @@ import {
   updateTimerData,
   setIsTimerCalled,
   setIsTimerOver,
+  getVoteTimerData,
 } from '@redux/modules/brainWriting';
 
 type UseTimerProps = {
-  type: 'sixhat' | 'brainwriting';
+  type: 'sixhat' | 'brainwritingIdea' | 'brainwritingVote';
   roomId: string;
 };
 
@@ -20,9 +21,18 @@ const useTimer = ({ type, roomId }: UseTimerProps) => {
 
   //타이머 오버시 타이머 반복을 원하지 않을 경우 사용할 useEffect
   useEffect(() => {
-    if (type === 'brainwriting') {
+    if (type === 'brainwritingIdea') {
       if (!isTimerCalled) {
         dispatch(getTimerData(roomId));
+      }
+      if (isTimerCalled) {
+        dispatch(getUpdatedTimerData(roomId));
+      }
+    }
+
+    if (type === 'brainwritingVote') {
+      if (!isTimerCalled) {
+        dispatch(getVoteTimerData(roomId));
       }
       if (isTimerCalled) {
         dispatch(getUpdatedTimerData(roomId));
