@@ -109,8 +109,10 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(updateTimerData, (state, action) => {
       state.BWtimer = action.payload;
     })
-    .addCase(getVoteTimerData, (state, action) => {
-      state.BWtimer = action.payload;
+    .addCase(getVoteTimerData.fulfilled, (state, action) => {
+      const { timers } = action.payload;
+      state.BWtimer = timers;
+      state.isTimerCalled = true;
     })
     .addCase(setIsTimerCalled, (state, action) => {
       state.isTimerCalled = action.payload;
