@@ -49,7 +49,6 @@ export type GetIdeaPayLoadType = {
 
 export type VoteIdeaArgType = {
   userId: UserId;
-  votedIdeaList: number[];
   roomId: string | null;
 };
 
@@ -90,4 +89,5 @@ export type BrainWritingState = {
   isTimerOver: boolean;
   isFirstComment: boolean;
   isLastComment: boolean;
+  votedIdeaList: number[];
 };

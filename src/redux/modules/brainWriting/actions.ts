@@ -1,6 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useAppDispatch } from '@redux/hooks';
+import { RootState } from '../../store';
 import {
   ChatData,
   BWUserData,
@@ -86,7 +86,10 @@ export const getIdeaList = createAsyncThunk(`${prefix}/GET_IDEA`, async (roomId:
 
 export const voteIdea = createAsyncThunk(
   `${prefix}/VOTE_IDEA`,
-  async ({ userId, votedIdeaList, roomId }: VoteIdeaArgType) => {
+  async ({ userId, roomId }: VoteIdeaArgType, { getState }) => {
+    const { brainWriting } = getState() as RootState;
+    const { votedIdeaList } = brainWriting;
+
     const response = await axios.patch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/vote/${roomId}`,
       {
@@ -98,6 +101,8 @@ export const voteIdea = createAsyncThunk(
     console.log(response);
   },
 );
+
+export const getVotedIdeaList = createAction<number>(`${prefix}/GET_VOTED_IDEA_LIST`);
 
 export const postComment = createAsyncThunk(
   `${prefix}/POST_COMMENT`,
