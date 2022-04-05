@@ -18,6 +18,7 @@ const useTimer = ({ type, roomId }: UseTimerProps) => {
   const dispatch = useAppDispatch();
   const { isTimerCalled, BWtimer } = useAppSelector(brainWritingSelector);
 
+  //타이머 오버시 타이머 반복을 원하지 않을 경우 사용할 useEffect
   useEffect(() => {
     if (type === 'brainwriting') {
       if (!isTimerCalled) {
@@ -27,7 +28,7 @@ const useTimer = ({ type, roomId }: UseTimerProps) => {
         dispatch(getUpdatedTimerData(roomId));
       }
     }
-  }, []);
+  }, [isTimerCalled]);
 
   useEffect(() => {
     if (BWtimer !== null) {

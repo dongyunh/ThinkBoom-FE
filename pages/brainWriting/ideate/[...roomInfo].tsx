@@ -22,14 +22,16 @@ import {
   clearChatHistory,
   initializeIdeaCard,
   getTimerBW,
-  requsetComment,
+  getIdea,
+  initializeTimerData,
 } from '../../../src/redux/modules/brainWriting';
 
 import { countSelector } from '@redux/modules/CountUser';
 import copyUrlHelper from '@utils/copyUrlHelper';
+import { ChattingRoom } from '@components/common';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ChattingRoom } from '@components/common';
 
 //TODO : any 수정하기
 
@@ -41,7 +43,7 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, senderId, BWsubject, BWUserCount } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount } =
     useAppSelector(brainWritingSelector);
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
@@ -64,7 +66,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   useEffect(() => {
     if (nickname) {
       ConnectedSocket = new HandleSocket(`${process.env.NEXT_PUBLIC_API_URL}/websocket`);
-      ConnectedSocket.connectBW(senderId, roomId);
+      ConnectedSocket.connectBW(userId, roomId);
     }
   }, [nickname]);
 
@@ -101,13 +103,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     dispatch(getNickname({ bwRoomId: roomId, nickname: enteredName }));
   };
 
-  const handleSendIdea = () => {
+  const handleCompleteIdeaPage = () => {
     handleNextPage(2);
-    dispatch(requsetComment(roomId));
     dispatch(clearChatHistory());
   };
 
-  const handleSendComment = () => {
+  const handleCompleteCommentPage = () => {
     handleNextPage(3);
   };
 
@@ -127,12 +128,22 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     },
     {
       component: (
-        <BwCard width={510} height={515} subject={BWsubject} onClickComplete={handleSendIdea} />
+        <BwCard
+          width={510}
+          height={515}
+          subject={BWsubject}
+          onClickComplete={handleCompleteIdeaPage}
+        />
       ),
     },
     {
       component: (
-        <BwComment width={510} height={515} subject={BWsubject} onClick={handleSendComment} />
+        <BwComment
+          width={510}
+          height={515}
+          subject={BWsubject}
+          onClickComplete={handleCompleteCommentPage}
+        />
       ),
     },
     {
@@ -143,7 +154,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   //닉네임이 없거나, 방이 가득차지 않았다면.
   return (
     <>
-      <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
+      {currentPage === 0 && <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />}
       <InteractivePage pages={pages} currentPage={currentPage} />
       {!nickname && isFull <= 1 && (
         <NicknameModal title={roomTitle} onClick={handleUpdateNickname} />

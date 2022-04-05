@@ -8,6 +8,9 @@ import {
   BWUserList,
   InitializeIdeaCardArgType,
   PostIdeaArgType,
+  GetIdeaPayLoadType,
+  GetIdeaArgType,
+  PostCommentArgType,
 } from './types';
 
 type GetNicknameArgType = {
@@ -31,6 +34,7 @@ export const changeIsSubmitState = createAction<boolean>(`${prefix}/CHANGE_IS_SU
 
 export const clearChatHistory = createAction(`${prefix}/CLEAR_CHAT_HISTORY`);
 export const getUserCount = createAction<BWUserCount>(`${prefix}/GET_TOTAL_USER_COUNT`);
+export const setIsFirstComment = createAction<boolean>(`${prefix}/SET_IS_FIRST_COMMNET`);
 
 export const getNickname = createAsyncThunk(
   `${prefix}/GET_NICKNAME`,
@@ -54,19 +58,37 @@ export const initializeIdeaCard = createAsyncThunk(
 
 export const postIdea = createAsyncThunk(
   `${prefix}/POST_IDEA`,
-  async ({ senderId, idea, bwRoomId }: PostIdeaArgType) => {
+  async ({ userId, idea, bwRoomId }: PostIdeaArgType) => {
     axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`, {
-      userId: senderId,
-      idea: idea,
+      userId,
+      idea,
     });
   },
 );
 
-export const requsetComment = createAsyncThunk(
-  `${prefix}/GET_REQUEST_COMMENT`,
-  async (bwRoomId: string | null) => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/${bwRoomId}`);
-    return response;
+export const getIdea = createAsyncThunk(
+  `${prefix}/GET_IDEA`,
+  async ({ roomId, userId }: GetIdeaArgType) => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${roomId}?userId=${userId}`,
+    );
+    return response.data as GetIdeaPayLoadType;
+  },
+);
+
+export const postComment = createAsyncThunk(
+  `${prefix}/POST_COMMENT`,
+  async ({ ideaId, userId, comment, roomId }: PostCommentArgType) => {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/comment/${roomId}`,
+      {
+        ideaId,
+        userId,
+        comment,
+      },
+    );
+
+    console.log(response);
   },
 );
 
@@ -94,3 +116,4 @@ export const getUpdatedTimerData = createAsyncThunk(
 export const updateTimerData = createAction<number | null>(`${prefix}/UPDATE_TIMER_DATA`);
 export const setIsTimerCalled = createAction<boolean>(`${prefix}/SET_IS_TIMER_CALLED`);
 export const setIsTimerOver = createAction<boolean>(`${prefix}/SET_IS_TIMER_OVER`);
+export const initializeTimerData = createAction(`${prefix}/INITIALIZE_TIMER_DATA`);

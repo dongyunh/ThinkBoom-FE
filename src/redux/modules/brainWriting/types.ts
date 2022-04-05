@@ -20,8 +20,34 @@ export type InitializeIdeaCardArgType = {
 
 export type PostIdeaArgType = {
   bwRoomId: string | null;
-  senderId: number | null;
+  userId: number | null;
   idea: string;
+};
+
+export type GetIdeaArgType = {
+  roomId: string | null;
+  userId: number | null;
+};
+
+export type GetIdeaType = {
+  viewUserId: number;
+  ideaId: number;
+  idea: string;
+};
+
+export type GetIdeaPayLoadType = {
+  isFirstComment: boolean;
+  isLastComment: boolean;
+  viewUserId: number;
+  ideaId: number;
+  idea: string;
+};
+
+export type PostCommentArgType = {
+  userId: number | null;
+  roomId: string | null;
+  ideaId: number;
+  comment: string;
 };
 
 export type BrainWritingState = {
@@ -31,13 +57,16 @@ export type BrainWritingState = {
   isAdmin: boolean;
   BWisSubmit: boolean;
   BWsubject?: string;
-  senderId: number | null;
+  userId: number | null;
+  ideaId: number;
   bwRoomId: string | null;
   BWtimer: number | null;
   BWUserList: BWUserList;
   BWUserCount: BWUserCount;
   chatHistory?: ChatHistoryType;
-  commentData: [];
+  viewIdea: string;
   isTimerCalled: boolean;
   isTimerOver: boolean;
+  isFirstComment: boolean;
+  isLastComment: boolean;
 };
