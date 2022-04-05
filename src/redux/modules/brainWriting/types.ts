@@ -18,6 +18,12 @@ export type InitializeIdeaCardArgType = {
   roomId: string;
 };
 
+export type PostIdeaArgType = {
+  bwRoomId: string | null;
+  senderId: number | null;
+  idea: string;
+};
+
 export type BrainWritingState = {
   StartCurrentPage: number;
   currentPage: number;

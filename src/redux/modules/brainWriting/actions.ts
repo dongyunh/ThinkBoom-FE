@@ -1,17 +1,18 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useAppDispatch } from '@redux/hooks';
-import { ChatData, BWUserData, BWUserCount, BWUserList, InitializeIdeaCardArgType } from './types';
+import {
+  ChatData,
+  BWUserData,
+  BWUserCount,
+  BWUserList,
+  InitializeIdeaCardArgType,
+  PostIdeaArgType,
+} from './types';
 
 type GetNicknameArgType = {
   bwRoomId: string;
   nickname: string;
-};
-
-type PostIdeaArgType = {
-  bwRoomid: string | null;
-  senderId: number | null;
-  idea: string;
 };
 
 const prefix = 'brainWriting';
@@ -53,8 +54,8 @@ export const initializeIdeaCard = createAsyncThunk(
 
 export const postIdea = createAsyncThunk(
   `${prefix}/POST_IDEA`,
-  async ({ senderId, idea, bwRoomid }: PostIdeaArgType) => {
-    axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomid}`, {
+  async ({ senderId, idea, bwRoomId }: PostIdeaArgType) => {
+    axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/idea/${bwRoomId}`, {
       userId: senderId,
       idea: idea,
     });

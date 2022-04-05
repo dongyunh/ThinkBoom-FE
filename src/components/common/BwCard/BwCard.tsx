@@ -34,7 +34,7 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
   const BWRoomId = roomInfo[1];
 
   const SendIdea = () => {
-    dispatch(postIdea({ senderId, idea, bwRoomid: bwRoomId }));
+    dispatch(postIdea({ senderId, idea, bwRoomId }));
   };
 
   useEffect(() => {
