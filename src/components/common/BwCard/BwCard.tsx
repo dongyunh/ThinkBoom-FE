@@ -62,7 +62,7 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
           <Empty />
           <CardWrapper>
             <StyledCard width={width} height={height}>
-              <StlyeSubject>{subject}</StlyeSubject>
+              <Subject>{subject}</Subject>
               <StyledIdea onChange={e => setIdea(e.target.value)}>{children}</StyledIdea>
               <StyledButton onClick={SendIdea}>작성</StyledButton>
             </StyledCard>
@@ -106,7 +106,7 @@ const StyledCard = styled.div<StyleProps>`
   margin: auto;
 `;
 
-const StlyeSubject = styled.h3`
+const Subject = styled.h3`
   text-align: center;
   font-size: 28px;
 `;

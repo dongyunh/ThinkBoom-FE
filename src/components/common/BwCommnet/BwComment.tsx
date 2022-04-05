@@ -35,10 +35,10 @@ type StyleProps = {
 
 const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => {
   const dispatch = useAppDispatch();
-  const [contents, setContents] = useState<string>('');
-  const [comment, setComment] = useState<string>('');
   const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId, ideaId } =
     useAppSelector(brainWritingSelector);
+
+  const [comment, setComment] = useState<string>('');
   const [isFocused, setIsFocused] = useState(false);
 
   const router = useRouter();
@@ -98,7 +98,7 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
           <Title>코멘트를 입력해주세요</Title>
           <CardWrapper>
             <StyledCard width={width} height={height}>
-              <StlyeSubject>{subject}</StlyeSubject>
+              <Subject>{subject}</Subject>
               <OtherIdea>{viewIdea}</OtherIdea>
               <MyComment>{comment}</MyComment>
               <StyledTextarea isFocused={isFocused}>
@@ -108,9 +108,8 @@ const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => 
                   maxLength={200}
                   placeholder="코멘트를 입력해주세요"
                   onKeyPress={e => onKeyPress(e)}
-                  onChange={e => setContents(e.target.value)}
+                  onChange={e => setComment(e.target.value)}
                 />
-
                 <StyledButton onClick={handlePostComment}>입력</StyledButton>
               </StyledTextarea>
             </StyledCard>
@@ -150,7 +149,7 @@ const StyledCard = styled.div<StyleProps>`
   margin: auto;
 `;
 
-const StlyeSubject = styled.h3`
+const Subject = styled.h3`
   text-align: center;
   font-size: 28px;
 `;
