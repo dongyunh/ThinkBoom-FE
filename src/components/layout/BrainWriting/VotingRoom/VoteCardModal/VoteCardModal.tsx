@@ -11,12 +11,6 @@ interface propsType {
   closeModal: () => void;
 }
 const VoteCardModal = (props: propsType) => {
-  const router = useRouter();
-
-  const moveToMain = () => {
-    router.push('/');
-  };
-
   return (
     <VoteModal>
       <>
