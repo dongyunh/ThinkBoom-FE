@@ -8,18 +8,28 @@ import { Modal } from 'components/common/Modals';
 type VoteCardProps = {
   width: number;
   height: number;
-  onClick: () => void;
   children?: React.ReactChild;
   idea: string;
   commentList: string[];
+  isVoted: boolean;
+  onClick: () => void;
 };
 
 type StyleProps = {
   width: number;
   height: number;
+  isVoted?: boolean;
 };
 
-const VoteCard = ({ width, height, onClick, children, idea, commentList }: VoteCardProps) => {
+const VoteCard = ({
+  width,
+  height,
+  onClick,
+  children,
+  idea,
+  commentList,
+  isVoted,
+}: VoteCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -34,7 +44,7 @@ const VoteCard = ({ width, height, onClick, children, idea, commentList }: VoteC
   return (
     <>
       <CardWrapper>
-        <StyledCard width={width} height={height} onClick={handleOnClick}>
+        <StyledCard width={width} height={height} onClick={handleOnClick} isVoted={isVoted}>
           {children}
           <CheckBox>
             <CheckCircleOutlineIcon sx={{ fontSize: 45 }} onClick={handleVote} />
@@ -66,6 +76,13 @@ const StyledCard = styled.div<StyleProps>`
     transform: translate(8px, 8px);
     background-color: #e6e6e6;
   }
+
+  ${props =>
+    props.isVoted &&
+    `
+      transform: translate(8px, 8px);
+    background-color: #e6e6e6;
+  `}
 `;
 
 const AfterCard = styled.div<StyleProps>`

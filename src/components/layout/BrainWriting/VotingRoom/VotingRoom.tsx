@@ -19,6 +19,8 @@ type VotingRoomType = {
 
 const VotingRoom = ({ roomId, ideaList }: VotingRoomType) => {
   const dispatch = useAppDispatch();
+  const { votedIdeaList } = useAppSelector(brainWritingSelector);
+  const setVotedIdeaList = new Set(votedIdeaList);
 
   useEffect(() => {
     dispatch(getIdeaList(roomId));
@@ -44,6 +46,7 @@ const VotingRoom = ({ roomId, ideaList }: VotingRoomType) => {
                 key={data.ideaId}
                 idea={data.idea}
                 commentList={data.commentList}
+                isVoted={setVotedIdeaList.has(data.ideaId)}
                 width={330}
                 height={200}
                 onClick={() => handleGetVotedIdeaList(data.ideaId)}
