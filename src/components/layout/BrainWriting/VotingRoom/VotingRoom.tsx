@@ -26,10 +26,16 @@ const VotingRoom = () => {
   return (
     <CenterLayout>
       <Container>
-        {ideaList.map(idea => {
+        {ideaList.map(data => {
           return (
-            <VoteCard key={idea.ideaId} width={330} height={200}>
-              {idea.idea}
+            <VoteCard
+              key={data.ideaId}
+              idea={data.idea}
+              commentList={data.commentList}
+              width={330}
+              height={200}
+            >
+              {data.idea}
             </VoteCard>
           );
         })}

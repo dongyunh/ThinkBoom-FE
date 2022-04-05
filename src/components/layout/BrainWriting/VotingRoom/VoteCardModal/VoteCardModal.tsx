@@ -1,24 +1,23 @@
 import React from 'react';
 import { VoteModal } from '@components/common/Modals';
-import { Button } from '@components/common';
-import styled from 'styled-components';
-import { themedPalette } from '../../../../../theme/styleTheme';
-import { useRouter } from 'next/router';
 import { DetailCard } from '../DetailCard';
 import CloseIcon from '@mui/icons-material/Close';
 
-interface propsType {
+type VoteCardModalProps = {
   closeModal: () => void;
-}
-const VoteCardModal = (props: propsType) => {
+  idea: string;
+  commentList: string[];
+};
+
+const VoteCardModal = ({ closeModal, idea, commentList }: VoteCardModalProps) => {
   return (
     <VoteModal>
       <>
         <DetailCard width={400} height={630}>
-          sdsss
+          {idea}
         </DetailCard>
         <CloseIcon
-          onClick={props.closeModal}
+          onClick={closeModal}
           sx={{ position: 'absolute', top: 30, left: 340, cursor: 'pointer' }}
         />
       </>

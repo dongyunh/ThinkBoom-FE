@@ -10,6 +10,8 @@ type VoteCardProps = {
   height: number;
   onClick?: () => void;
   children?: React.ReactChild;
+  idea: string;
+  commentList: string[];
 };
 
 type StyleProps = {
@@ -17,7 +19,7 @@ type StyleProps = {
   height: number;
 };
 
-const VoteCard = ({ width, height, onClick, children }: VoteCardProps) => {
+const VoteCard = ({ width, height, onClick, children, idea, commentList }: VoteCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const closeModal = () => {
     setIsModalOpen(false);
@@ -41,7 +43,9 @@ const VoteCard = ({ width, height, onClick, children }: VoteCardProps) => {
         </StyledCard>
         <AfterCard width={width} height={height} />
       </CardWrapper>
-      {isModalOpen && <VoteCardModal closeModal={closeModal} />}
+      {isModalOpen && (
+        <VoteCardModal idea={idea} commentList={commentList} closeModal={closeModal} />
+      )}
     </>
   );
 };

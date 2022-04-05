@@ -67,7 +67,7 @@ export type PostCommentArgType = {
 export type Idea = {
   ideaId: number;
   idea: string;
-  commentList: { comment: string }[];
+  commentList: string[];
 };
 
 export type IdeaList = Idea[];
