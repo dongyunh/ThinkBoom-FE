@@ -4,7 +4,7 @@ import { themedPalette } from '../../../theme';
 import CloseIcon from '@mui/icons-material/Close';
 import { Message } from './Message';
 import { ChatTextField } from './ChatTextField';
-import { ChatHistoryType } from '@redux/modules/sixHat/types';
+import { ChatHistoryType } from 'redux/modules/sixHat/types';
 
 type ChattingRoomType = {
   chatHistory?: ChatHistoryType;
@@ -18,8 +18,6 @@ const ChattingRoom = ({ chatHistory, myNickname, onClick, sendMessage }: Chattin
     if (!onClick) return;
     onClick();
   };
-
-  console.log(chatHistory);
 
   return (
     <Container>

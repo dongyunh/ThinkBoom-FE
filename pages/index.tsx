@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
 import type { NextPage } from 'next';
 import styled from 'styled-components';
-import { Main } from '@components/layout/Main';
+import { Main } from 'components/layout/Main';
 import { useRouter } from 'next/router';
-import { DarkModeToggle } from '@components/common/DarkModeToggle';
-import { useAppDispatch } from '@redux/hooks';
-import { enableDarkMode, enableLightMode } from '@redux/modules/darkMode';
+import { DarkModeToggle } from 'components/common/DarkModeToggle';
+import { useAppDispatch } from 'redux/hooks';
+import { enableDarkMode, enableLightMode } from 'redux/modules/darkMode';
 import BGMainLeft from '../public/asset/backgrounds/bg_main_left.png';
 import BGDarkMainLeft from '../public/asset/backgrounds/bg_dark_main_left.png';
 import BGMainRight from '../public/asset/backgrounds/bg_main_right.png';
 import BGDarkMainRight from '../public/asset/backgrounds/bg_dark_main_right.png';
 import Image from 'next/image';
-import { useThemeEffect } from '@hooks/useThemeEffect';
-import { themedPalette } from '@theme/styleTheme';
+import { useThemeEffect } from 'hooks/useThemeEffect';
+import { themedPalette } from 'theme/styleTheme';
 
 import { Title, Desc } from '../src/components/common';
 import { persistor } from './_app';
@@ -57,7 +57,7 @@ const Home: NextPage = () => {
               <Desc text="1인용" />
             </CardContent>
           </Main.Card>
-          <Main.Card width={280} height={330}>
+          <Main.Card width={280} height={330} onMouseUp={() => router.push('/brainWriting')}>
             <CardContent>
               <Title text="브레인 라이팅" />
               <Desc text="다양한 의견을 공유하고 싶다면?" />

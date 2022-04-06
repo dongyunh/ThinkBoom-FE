@@ -88,7 +88,6 @@ export const sixHatReducer = createReducer(initialState, builder => {
       state.subject = action.payload;
     })
     .addCase(getSixHatResult.fulfilled, (state, action) => {
-      console.log(action.payload);
     })
     .addCase(getUserCount, (state, action) => {
       state.userCount = action.payload;

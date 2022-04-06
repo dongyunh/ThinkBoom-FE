@@ -1,37 +1,30 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
-import { InteractivePage, WaitingRoom, ShareIcon, ChatIcon } from '../../../src/components/common';
-import { TutorialIcon } from '@components/common/Icon/TutorialIcon';
+import { TutorialIcon } from 'components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { NicknameModal, LimitModal } from '../../../src/components/common';
 import { RoutingAlertModal } from '../../../src/components/common/Modals/RoutingAlertModal';
-import { BWChattingRoom } from '../../../src/components/common/BWChattingRoom';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
-import { HatType, UserList } from '@redux/modules/sixHat/types';
-import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
+import { selectPermit, setIsMessageArrived } from 'redux/modules/permit';
 
-import { BWWaitingRoom } from '@components/common/BWWaitingRoom';
-import { BwCard } from '../../../src/components/common/BwCard';
-import { BwComment } from '@components/common/BwCommnet';
-import { VotingRoom } from '@components/layout/BrainWriting';
+import { WaitingRoom, InteractivePage, ShareIcon, ChatIcon } from 'components/common';
+import { BwCard, BwComment } from 'components/common';
+import { VotingRoom } from 'components/layout/BrainWriting';
 import {
   getNickname,
-  updateCurrentPageBW,
   brainWritingSelector,
   changeIsSubmitState,
-  clearChatHistory,
-  ideaCardCreate,
-  getTimerBW,
-  requsetComment,
-} from '../../../src/redux/modules/brainWriting';
+  initializeIdeaCard,
+  getRoomId,
+} from 'redux/modules/brainWriting';
 
-import { countSelector } from '@redux/modules/CountUser';
-import copyUrlHelper from '@utils/copyUrlHelper';
+import saveBwResult from 'utils/saveBwResult';
+import copyUrlHelper from 'utils/copyUrlHelper';
+import { ChattingRoom } from 'components/common';
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-//TODO : any 수정하기
 
 type SettingPageProps = {
   roomInfo: string[];
@@ -41,10 +34,8 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, senderId, BWsubject, BWUserCount } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, isAdmin } =
     useAppSelector(brainWritingSelector);
-  console.log(currentPage, '대기방 현재페이지');
-  console.log(BWUserCount, 'usercount');
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 
@@ -53,6 +44,10 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const [roomTitle, roomId] = roomInfo;
 
   const HandleSocket = useSocketHook('brainwriting');
+
+  useEffect(() => {
+    dispatch(getRoomId(roomId));
+  }, []);
 
   useEffect(() => {
     if (BWUserCount.totalUser !== 0) {
@@ -66,59 +61,53 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   useEffect(() => {
     if (nickname) {
       ConnectedSocket = new HandleSocket(`${process.env.NEXT_PUBLIC_API_URL}/websocket`);
-      ConnectedSocket.connectBW(senderId, roomId);
+      ConnectedSocket.connectBW(userId, roomId);
     }
   }, [nickname]);
 
   useEffect(() => {
     window.onbeforeunload = function () {
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('BW');
     };
     return () => {
       window.onbeforeunload = null;
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('BW');
     };
   }, []);
 
-  const BWsendMessage = (message: string) => {
-    ConnectedSocket.BWsendMessage(nickname, message);
+  const sendMessage = (message: string) => {
+    ConnectedSocket.sendMessage(nickname, message);
   };
 
-  // const handelSendDebatingMessage = (message: string) => {
-  //   ConnectedSocket.sendMessageDB(nickname, message);
-  // };
-
   const handleNextPage = (pageNum: number) => {
-    ConnectedSocket.BWsendCurrentPage(pageNum);
+    ConnectedSocket.sendCurrentPage(pageNum);
   };
 
   const handleSubmitSubject = (subject?: string) => {
-    ConnectedSocket.BWsubmitSubject(subject);
+    ConnectedSocket.submitSubject(subject);
     dispatch(changeIsSubmitState(true));
   };
 
   const handleStartbrainWriting = () => {
     handleNextPage(1);
-    dispatch(getTimerBW(null));
-    dispatch(ideaCardCreate({ shareRoomId: roomId, senderId }));
+    dispatch(initializeIdeaCard({ roomId }));
   };
 
   const handleUpdateNickname = async (enteredName: string) => {
-    dispatch(getNickname({ bwRoomId: roomId, nickname: enteredName }));
+    dispatch(getNickname({ roomId, nickname: enteredName }));
   };
 
-  // const handleSendRandomHat = (userHatList: UserList) => {
-  //   ConnectedSocket.sendRandomHatData(userHatList);
-  // };
-
-  const handleSendIdea = () => {
-    handleNextPage(2);
-    dispatch(requsetComment(roomId));
-    dispatch(clearChatHistory());
+  const handleCompleteIdeaPage = () => {
+    if (isAdmin) return handleNextPage(2);
   };
 
-  const handleSendComment = () => {
-    handleNextPage(3);
+  const handleCompleteCommentPage = () => {
+    if (isAdmin) return handleNextPage(3);
+  };
+
+  const handleCompleteVotePage = async () => {
+    await saveBwResult(roomId);
+    await handleNextPage(4);
   };
 
   const handleChatOpen = () => {
@@ -129,7 +118,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const pages = [
     {
       component: (
-        <BWWaitingRoom
+        <WaitingRoom
           onClickSubmit={handleSubmitSubject}
           onClickComplete={handleStartbrainWriting}
         />
@@ -137,23 +126,32 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     },
     {
       component: (
-        <BwCard width={510} height={515} subject={BWsubject} onClickComplete={handleSendIdea} />
+        <BwCard
+          width={510}
+          height={515}
+          subject={BWsubject}
+          onClickComplete={handleCompleteIdeaPage}
+        />
       ),
     },
     {
       component: (
-        <BwComment width={510} height={515} subject={BWsubject} onClick={handleSendComment} />
+        <BwComment
+          width={510}
+          height={515}
+          subject={BWsubject}
+          onClickComplete={handleCompleteCommentPage}
+        />
       ),
     },
     {
-      component: <VotingRoom />,
+      component: <VotingRoom roomId={roomId} onClickComplete={handleCompleteVotePage} />,
     },
   ];
 
-  //닉네임이 없거나, 방이 가득차지 않았다면.
   return (
     <>
-      <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />
+      {currentPage === 0 && <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />}
       <InteractivePage pages={pages} currentPage={currentPage} />
       {!nickname && isFull <= 1 && (
         <NicknameModal title={roomTitle} onClick={handleUpdateNickname} />
@@ -164,7 +162,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
         <ShareIcon />
       </ShareIconWrapper>
       {currentPage !== 4 && (
-        <ChatWrapper onClick={() => setIsChatOpen(!isChatOpen)}>
+        <ChatWrapper onClick={handleChatOpen}>
           <ChatIcon isChatOpen={isChatOpen} />
         </ChatWrapper>
       )}
@@ -172,13 +170,13 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
         <TutorialIcon type="brainWriting" />
       </TutorialIconWrapper>
 
-      {isChatOpen && (
+      {isChatOpen && currentPage !== 4 && (
         <ChattingContainer>
-          <BWChattingRoom
+          <ChattingRoom
             myNickname={nickname}
             chatHistory={chatHistory}
             onClick={handleChatOpen}
-            sendMessage={BWsendMessage}
+            sendMessage={sendMessage}
           />
         </ChattingContainer>
       )}
@@ -213,10 +211,10 @@ const ChattingContainer = styled.div`
   position: fixed;
   right: 70px;
   bottom: 130px;
+  z-index: 9999;
 `;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  console.log(context);
   const { query } = context;
   const { roomInfo } = query;
   return {

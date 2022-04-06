@@ -2,10 +2,20 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { CenterLayout, PrimaryButton } from '../../common';
-import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { postIdea, timerData, ideaCardCreate } from '../../../redux/modules/brainWriting/actions';
-import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
-import { Timer } from '../Timer';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import {
+  brainWritingSelector,
+  updateTimerData,
+  postIdea,
+  getTimerData,
+  getUpdatedTimerData,
+} from 'redux/modules/brainWriting';
+import { useRouter } from 'next/router';
+import useTimer from 'hooks/useTimer';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 type CardProps = {
   width: number;
   height: number;
@@ -20,69 +30,64 @@ type StyleProps = {
 
 const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { senderId, bwRoomId, BWsubject, nickname, BWtimer, BWisAdmin } =
-    useAppSelector(brainWritingSelector);
-  const [disabled, setDisabled] = useState();
+  const { userId, roomId, isAdmin, isTimerOver, BWtimer } = useAppSelector(brainWritingSelector);
   const [idea, setIdea] = useState<string>('');
+
   const SendIdea = () => {
-    dispatch(postIdea({ senderId, idea, bwRoomid: bwRoomId }));
+    dispatch(postIdea({ userId, idea, roomId }));
   };
 
-  const shareRoomId = window.location.pathname.split('/')[4];
-  const [seconds, setSeconds] = useState(BWtimer);
   useEffect(() => {
-    if (nickname) {
-      dispatch(timerData(shareRoomId));
+    if (isTimerOver) {
+      onClickComplete();
     }
-  }, []);
-  //BWtimer= res.timerData
+  }, [isTimerOver]);
 
   useEffect(() => {
-    if (seconds == null) {
-      setSeconds(BWtimer);
+    if (BWtimer === 10) {
+      toast.info('10초 뒤에 아이디어 입력이 완료됩니다. 아이디어 입력을 완료해주세요.');
     }
   }, [BWtimer]);
 
-  useEffect(() => {
-    if (seconds !== null) {
-      const interval = setInterval(() => {
-        if (seconds === 0) clearInterval(interval);
-        else setSeconds(seconds - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [seconds]);
-
-  console.log(BWtimer, '리덕스 저장 타이머, BWtimer');
-  console.log(seconds, '현 페이지 타이머,seconds state');
+  useTimer({ type: 'brainwritingIdea', roomId });
 
   return (
-    <CenterLayout>
-      <>
-        <Timer seconds={seconds} />
-        <CardWrapper>
-          <StyledCard width={width} height={height}>
-            <StlyeSubject>{subject}</StlyeSubject>
-            <StyledIdea onChange={e => setIdea(e.target.value)}>{children}</StyledIdea>
-            <StyledButton onClick={SendIdea}>작성</StyledButton>
-          </StyledCard>
-        </CardWrapper>
-        <ButtonWrapper>
-          {BWisAdmin ? (
-            <PrimaryButton text="완료" disabled={!BWisAdmin} onClick={onClickComplete} />
-          ) : null}
-        </ButtonWrapper>
-      </>
-    </CenterLayout>
+    <>
+      <ToastContainer position="bottom-left" autoClose={10000} theme="dark" />
+      <CenterLayout>
+        <Container>
+          <Empty />
+          <CardWrapper>
+            <StyledCard width={width} height={height}>
+              <Subject>{subject}</Subject>
+              <StyledIdea onChange={e => setIdea(e.target.value)}>{children}</StyledIdea>
+              <StyledButton onClick={SendIdea}>작성</StyledButton>
+            </StyledCard>
+          </CardWrapper>
+          <ButtonWrapper>
+            {isAdmin ? (
+              <PrimaryButton text="완료" disabled={!isAdmin} onClick={onClickComplete} />
+            ) : null}
+          </ButtonWrapper>
+        </Container>
+      </CenterLayout>
+    </>
   );
 };
 
+const Empty = styled.div``;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+`;
+
 const CardWrapper = styled.div`
   position: relative;
-  margin-top: 150px;
+  padding-bottom: 50px;
 `;
 const ButtonWrapper = styled.div`
-  padding-top: 10px;
   margin: auto;
 `;
 
@@ -98,7 +103,7 @@ const StyledCard = styled.div<StyleProps>`
   margin: auto;
 `;
 
-const StlyeSubject = styled.h3`
+const Subject = styled.h3`
   text-align: center;
   font-size: 28px;
 `;
@@ -114,6 +119,11 @@ const StyledIdea = styled.textarea`
   font-size: 20px;
   resize: none;
   padding: 30px;
+  outline: none;
+  transition: 0.3s ease-in-out;
+  :focus {
+    border: 5px solid #2962ff;
+  }
 `;
 
 const StyledButton = styled.button`

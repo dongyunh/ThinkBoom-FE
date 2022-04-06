@@ -1,8 +1,8 @@
 import React from 'react';
-import { StartPage, InteractivePage } from '@components/common';
-import { SelectWord, Setting } from '@components/layout/RandomWord';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
-import { updateCurrentPage, randomWordSelector } from '@redux/modules/randomWord';
+import { StartPage, InteractivePage } from 'components/common';
+import { SelectWord, Setting } from 'components/layout/RandomWord';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { updateCurrentPage, randomWordSelector } from 'redux/modules/randomWord';
 
 const RandomWord = () => {
   const dispatch = useAppDispatch();
@@ -33,5 +33,5 @@ const RandomWord = () => {
 
   return <InteractivePage pages={pages} currentPage={currentPage} />;
 };
-console.log('확인!');
+
 export default RandomWord;

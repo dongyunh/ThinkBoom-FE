@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import { sixHatSelector } from '@redux/modules/sixHat';
-import { getSubjectRW } from '@redux/modules/randomWord/actions';
+import { sixHatSelector } from 'redux/modules/sixHat';
+import { getSubjectRW } from 'redux/modules/randomWord/actions';
 import BGSubjectLeft from '../../../../public/asset/backgrounds/bg_subject_left.png';
 import BGSubjectRight from '../../../../public/asset/backgrounds/bg_subject_right.png';
 import Image from 'next/image';
 import { makeStyles } from '@mui/styles';
+import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
 
 const useStyles = makeStyles({
   arrow: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
 });
 
 type SubjectTextFieldProps = {
-  type?: 'randomWord' | 'sixHat';
+  type?: 'randomWord' | 'sixHat' | 'brainWriting';
   onChange?: (e: string) => void;
   onClick?: (arg?: string) => void;
   isAdmin?: boolean;
@@ -30,7 +31,8 @@ type StyledProps = {
 
 const SubjectTextField = ({ type, onChange, onClick, isAdmin = true }: SubjectTextFieldProps) => {
   const dispatch = useAppDispatch();
-  const { subject: enteredSubject } = useAppSelector(sixHatSelector);
+  const { subject: SHEnteredSubject } = useAppSelector(sixHatSelector);
+  const { BWsubject: BWEnteredSubject } = useAppSelector(brainWritingSelector);
   const [subject, setSubject] = useState<string>('');
   const classes = useStyles();
 
@@ -45,6 +47,11 @@ const SubjectTextField = ({ type, onChange, onClick, isAdmin = true }: SubjectTe
       if (!onClick) return;
       onClick(subject);
     }
+
+    if (type == 'brainWriting') {
+      if (!onClick) return;
+      onClick(subject);
+    }
   };
 
   return (
@@ -56,7 +63,7 @@ const SubjectTextField = ({ type, onChange, onClick, isAdmin = true }: SubjectTe
         <TextFieldBox disabled={!isAdmin}>
           <TextField
             maxLength={28}
-            defaultValue={enteredSubject}
+            defaultValue={type === 'sixHat' ? SHEnteredSubject : BWEnteredSubject}
             disabled={!isAdmin}
             onChange={e => setSubject(e.target.value)}
           />

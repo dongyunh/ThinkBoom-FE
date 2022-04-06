@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { ResultBox } from '../../../src/components/layout/SixHat';
-import { CenterLayout, PrimaryButton } from '@components/common';
-import { ResultModal } from '@components/common/Modals';
+import { CenterLayout, PrimaryButton } from 'components/common';
+import { ResultModal } from 'components/common/Modals';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { getDetailGallery, selectGallery } from '@redux/modules/gallery';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
-import { DetailArgType } from '@redux/modules/gallery/types';
+import { getDetailGallery, selectGallery } from 'redux/modules/gallery';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 
 type ResultProps = {
   shRoomId: string;

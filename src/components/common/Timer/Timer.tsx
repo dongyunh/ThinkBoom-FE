@@ -18,38 +18,34 @@ const Timer = ({ seconds }: TimerProps) => {
           {formatTime(mm)}:{formatTime(ss)}
         </Count>
       </TimerBox>
-      <Play />
     </Box>
   );
 };
 
 const Box = styled.div`
-  width: 200px;
-  height: 60px;
-  border: 5px solid #000000;
+  width: 110px;
+  height: 50px;
+  border: 5px solid ${themedPalette.main_text1};
   border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  background-color: #000;
+  background-color: ${themedPalette.timer};
 `;
 
 const TimerBox = styled.div`
-  width: 70%;
-  background-color: #fff;
-  border-radius: 12px 0 0 12px;
   display: flex;
-  margin: auto;
 `;
+
 const Count = styled.div`
-  width: 100%;
   color: ${themedPalette.main_text1};
   text-align: center;
-  font-size: 30px;
+  font-size: 24px;
 `;
+
 const Play = styled.div`
-  width: 10%;
+  width: 15%;
   margin: auto;
   border-color: transparent transparent transparent #fff;
   border-style: solid solid solid solid;

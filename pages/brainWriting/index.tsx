@@ -1,29 +1,27 @@
 import React, { useEffect } from 'react';
 import { InteractivePage, StartPage, MakeRoomModal } from '../../src/components/common';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   updateCurrentPageBW,
   brainWritingSelector,
   updateAdminState,
-  getRoomIdBW,
-} from '@redux/modules/brainWriting';
+  getRoomId,
+} from 'redux/modules/brainWriting';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { getTimerBW, updateStartCurrentPageBW } from '../../src/redux/modules/brainWriting/actions';
+import { updateStartCurrentPageBW } from '../../src/redux/modules/brainWriting/actions';
 
 const BrainWriting = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { currentPage, StartCurrentPage } = useAppSelector(brainWritingSelector);
-  console.log(currentPage, '현재페이지,index쪽 current');
-  console.log(StartCurrentPage, '현재페이지,index쪽 startcurrent');
 
   const handleNextPage = (pageNum: number) => {
     dispatch(updateStartCurrentPageBW(pageNum));
   };
 
   const handleMoveSettingPage = (title: string | null, roomId: string) => {
-    router.push(`/brainWriting/debating/${title}/${roomId}`);
+    router.push(`/brainWriting/ideate/${title}/${roomId}`);
   };
 
   const handleUpdateAmdinState = () => {
@@ -39,18 +37,15 @@ const BrainWriting = () => {
         time,
       })
       .then(res => {
-        console.log(res);
         const { roomId } = res.data;
         handleMoveSettingPage(title, roomId);
         handleUpdateAmdinState();
-        dispatch(getRoomIdBW(roomId));
-        dispatch(getTimerBW(null));
+        dispatch(getRoomId(roomId));
       });
   };
 
   useEffect(() => {
     return () => {
-      console.log('확인!');
       dispatch(updateCurrentPageBW(0));
     };
   }, []);

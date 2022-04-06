@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { Button } from '../../../common';
 import styled from 'styled-components';
-import { themedPalette } from '@theme/styleTheme';
+import { themedPalette } from 'theme/styleTheme';
 
 type ResultModalProps = {
   onClickBtn1: () => void;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { CenterLayout, SubjectTextField } from '@components/common';
+import { CenterLayout, SubjectTextField } from 'components/common';
 import styled from 'styled-components';
-import { themedPalette } from '@theme/styleTheme';
+import { themedPalette } from 'theme/styleTheme';
 
 type SettingProps = {
   onClick: () => void;

@@ -1,4 +1,4 @@
-import { HatType, UserList } from '@redux/modules/sixHat/types';
+import { HatType, UserList } from 'redux/modules/sixHat/types';
 
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
@@ -26,7 +26,7 @@ const mixHatsHelper = (users: UserList) => {
     if (tmpHatArr.size === 0) {
       const removedBlueSetArr = new Set(hats);
       removedBlueSetArr.delete('blue');
-      tmpHatArr = removedBlueSetArr
+      tmpHatArr = removedBlueSetArr;
     }
     sumedUser[idx] = setedUser;
 

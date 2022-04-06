@@ -18,13 +18,13 @@ import {
   clearChatHistory,
 } from '../../../src/redux/modules/sixHat';
 import { NicknameModal, LimitModal, RoutingAlertModal } from '../../../src/components/common';
-import { ChattingRoom } from '../../../src/components/common';
+import { ChattingRoom } from 'components/common';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
-import { HatType, UserList } from '@redux/modules/sixHat/types';
-import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
+import { HatType, UserList } from 'redux/modules/sixHat/types';
+import { selectPermit, setIsMessageArrived } from 'redux/modules/permit';
 import { ToastContainer } from 'react-toastify';
-import copyUrlHelper from '@utils/copyUrlHelper';
+import copyUrlHelper from 'utils/copyUrlHelper';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -64,12 +64,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   useEffect(() => {
     window.onbeforeunload = function () {
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('SH');
     };
 
     return () => {
       window.onbeforeunload = null;
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('SH');
     };
   }, []);
 
@@ -113,6 +113,10 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     dispatch(setIsMessageArrived(false));
   };
 
+  const handleCompleteDebatingPage = () => {
+    handleNextPage(3);
+  };
+
   const pages = [
     {
       component: (
@@ -132,7 +136,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ),
     },
     {
-      component: <DebatingRoom onClick={handelSendDebatingMessage} />,
+      component: (
+        <DebatingRoom
+          onClick={handelSendDebatingMessage}
+          onClickComplete={handleCompleteDebatingPage}
+        />
+      ),
     },
   ];
 
@@ -202,7 +211,6 @@ const ChattingContainer = styled.div`
 `;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  console.log(context);
   const { query } = context;
   const { roomInfo } = query;
   return {

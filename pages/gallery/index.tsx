@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { GalleryCard } from '@components/common';
+import { GalleryCard } from 'components/common';
 import styled from 'styled-components';
-import { getAllGallery, gallerySelector } from '@redux/modules/gallery';
-import { useAppSelector, useAppDispatch } from '@redux/hooks';
+import { getAllGallery, gallerySelector } from 'redux/modules/gallery';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { useRouter } from 'next/router';
 import { useInView } from 'react-intersection-observer';
-import { themedPalette } from '@theme/styleTheme';
+import { themedPalette } from 'theme/styleTheme';
 
 const Gallery = () => {
   const dispatch = useAppDispatch();
@@ -14,9 +14,11 @@ const Gallery = () => {
   const [observeTarget, targetInView] = useInView();
   const [paginationInfo, setPaginationInfo] = useState({ page: 0, size: 9 });
 
+  console.log(paginationInfo);
+
   useEffect(() => {
     dispatch(getAllGallery(paginationInfo));
-  }, []);
+  }, [paginationInfo]);
 
   const handleRouting = (category: string, roomId: string) => {
     router.push(`/gallery/detail/${category}/${roomId}`);
@@ -25,11 +27,8 @@ const Gallery = () => {
   // //infinite scroll
   useEffect(() => {
     if (targetInView) {
-      dispatch(getAllGallery(paginationInfo));
-      setPaginationInfo({ ...paginationInfo, page: paginationInfo.page++ });
+      setPaginationInfo({ ...paginationInfo, page: paginationInfo.page + 1 });
     }
-
-    //화면에서 떠나면 무한스크롤을 위한 옵저버를 숨긴다.
   }, [targetInView]);
 
   return (
@@ -37,10 +36,10 @@ const Gallery = () => {
       <Title>갤러리</Title>
       <Desc>다른 사람들의 랜덤워드, 브레인라이팅, 6hat thinking 결과물을 볼 수 있습니다. </Desc>
       <Grid>
-        {galleryList.map(gallery => {
+        {galleryList.map((gallery, idx) => {
           return (
             <GalleryCard
-              key={gallery.roomId}
+              key={idx}
               type={gallery.category}
               title={gallery.title}
               subject={gallery.subject}

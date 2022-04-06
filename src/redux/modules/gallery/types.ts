@@ -26,17 +26,12 @@ export type Gallery = {
   subject: string;
 };
 
-export type CommentType = {
-  nickname: string;
-  comment: string;
-};
-
 export type VoteResultType = {
   ideaId: number;
-  nickname: string;
   idea: string;
-  voteCount: number;
-  comments: CommentType[];
+  voteCount?: number;
+  isWinner?: boolean;
+  commentList: string[];
 };
 
 export type BrainWritingDataType = {
@@ -64,6 +59,6 @@ export type PaginationInfo = {
 export type GalleryState = {
   galleryList: Gallery[];
   randomWordDetail: string[];
-  brainWritingDetail: BrainWritingDataType[];
+  brainWritingDetail: BrainWritingDataType;
   sixHatDetail: SixHatDataType;
 };

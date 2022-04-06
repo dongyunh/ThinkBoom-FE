@@ -1,14 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { GetServerSideProps } from 'next';
 import { useAppSelector } from '../../../redux/hooks';
 import { sixHatSelector } from '../../../redux/modules/sixHat';
-import {
-  Title,
-  PrimaryButton,
-  SubjectTextField,
-  HeaderBar,
-  CountingUser,
-} from '@components/common';
+import { Title, PrimaryButton, SubjectTextField, HeaderBar, CountingUser } from 'components/common';
+import { brainWritingSelector } from 'redux/modules/brainWriting';
+import { selectUserCount } from 'redux/modules/CountUser';
+import { useRouter } from 'next/router';
 
 type WaitingRoomProps = {
   onClickSubmit?: (arg?: string) => void;
@@ -17,7 +15,12 @@ type WaitingRoomProps = {
 };
 
 const WaitingRoom = ({ onClickSubmit, onClickComplete, onChange }: WaitingRoomProps) => {
-  const { isAdmin, subject, userCount } = useAppSelector(sixHatSelector);
+  const { isAdmin: SHIsAdmin, subject: SHSubject } = useAppSelector(sixHatSelector);
+  const { isAdmin: BWIsAdmin, BWsubject } = useAppSelector(brainWritingSelector);
+  const { userCount } = useAppSelector(selectUserCount);
+  const router = useRouter();
+  const currentService = router.pathname.split('/')[1];
+
   const handleOnclickSubmit = (arg?: string) => {
     if (!onClickSubmit) return;
     onClickSubmit(arg);
@@ -33,19 +36,27 @@ const WaitingRoom = ({ onClickSubmit, onClickComplete, onChange }: WaitingRoomPr
     onChange();
   };
 
+  const checkIsDisabled = () => {
+    if (currentService === 'brainWriting') {
+      return !(BWsubject && BWIsAdmin && userCount.totalUser == userCount.currentUser);
+    } else if (currentService === 'sixHat') {
+      return !(SHIsAdmin && SHSubject);
+    }
+  };
+
   return (
     <Grid>
       <Empty />
       <TextFieldWrapper>
         <Title text="회의 주제" />
         <SubjectTextField
-          isAdmin={isAdmin}
-          type="sixHat"
+          isAdmin={currentService === 'sixHat' ? SHIsAdmin : BWIsAdmin}
+          type={currentService === 'sixHat' ? 'sixHat' : 'brainWriting'}
           onChange={handleOnChange}
           onClick={handleOnclickSubmit}
         />
       </TextFieldWrapper>
-      <PrimaryButton text="완료" onClick={handleOnClickComplete} disabled={!(subject && isAdmin)} />
+      <PrimaryButton text="완료" onClick={handleOnClickComplete} disabled={checkIsDisabled()} />
     </Grid>
   );
 };
@@ -66,16 +77,6 @@ const TextFieldWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 20px;
-`;
-
-const BackGroundImage = styled.div`
-  width: 110vw;
-  height: 100vh;
-  background-image: url('/asset/subject_background.png');
-  background-size: cover;
-  position: absolute;
-  z-index: -10;
-  bottom: 110px;
 `;
 
 const Empty = styled.div``;

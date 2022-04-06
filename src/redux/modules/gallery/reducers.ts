@@ -6,7 +6,11 @@ import { GalleryState } from './types';
 const initalState: GalleryState = {
   galleryList: [],
   randomWordDetail: [],
-  brainWritingDetail: [],
+  brainWritingDetail: {
+    subject: '',
+    bwId: 0,
+    voteResult: [],
+  },
   sixHatDetail: {
     subject: '',
     chatHistory: [],
@@ -17,7 +21,7 @@ const initalState: GalleryState = {
 export const galleryReducer = createReducer(initalState, builder => {
   builder
     .addCase(getAllGallery.fulfilled, (state, action) => {
-      state.galleryList = action.payload;
+      state.galleryList = [...state.galleryList, ...action.payload];
     })
     .addCase(getDetailGallery.fulfilled, (state, action) => {
       const { category, data } = action.payload;

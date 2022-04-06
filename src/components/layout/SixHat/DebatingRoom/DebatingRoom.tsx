@@ -2,15 +2,16 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { CenterLayout, PrimaryButton } from '../../../common';
 import { DebatingChatBox } from '../DebatingChatBox';
-import { useAppSelector, useAppDispatch } from '@redux/hooks';
-import { selectSixHat, saveSixHatData } from '@redux/modules/sixHat';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { selectSixHat, saveSixHatData } from 'redux/modules/sixHat';
 import { useRouter } from 'next/router';
 
 type DebatingRoom = {
   onClick: (arg: string) => void;
+  onClickComplete: () => void;
 };
 
-const DebatingRoom = ({ onClick }: DebatingRoom) => {
+const DebatingRoom = ({ onClick, onClickComplete }: DebatingRoom) => {
   const dispatch = useAppDispatch();
   const { isAdmin } = useAppSelector(selectSixHat);
   const router = useRouter();
@@ -18,7 +19,7 @@ const DebatingRoom = ({ onClick }: DebatingRoom) => {
 
   const handleComplete = async () => {
     await dispatch(saveSixHatData({ roomId }));
-    await router.push(`/sixHat/result/${roomId}`);
+    await onClickComplete();
   };
 
   return (

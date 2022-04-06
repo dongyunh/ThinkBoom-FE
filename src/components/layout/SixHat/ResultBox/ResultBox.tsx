@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
 import { Message } from '../DebatingChatBox';
-import { ChatData } from '@redux/modules/gallery/types';
+import { PrimaryButton } from 'components/common';
+import { ChatData } from 'redux/modules/gallery/types';
+import { useRouter } from 'next/router';
 
 type ResultBoxProps = {
   subject: string;
@@ -10,6 +12,7 @@ type ResultBoxProps = {
 };
 
 const ResultBox = ({ subject, chatHistory }: ResultBoxProps) => {
+  const router = useRouter();
   return (
     <Container>
       <SubjectBox>{subject}</SubjectBox>
@@ -86,6 +89,12 @@ const MessageBox = styled.div`
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
+`;
+
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 export { ResultBox };

@@ -1,97 +1,145 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { CenterLayout } from '../../common';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
-import { timerData } from '../../../redux/modules/brainWriting/actions';
-import { Timer } from '../Timer';
+import {
+  getIdea,
+  setIsFirstComment,
+  setIsTimerOver,
+  postComment,
+  updateComment,
+} from 'redux/modules/brainWriting';
+import useTimer from 'hooks/useTimer';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 type CardProps = {
   width: number;
   height: number;
   subject: string | undefined;
-  onChange?: () => void;
-  onClick: () => void;
-};
-type StyleProps = {
-  width: number;
-  height: number;
+  onClickComplete: () => void;
 };
 
-const BwComment = ({ width, height, subject, onChange, onClick }: CardProps) => {
+type StyleProps = {
+  width?: number;
+  height?: number;
+  isFocused?: boolean;
+};
+
+const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
   const dispatch = useAppDispatch();
-  const [contents, setContents] = useState<string>('');
-  const [comment, setComment] = useState<string>('');
-  const { nickname, BWtimer } = useAppSelector(brainWritingSelector);
-  const handleSendMessage = () => {
-    contents;
-  };
-  const shareRoomId = window.location.pathname.split('/')[4];
-  const [seconds, setSeconds] = useState(BWtimer);
+  const {
+    BWtimer,
+    viewIdea,
+    isFirstComment,
+    isTimerOver,
+    userId,
+    ideaId,
+    isLastComment,
+    roomId,
+    comment,
+  } = useAppSelector(brainWritingSelector);
+  const [isFocused, setIsFocused] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
   useEffect(() => {
-    if (nickname) {
-      dispatch(timerData(shareRoomId));
+    if (isFirstComment) {
+      dispatch(getIdea({ roomId, userId }));
+      dispatch(setIsFirstComment(false));
     }
   }, []);
-  //BWtimer= res.timerData
 
   useEffect(() => {
-    if (seconds == null) {
-      setSeconds(BWtimer);
+    if (isTimerOver) {
+      if (isLastComment) {
+        onClickComplete();
+        return;
+      }
+
+      dispatch(getIdea({ roomId, userId }));
+      dispatch(setIsTimerOver(false));
+      handleUpdateComment('');
+      if (textAreaRef.current) textAreaRef.current.value = '';
+    }
+  }, [isTimerOver]);
+
+  useEffect(() => {
+    if (BWtimer === 10) {
+      toast.info('10초 뒤에 다른 사람의 아이디어를 받게 됩니다. 코멘트 입력을 완료해주세요.');
     }
   }, [BWtimer]);
 
-  useEffect(() => {
-    if (seconds !== null) {
-      const interval = setInterval(() => {
-        if (seconds === 0) clearInterval(interval);
-        else setSeconds(seconds - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  }, [seconds]);
+  const handlePostComment = () => {
+    const postCommentArgData = {
+      roomId,
+      ideaId,
+      userId,
+      comment,
+    };
+    dispatch(postComment(postCommentArgData));
+  };
 
   const onKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
-      setComment(contents);
+      handlePostComment();
     }
   };
 
-  const sendcomment = () => {
-    setComment(contents);
-    // dispatch(sendCommentData(cont))
+  const handleUpdateComment = (comment: string) => {
+    dispatch(updateComment(comment));
   };
 
-  return (
-    <CenterLayout>
-      <>
-        <h3>코멘트를 입력해주세요</h3>
-        <CardWrapper>
-          <StyledCard width={width} height={height}>
-            <StlyeSubject>{subject}</StlyeSubject>
-            <div></div>
-            <StyledIdea onClick={onClick}>{comment}</StyledIdea>
-            <StyledTextarea>
-              <TextField
-                maxLength={200}
-                placeholder="댓글을 입력해주세요."
-                onKeyPress={e => onKeyPress(e)}
-                onChange={e => setContents(e.target.value)}
-              />
+  useTimer({ type: 'brainwritingIdea', roomId });
 
-              <StyledButton onClick={sendcomment}>입력</StyledButton>
-            </StyledTextarea>
-          </StyledCard>
-        </CardWrapper>
-      </>
-    </CenterLayout>
+  return (
+    <>
+      <ToastContainer position="bottom-left" autoClose={10000} theme="dark" />
+      <CenterLayout>
+        <Container>
+          <Title>코멘트를 입력해주세요</Title>
+          <CardWrapper>
+            <StyledCard width={width} height={height}>
+              <Subject>{subject}</Subject>
+              <OtherIdea>{viewIdea}</OtherIdea>
+              <MyComment>{comment}</MyComment>
+              <StyledTextarea isFocused={isFocused}>
+                <TextField
+                  ref={textAreaRef}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  maxLength={200}
+                  placeholder="코멘트를 입력해주세요"
+                  onKeyPress={e => onKeyPress(e)}
+                  onChange={e => handleUpdateComment(e.target.value)}
+                />
+                <StyledButton onClick={handlePostComment}>입력</StyledButton>
+              </StyledTextarea>
+            </StyledCard>
+          </CardWrapper>
+        </Container>
+      </CenterLayout>
+    </>
   );
 };
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  align-items: center;
+  gap: 20px;
+`;
+
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: bold;
+`;
+
 const CardWrapper = styled.div`
   position: relative;
-  margin-top: 150px;
 `;
 
 const StyledCard = styled.div<StyleProps>`
@@ -106,28 +154,36 @@ const StyledCard = styled.div<StyleProps>`
   margin: auto;
 `;
 
-const StlyeSubject = styled.h3`
+const Subject = styled.h3`
   text-align: center;
   font-size: 28px;
 `;
 
-const StyledIdea = styled.div`
+const OtherIdea = styled.div``;
+
+const MyComment = styled.div`
   height: 50%;
   width: 82%;
-  /* border: 5px solid ${themedPalette.border_1}; */
   border-radius: 12px;
   position: relative;
   text-align: center;
   margin: auto;
   font-size: 20px;
   padding: 30px;
+  overflow-y: scroll;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
-const StyledTextarea = styled.div`
+const StyledTextarea = styled.div<StyleProps>`
   height: 25%;
   width: 82%;
   background-color: ${themedPalette.component_2};
-  border: 5px solid ${themedPalette.border_1};
+  border: 5px solid ${props => (props.isFocused ? `#2962ff` : themedPalette.border_1)};
   border-radius: 12px;
   display: flex;
   position: relative;
@@ -137,6 +193,7 @@ const StyledTextarea = styled.div`
   font-size: 20px;
 `;
 const TextField = styled.textarea`
+  padding: 10px;
   width: 70%;
   box-sizing: border-box;
   outline: none;

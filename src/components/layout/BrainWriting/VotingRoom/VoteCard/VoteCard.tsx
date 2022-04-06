@@ -2,46 +2,55 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../../theme/styleTheme';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { VoteCardModal } from '@components/layout/BrainWriting/VotingRoom/VoteCardModal';
-import { Modal } from '@components/common/Modals';
+import { VoteCardModal } from 'components/layout/BrainWriting/VotingRoom/VoteCardModal';
+import { Modal } from 'components/common/Modals';
+import Image from 'next/image';
+import GoldMedal from '/public/asset/goldMedal.png';
 
 type VoteCardProps = {
-  width: number;
-  height: number;
-  onClick: () => void;
-  children?: React.ReactChild;
+  idea: string;
+  commentList: string[];
+  isVoted?: boolean;
+  isWinner?: boolean;
+  isResult?: boolean;
+  onClick?: () => void;
 };
 
 type StyleProps = {
-  width: number;
-  height: number;
+  isVoted?: boolean;
 };
 
-const VoteCard = ({ width, height, onClick, children }: VoteCardProps) => {
-  const [modal, setModal] = useState<boolean>(false);
+const VoteCard = ({ onClick, idea, commentList, isVoted, isWinner, isResult }: VoteCardProps) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const closeModal = () => {
-    setModal(false);
+    setIsModalOpen(false);
   };
-  const handleVote = () => {};
+
+  const handleOnClick = () => {
+    if (!onClick) return;
+    onClick();
+    setIsModalOpen(!isModalOpen);
+  };
 
   return (
     <>
       <CardWrapper>
-        <StyledCard
-          width={width}
-          height={height}
-          onClick={() => {
-            setModal(!modal);
-          }}
-        >
-          {children}
-          <CheckBox>
-            <CheckCircleOutlineIcon sx={{ fontSize: 45 }} onClick={handleVote} />
-          </CheckBox>
+        <StyledCard onClick={handleOnClick} isVoted={isVoted}>
+          {idea}
+          {!isResult && !isWinner && (
+            <CheckCircleOutlineIcon
+              sx={{ fontSize: 45, position: 'absolute', bottom: '5px', right: '10px' }}
+            />
+          )}
+          {isWinner && (
+            <ImageWrapper>
+              <Image src={GoldMedal} width={50} height={50} />
+            </ImageWrapper>
+          )}
         </StyledCard>
-        <AfterCard width={width} height={height} />
+        <AfterCard />
       </CardWrapper>
-      {modal === true ? <VoteCardModal closeModal={closeModal} /> : null}
+      {isModalOpen && <VoteCardModal idea={idea} commentList={commentList} onClick={closeModal} />}
     </>
   );
 };
@@ -52,25 +61,35 @@ const CardWrapper = styled.div`
 `;
 
 const StyledCard = styled.div<StyleProps>`
-  height: ${props => props.height}px;
-  width: ${props => props.width}px;
+  height: 200px;
+  width: 330px;
   background-color: ${themedPalette.card_bg_normal};
   border: 5px solid ${themedPalette.border_1};
   border-radius: 18px;
   position: relative;
   transition: 0.2s ease-in-out;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   :hover {
     transform: translate(8px, 8px);
     background-color: #e6e6e6;
   }
+
+  ${props =>
+    props.isVoted &&
+    `
+    transform: translate(8px, 8px);
+    background-color: #e6e6e6;
+  `}
 `;
 
 const AfterCard = styled.div<StyleProps>`
   position: absolute;
-  width: ${props => props.width}px;
-  height: ${props => props.height}px;
+  height: 200px;
+  width: 330px;
   background-color: ${themedPalette.card_bg_normal};
   border: 5px solid ${themedPalette.border_1};
   border-radius: 18px;
@@ -79,10 +98,10 @@ const AfterCard = styled.div<StyleProps>`
   top: 8px;
 `;
 
-const CheckBox = styled.div`
+const ImageWrapper = styled.div`
   position: absolute;
-  top: 135px;
-  left: 260px;
+  bottom: 5px;
+  right: 10px;
 `;
 
 export { VoteCard };

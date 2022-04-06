@@ -14,7 +14,7 @@ import My_White from '../../../../public/asset/hats/hat_white_chat.png';
 import My_Black from '../../../../public/asset/hats/hat_black_chat.png';
 import Null_Hat from '../../../../public/asset/hats/hat_null.png';
 
-import { HatType } from '@redux/modules/sixHat/types';
+import { HatType } from 'redux/modules/sixHat/types';
 
 type HatImageProps = {
   type: HatType;

@@ -9,25 +9,91 @@ export type ChatHistoryType = ChatData[];
 
 export type BWUserList = BWUserData[];
 
+export type UserId = number | null;
+
+export type RoomId = string | null;
 
 export type BWUserCount = {
   totalUser: number;
   currentUser: number;
 };
+
+export type InitializeIdeaCardArgType = {
+  roomId: RoomId;
+};
+
+export type PostIdeaArgType = {
+  roomId: RoomId;
+  userId: UserId;
+  idea: string;
+};
+
+export type GetNicknameArgType = {
+  roomId: RoomId;
+  nickname: string;
+};
+
+export type GetIdeaArgType = {
+  roomId: RoomId;
+  userId: UserId;
+};
+
+export type GetIdeaType = {
+  viewUserId: number;
+  ideaId: number;
+  idea: string;
+};
+
+export type GetIdeaPayLoadType = {
+  isFirstComment: boolean;
+  isLastComment: boolean;
+  viewUserId: number;
+  ideaId: number;
+  idea: string;
+};
+
+export type VoteIdeaArgType = {
+  votedIdeaList: number[];
+  userId: UserId;
+  roomId: string | null;
+};
+
+export type PostCommentArgType = {
+  userId: UserId;
+  roomId: RoomId;
+  ideaId: number;
+  comment: string;
+};
+
+export type Idea = {
+  ideaId: number;
+  idea: string;
+  commentList: string[];
+};
+
+export type IdeaList = Idea[];
+
 export type BrainWritingState = {
-  StartCurrentPage:number,
-    currentPage: number;
-    nickname: string | null;
-    BWisAdmin: boolean;
-    BWisSubmit: boolean;
-    BWsubject?: string;
-    senderId: number | null,
-    idea: string | null,
-    userId: number | null,
-    bwRoomId: string | null,
-    BWtimer : number | null,
-    BWUserList: BWUserList;
-    BWUserCount: BWUserCount;
-    chatHistory?: ChatHistoryType;
-    commentData: []
-  };
+  StartCurrentPage: number;
+  currentPage: number;
+  nickname: string | null;
+  isAdmin: boolean;
+  BWisSubmit: boolean;
+  BWsubject?: string;
+  userId: number | null;
+  ideaId: number;
+  roomId: RoomId;
+  BWtimer: number | null;
+  BWUserList: BWUserList;
+  BWUserCount: BWUserCount;
+  chatHistory?: ChatHistoryType;
+  viewIdea: string;
+  isTimerCalled: boolean;
+  isTimerOver: boolean;
+  isFirstComment: boolean;
+  isLastComment: boolean;
+  votedIdeaList: number[];
+  ideaList: IdeaList;
+  comment: string;
+  isAllVoted: boolean;
+};
