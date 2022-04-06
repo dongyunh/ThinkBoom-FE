@@ -1,39 +1,31 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { GetServerSideProps } from 'next';
-import { TutorialIcon } from '@components/common/Icon/TutorialIcon';
+import { useRouter } from 'next/router';
+import { TutorialIcon } from 'components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { NicknameModal, LimitModal } from '../../../src/components/common';
 import { RoutingAlertModal } from '../../../src/components/common/Modals/RoutingAlertModal';
-import { BWChattingRoom } from '../../../src/components/common/BWChattingRoom';
 import styled from 'styled-components';
 import useSocketHook from '../../../src/hooks/useSocketHook';
-import { HatType, UserList } from '@redux/modules/sixHat/types';
-import { selectPermit, setIsMessageArrived } from '@redux/modules/permit';
+import { selectPermit, setIsMessageArrived } from 'redux/modules/permit';
 
-import { WaitingRoom, InteractivePage, ShareIcon, ChatIcon } from '@components/common';
-import { BwCard } from '../../../src/components/common/BwCard';
-import { BwComment } from '@components/common/BwCommnet';
-import { VotingRoom } from '@components/layout/BrainWriting';
+import { WaitingRoom, InteractivePage, ShareIcon, ChatIcon } from 'components/common';
+import { BwCard, BwComment } from 'components/common';
+import { VotingRoom } from 'components/layout/BrainWriting';
 import {
   getNickname,
-  updateCurrentPageBW,
   brainWritingSelector,
   changeIsSubmitState,
   clearChatHistory,
   initializeIdeaCard,
-  getTimerBW,
-  getIdea,
-  initializeTimerData,
-} from '../../../src/redux/modules/brainWriting';
+  getRoomId,
+} from 'redux/modules/brainWriting';
 
-import { countSelector } from '@redux/modules/CountUser';
-import copyUrlHelper from '@utils/copyUrlHelper';
-import { ChattingRoom } from '@components/common';
+import copyUrlHelper from 'utils/copyUrlHelper';
+import { ChattingRoom } from 'components/common';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-//TODO : any 수정하기
 
 type SettingPageProps = {
   roomInfo: string[];
@@ -43,8 +35,9 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, ideaList } =
     useAppSelector(brainWritingSelector);
+  const router = useRouter();
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 
@@ -53,6 +46,10 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const [roomTitle, roomId] = roomInfo;
 
   const HandleSocket = useSocketHook('brainwriting');
+
+  useEffect(() => {
+    dispatch(getRoomId(roomId));
+  }, []);
 
   useEffect(() => {
     if (BWUserCount.totalUser !== 0) {
@@ -95,12 +92,11 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   const handleStartbrainWriting = () => {
     handleNextPage(1);
-    dispatch(getTimerBW(null));
     dispatch(initializeIdeaCard({ roomId }));
   };
 
   const handleUpdateNickname = async (enteredName: string) => {
-    dispatch(getNickname({ bwRoomId: roomId, nickname: enteredName }));
+    dispatch(getNickname({ roomId, nickname: enteredName }));
   };
 
   const handleCompleteIdeaPage = () => {
@@ -110,6 +106,10 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   const handleCompleteCommentPage = () => {
     handleNextPage(3);
+  };
+
+  const handleCompleteVotePage = () => {
+    router.push(`/brainWriting/result/${roomId}`);
   };
 
   const handleChatOpen = () => {
@@ -147,11 +147,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ),
     },
     {
-      component: <VotingRoom />,
+      component: (
+        <VotingRoom roomId={roomId} ideaList={ideaList} onClickComplete={handleCompleteVotePage} />
+      ),
     },
   ];
 
-  //닉네임이 없거나, 방이 가득차지 않았다면.
   return (
     <>
       {currentPage === 0 && <ToastContainer position="bottom-left" autoClose={3000} theme="dark" />}

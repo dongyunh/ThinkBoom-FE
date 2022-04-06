@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card } from '@components/common';
+import { Card } from 'components/common';
 import SixHatImg from '../../../../public/asset/6hat.png';
 import RandomWordImg from '../../../../public/asset/randomWord.png';
 import BrainWritingImg from '../../../../public/asset/brainWriting.png';

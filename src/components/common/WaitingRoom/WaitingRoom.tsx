@@ -3,15 +3,9 @@ import styled from 'styled-components';
 import { GetServerSideProps } from 'next';
 import { useAppSelector } from '../../../redux/hooks';
 import { sixHatSelector } from '../../../redux/modules/sixHat';
-import {
-  Title,
-  PrimaryButton,
-  SubjectTextField,
-  HeaderBar,
-  CountingUser,
-} from '@components/common';
-import { brainWritingSelector } from '@redux/modules/brainWriting';
-import { selectUserCount } from '@redux/modules/CountUser';
+import { Title, PrimaryButton, SubjectTextField, HeaderBar, CountingUser } from 'components/common';
+import { brainWritingSelector } from 'redux/modules/brainWriting';
+import { selectUserCount } from 'redux/modules/CountUser';
 import { useRouter } from 'next/router';
 
 type WaitingRoomProps = {

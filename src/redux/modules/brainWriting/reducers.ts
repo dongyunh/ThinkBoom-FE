@@ -6,22 +6,22 @@ import {
   clearChatHistory,
   changeIsSubmitState,
   getSubjectBW,
-  postIdea,
   getMessagesBW,
   getUserListBW,
-  getRoomIdBW,
-  initializeIdeaCard,
-  getTimerBW,
+  getRoomId,
   getTimerData,
   updateStartCurrentPageBW,
   getUserCount,
   getIdea,
+  getIdeaList,
   updateTimerData,
   setIsTimerCalled,
   getUpdatedTimerData,
   setIsTimerOver,
   initializeTimerData,
   setIsFirstComment,
+  getVoteTimerData,
+  getVotedIdeaList,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -37,7 +37,7 @@ const initialState: BrainWritingState = {
   ideaId: 0,
   BWtimer: null,
   chatHistory: [],
-  bwRoomId: null,
+  roomId: null,
   BWUserCount: {
     totalUser: 0,
     currentUser: 0,
@@ -48,6 +48,8 @@ const initialState: BrainWritingState = {
   isTimerOver: false,
   isFirstComment: false,
   isLastComment: false,
+  votedIdeaList: [],
+  ideaList: [],
 };
 
 //createReducer로 reducer 생성.
@@ -61,7 +63,6 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     })
     .addCase(getNickname.fulfilled, (state, action) => {
       const { nickname, userId } = action.payload;
-      console.log('닉네임을 저장하겠다', userId);
       state.nickname = nickname;
       state.userId = userId;
     })
@@ -85,12 +86,10 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(getSubjectBW, (state, action) => {
       state.BWsubject = action.payload;
     })
-    .addCase(getRoomIdBW, (state, action) => {
-      state.bwRoomId = action.payload;
+    .addCase(getRoomId, (state, action) => {
+      state.roomId = action.payload;
     })
-    .addCase(getTimerBW, (state, action) => {
-      state.BWtimer = action.payload;
-    })
+
     .addCase(getUserCount, (state, action) => {
       state.BWUserCount = action.payload;
     })
@@ -99,6 +98,10 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       state.ideaId = ideaId;
       state.viewIdea = idea;
       state.isLastComment = isLastComment;
+    })
+    .addCase(getIdeaList.fulfilled, (state, action) => {
+      const { ideaList } = action.payload;
+      state.ideaList = ideaList;
     })
     .addCase(setIsFirstComment, (state, action) => {
       state.isFirstComment = action.payload;
@@ -110,6 +113,11 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     })
     .addCase(updateTimerData, (state, action) => {
       state.BWtimer = action.payload;
+    })
+    .addCase(getVoteTimerData.fulfilled, (state, action) => {
+      const { timers } = action.payload;
+      state.BWtimer = timers;
+      state.isTimerCalled = true;
     })
     .addCase(setIsTimerCalled, (state, action) => {
       state.isTimerCalled = action.payload;
@@ -124,6 +132,11 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(initializeTimerData, (state, action) => {
       state.isTimerOver = false;
       state.isTimerCalled = false;
+    })
+    .addCase(getVotedIdeaList, (state, action) => {
+      const settedList = new Set(state.votedIdeaList);
+      settedList.add(action.payload);
+      state.votedIdeaList = [...settedList];
     })
     .addCase(PURGE, (state, action) => {
       return initialState;

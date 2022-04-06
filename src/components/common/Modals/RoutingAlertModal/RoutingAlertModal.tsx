@@ -3,9 +3,9 @@ import { Modal } from '../Modal/Modal';
 import { Button } from '../..';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useAppDispatch } from '@redux/hooks';
-import { setRoutingModalOpen } from '@redux/modules/permit';
-import { themedPalette } from '@theme/styleTheme';
+import { useAppDispatch } from 'redux/hooks';
+import { setRoutingModalOpen } from 'redux/modules/permit';
+import { themedPalette } from 'theme/styleTheme';
 
 const RoutingAlertModal = () => {
   const router = useRouter();

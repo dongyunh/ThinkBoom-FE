@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { CenterLayout } from '../../common';
-import { useAppDispatch } from '@redux/hooks';
-import { getRandomWord } from '@redux/modules/randomWord';
+import { useAppDispatch } from 'redux/hooks';
+import { getRandomWord } from 'redux/modules/randomWord';
 import { SelectWordBox } from '../../layout/RandomWord/SelectWordBox';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { GalleryCard } from '@components/common';
+import { GalleryCard } from 'components/common';
 import styled from 'styled-components';
-import { getAllGallery, gallerySelector } from '@redux/modules/gallery';
-import { useAppSelector, useAppDispatch } from '@redux/hooks';
+import { getAllGallery, gallerySelector } from 'redux/modules/gallery';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { useRouter } from 'next/router';
 import { useInView } from 'react-intersection-observer';
-import { themedPalette } from '@theme/styleTheme';
+import { themedPalette } from 'theme/styleTheme';
 
 const Gallery = () => {
   const dispatch = useAppDispatch();

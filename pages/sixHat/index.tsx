@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { InteractivePage, StartPage, MakeRoomModal } from '../../src/components/common';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
-import { updateCurrentPage, sixHatSelector, updateAdminState } from '@redux/modules/sixHat';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { updateCurrentPage, sixHatSelector, updateAdminState } from 'redux/modules/sixHat';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 

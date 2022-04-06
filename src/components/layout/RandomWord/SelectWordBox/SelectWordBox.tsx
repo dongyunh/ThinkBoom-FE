@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../../theme/styleTheme';
-import { useAppSelector, useAppDispatch } from '@redux/hooks';
-import { randomWordSelector, getRandomWord, selectWord } from '@redux/modules/randomWord';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { randomWordSelector, getRandomWord, selectWord } from 'redux/modules/randomWord';
 import { postPickedWords } from '../../../../utils/postPickedWords';
-import { Card, PrimaryButton } from '@components/common';
+import { Card, PrimaryButton } from 'components/common';
 import { useRouter } from 'next/router';
-
 
 const SelectWordBox = () => {
   const dispatch = useAppDispatch();

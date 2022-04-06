@@ -9,24 +9,33 @@ export type ChatHistoryType = ChatData[];
 
 export type BWUserList = BWUserData[];
 
+export type UserId = number | null;
+
+export type RoomId = string | null;
+
 export type BWUserCount = {
   totalUser: number;
   currentUser: number;
 };
 
 export type InitializeIdeaCardArgType = {
-  roomId: string;
+  roomId: RoomId;
 };
 
 export type PostIdeaArgType = {
-  bwRoomId: string | null;
-  userId: number | null;
+  roomId: RoomId;
+  userId: UserId;
   idea: string;
 };
 
+export type GetNicknameArgType = {
+  roomId: RoomId;
+  nickname: string;
+};
+
 export type GetIdeaArgType = {
-  roomId: string | null;
-  userId: number | null;
+  roomId: RoomId;
+  userId: UserId;
 };
 
 export type GetIdeaType = {
@@ -43,12 +52,25 @@ export type GetIdeaPayLoadType = {
   idea: string;
 };
 
-export type PostCommentArgType = {
-  userId: number | null;
+export type VoteIdeaArgType = {
+  userId: UserId;
   roomId: string | null;
+};
+
+export type PostCommentArgType = {
+  userId: UserId;
+  roomId: RoomId;
   ideaId: number;
   comment: string;
 };
+
+export type Idea = {
+  ideaId: number;
+  idea: string;
+  commentList: string[];
+};
+
+export type IdeaList = Idea[];
 
 export type BrainWritingState = {
   StartCurrentPage: number;
@@ -59,7 +81,7 @@ export type BrainWritingState = {
   BWsubject?: string;
   userId: number | null;
   ideaId: number;
-  bwRoomId: string | null;
+  roomId: RoomId;
   BWtimer: number | null;
   BWUserList: BWUserList;
   BWUserCount: BWUserCount;
@@ -69,4 +91,6 @@ export type BrainWritingState = {
   isTimerOver: boolean;
   isFirstComment: boolean;
   isLastComment: boolean;
+  votedIdeaList: number[];
+  ideaList: IdeaList;
 };

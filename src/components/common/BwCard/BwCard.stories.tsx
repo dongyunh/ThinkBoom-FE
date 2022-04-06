@@ -1,7 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import React from 'react';
 import { BwCard } from './BwCard';
-// import GlobalStyles from '@theme/GlobalStyles';
+// import GlobalStyles from 'theme/GlobalStyles';
 
 export default {
   title: 'Common/BwCard',

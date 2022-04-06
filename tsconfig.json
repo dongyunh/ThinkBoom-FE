@@ -17,11 +17,11 @@
     "downlevelIteration": true,
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@redux/*": ["src/redux/*"],
-      "@utils/*": ["src/utils/*"],
-      "@theme/*": ["src/theme/*"]
+      "components/*": ["src/components/*"],
+      "hooks/*": ["src/hooks/*"],
+      "redux/*": ["src/redux/*"],
+      "utils/*": ["src/utils/*"],
+      "theme/*": ["src/theme/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { themedPalette } from '@theme/styleTheme';
+import { themedPalette } from 'theme/styleTheme';
 
 type DescProps = {
   text: string;

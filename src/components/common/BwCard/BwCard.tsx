@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { CenterLayout, PrimaryButton } from '../../common';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   brainWritingSelector,
   updateTimerData,
   postIdea,
   getTimerData,
   getUpdatedTimerData,
-} from '@redux/modules/brainWriting';
+} from 'redux/modules/brainWriting';
 import { useRouter } from 'next/router';
-import useTimer from '@hooks/useTimer';
+import useTimer from 'hooks/useTimer';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,14 +30,11 @@ type StyleProps = {
 
 const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { userId, bwRoomId, isAdmin, isTimerOver, BWtimer } = useAppSelector(brainWritingSelector);
+  const { userId, roomId, isAdmin, isTimerOver, BWtimer } = useAppSelector(brainWritingSelector);
   const [idea, setIdea] = useState<string>('');
-  const router = useRouter();
-  const roomInfo = router.query.roomInfo as string[];
-  const BWRoomId = roomInfo[1];
 
   const SendIdea = () => {
-    dispatch(postIdea({ userId, idea, bwRoomId }));
+    dispatch(postIdea({ userId, idea, roomId }));
   };
 
   useEffect(() => {
@@ -52,7 +49,7 @@ const BwCard = ({ width, height, subject, onClickComplete, children }: CardProps
     }
   }, [BWtimer]);
 
-  useTimer({ type: 'brainwriting', roomId: BWRoomId });
+  useTimer({ type: 'brainwritingIdea', roomId });
 
   return (
     <>

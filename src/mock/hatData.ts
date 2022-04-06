@@ -1,4 +1,4 @@
-import { HatType } from '@redux/modules/sixHat/types';
+import { HatType } from 'redux/modules/sixHat/types';
 
 type HatDataType = {
   value: HatType;

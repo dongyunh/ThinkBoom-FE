@@ -1,36 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { CenterLayout } from '../../../common';
-import { VoteCard } from '@components/layout/BrainWriting/VotingRoom/VoteCard';
+import { CenterLayout, PrimaryButton } from 'components/common';
+import { VoteCard } from 'components/layout/BrainWriting/VotingRoom/VoteCard';
 import { useAppDispatch, useAppSelector } from '../../../../redux/hooks';
-import { VoteCardModal } from '@components/layout/BrainWriting/VotingRoom/VoteCardModal';
-import { getTimerData, brainWritingSelector } from '@redux/modules/brainWriting';
-import { Modal } from '@components/common/Modals';
+import {
+  getIdeaList,
+  brainWritingSelector,
+  getVotedIdeaList,
+  voteIdea,
+} from 'redux/modules/brainWriting';
+import { RoomId, IdeaList } from 'redux/modules/brainWriting/types';
+import useTimer from 'hooks/useTimer';
 
-type VotingRoom = {
-  onClick: (arg: string) => void;
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+type VotingRoomType = {
+  roomId: RoomId;
+  ideaList: IdeaList;
+  onClickComplete: () => void;
 };
 
-const VotingRoom = () => {
-  // const dispatch = useAppDispatch();
-  // const { senderId, bwRoomId, BWsubject } = useAppSelector(brainWritingSelector);
-  // useEffect(() => {
-  //   dispatch(getTimerData(bwRoomId));
-  // }, []);
+const VotingRoom = ({ roomId, ideaList, onClickComplete }: VotingRoomType) => {
+  const dispatch = useAppDispatch();
+  const { votedIdeaList, isTimerOver, BWtimer } = useAppSelector(brainWritingSelector);
+  const setVotedIdeaList = new Set(votedIdeaList);
+
+  useTimer({ type: 'brainwritingVote', roomId });
+
+  const handleGetVotedIdeaList = (ideaId: number) => {
+    dispatch(getVotedIdeaList(ideaId));
+  };
+
+  const handleVote = () => {
+    dispatch(voteIdea());
+  };
+
+  useEffect(() => {
+    dispatch(getIdeaList(roomId));
+  }, []);
+
+  useEffect(() => {
+    if (isTimerOver) {
+      onClickComplete();
+    }
+  }, [isTimerOver]);
+
+  useEffect(() => {
+    if (BWtimer === 10) {
+      toast.info('10초 뒤에 투표가 종료됩니다. 투표를 완료해주세요.');
+    }
+  }, [BWtimer]);
 
   return (
-    <CenterLayout>
-      <VoteCard width={330} height={200}>
-        sss
-      </VoteCard>
-      <VoteCard width={330} height={200}>
-        sdsd
-      </VoteCard>
-      <VoteCard width={330} height={200}>
-        sssddd
-      </VoteCard>
-    </CenterLayout>
+    <>
+      <ToastContainer position="bottom-left" autoClose={10000} theme="dark" />
+      <CenterLayout>
+        <>
+          <Container>
+            {ideaList.map(data => {
+              return (
+                <VoteCard
+                  key={data.ideaId}
+                  idea={data.idea}
+                  commentList={data.commentList}
+                  isVoted={setVotedIdeaList.has(data.ideaId)}
+                  width={330}
+                  height={200}
+                  onClick={() => handleGetVotedIdeaList(data.ideaId)}
+                >
+                  {data.idea}
+                </VoteCard>
+              );
+            })}
+          </Container>
+          <PrimaryButton text="투표하기" onClick={handleVote} />
+        </>
+      </CenterLayout>
+    </>
   );
 };
+
+const Container = styled.div`
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+`;
 
 export { VotingRoom };

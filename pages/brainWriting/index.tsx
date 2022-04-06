@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { InteractivePage, StartPage, MakeRoomModal } from '../../src/components/common';
-import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   updateCurrentPageBW,
   brainWritingSelector,
   updateAdminState,
-  getRoomIdBW,
-} from '@redux/modules/brainWriting';
+  getRoomId,
+} from 'redux/modules/brainWriting';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { getTimerBW, updateStartCurrentPageBW } from '../../src/redux/modules/brainWriting/actions';
+import { updateStartCurrentPageBW } from '../../src/redux/modules/brainWriting/actions';
 
 const BrainWriting = () => {
   const router = useRouter();
@@ -40,8 +40,7 @@ const BrainWriting = () => {
         const { roomId } = res.data;
         handleMoveSettingPage(title, roomId);
         handleUpdateAmdinState();
-        dispatch(getRoomIdBW(roomId));
-        dispatch(getTimerBW(null));
+        dispatch(getRoomId(roomId));
       });
   };
 

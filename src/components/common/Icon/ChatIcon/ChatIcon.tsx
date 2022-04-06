@@ -2,9 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import IC_Chat from '../../../../../public/asset/IC_chat.png';
 import styled from 'styled-components';
-import { useAppSelector, useAppDispatch } from '@redux/hooks';
-import { setIsMessageArrived } from '@redux/modules/permit';
-import { selectPermit } from '@redux/modules/permit';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { setIsMessageArrived } from 'redux/modules/permit';
+import { selectPermit } from 'redux/modules/permit';
 
 type ChatIconProps = {
   isChatOpen: boolean;

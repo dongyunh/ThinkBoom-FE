@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { VoteModal } from './VoteModal';
+import { S_VoteModal } from './VoteModal';
 import styled from 'styled-components';
 import { themedPalette } from 'theme/styleTheme';
 import { Card } from 'components/common';
 import CloseIcon from '@mui/icons-material/Close';
 
-type VoteCardModalProps = {
+type S_VoteCardModalProps = {
   idea: string;
   commentList: string[];
   onClick: () => void;
 };
 
-const VoteCardModal = ({ idea, commentList, onClick }: VoteCardModalProps) => {
+const S_VoteCardModal = ({ idea, commentList, onClick }: S_VoteCardModalProps) => {
   return (
-    <VoteModal>
+    <S_VoteModal>
       <Card width={400} height={600} isPointer={false}>
         <Container>
           <CloseWrapper>
@@ -27,7 +27,7 @@ const VoteCardModal = ({ idea, commentList, onClick }: VoteCardModalProps) => {
           </CommentWrapper>
         </Container>
       </Card>
-    </VoteModal>
+    </S_VoteModal>
   );
 };
 const Container = styled.div`
@@ -72,7 +72,7 @@ const CommentWrapper = styled.div`
   gap: 15px;
 `;
 
-export { VoteCardModal };
+export { S_VoteCardModal };
 
 /**
  * TODO : 1.모든 요소 입력 안되었을 때, 버튼 diabled 처리하기

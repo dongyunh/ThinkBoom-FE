@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { ResultModal } from '../../../src/components/common/Modals';
 import { GetServerSideProps } from 'next';
-import { CenterLayout, PrimaryButton } from '@components/common';
+import { CenterLayout, PrimaryButton } from 'components/common';
 import styled from 'styled-components';
 import { themedPalette } from '../../../src/theme/styleTheme';
-import { useAppSelector, useAppDispatch } from '@redux/hooks';
-import { selectRandomWord, getResultWord } from '@redux/modules/randomWord';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { selectRandomWord, getResultWord } from 'redux/modules/randomWord';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { RandomWordResult } from '@components/layout/RandomWord';
+import { RandomWordResult } from 'components/layout/RandomWord';
 
 type ResultProps = {
   rwId: string;

@@ -4,11 +4,11 @@ import { DarkModeToggle, CountingUser, GalleryIcon, Timer } from '../../common';
 import Image from 'next/image';
 import Logo from '../../../../public/asset/Logo.png';
 import { useRouter } from 'next/router';
-import { useAppSelector, useAppDispatch } from '@redux/hooks';
-import { selectUserCount } from '@redux/modules/CountUser';
-import { sixHatSelector } from '@redux/modules/sixHat';
-import { brainWritingSelector } from '@redux/modules/brainWriting';
-import { selectPermit, setRoutingModalOpen } from '@redux/modules/permit';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { selectUserCount } from 'redux/modules/CountUser';
+import { sixHatSelector } from 'redux/modules/sixHat';
+import { brainWritingSelector } from 'redux/modules/brainWriting';
+import { selectPermit, setRoutingModalOpen } from 'redux/modules/permit';
 
 const HeaderBar = () => {
   const dispatch = useAppDispatch();

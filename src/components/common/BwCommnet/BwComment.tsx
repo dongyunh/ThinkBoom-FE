@@ -5,15 +5,12 @@ import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
 import { CenterLayout } from '../../common';
 import { brainWritingSelector } from '../../../redux/modules/brainWriting/selectors';
 import {
-  getTimerData,
   getIdea,
   setIsFirstComment,
   setIsTimerOver,
-  setIsTimerCalled,
   postComment,
-} from '@redux/modules/brainWriting';
-import { useRouter } from 'next/router';
-import useTimer from '@hooks/useTimer';
+} from 'redux/modules/brainWriting';
+import useTimer from 'hooks/useTimer';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -33,32 +30,27 @@ type StyleProps = {
 
 const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId, ideaId, isLastComment } =
+  const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId, ideaId, isLastComment, roomId } =
     useAppSelector(brainWritingSelector);
 
   const [comment, setComment] = useState<string>('');
   const [isFocused, setIsFocused] = useState(false);
 
-  const router = useRouter();
-  const roomInfo = router.query.roomInfo as string[];
-  const BWRoomId = roomInfo[1];
-
   useEffect(() => {
     if (isFirstComment) {
-      dispatch(getIdea({ roomId: BWRoomId, userId }));
+      dispatch(getIdea({ roomId, userId }));
       dispatch(setIsFirstComment(false));
     }
   }, []);
 
   useEffect(() => {
     if (isTimerOver) {
-
       if (isLastComment) {
         onClickComplete();
         return;
       }
-      
-      dispatch(getIdea({ roomId: BWRoomId, userId }));
+
+      dispatch(getIdea({ roomId, userId }));
       dispatch(setIsTimerOver(false));
     }
   }, [isTimerOver]);
@@ -69,10 +61,9 @@ const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
     }
   }, [BWtimer]);
 
-
   const handlePostComment = () => {
     const postCommentArgData = {
-      roomId: BWRoomId,
+      roomId,
       ideaId,
       userId,
       comment,
@@ -86,7 +77,7 @@ const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
     }
   };
 
-  useTimer({ type: 'brainwriting', roomId: BWRoomId });
+  useTimer({ type: 'brainwritingIdea', roomId });
 
   return (
     <>

@@ -3,10 +3,10 @@ import { Modal } from '../Modal/Modal';
 import { TextField, Button } from '../../../common';
 import styled from 'styled-components';
 import v8n from 'v8n';
-import { useAppSelector } from '@redux/hooks';
-import { selectSixHat } from '@redux/modules/sixHat';
+import { useAppSelector } from 'redux/hooks';
+import { selectSixHat } from 'redux/modules/sixHat';
 import { ValidationType, ErrorTextType } from '../types';
-import { themedPalette } from '@theme/styleTheme';
+import { themedPalette } from 'theme/styleTheme';
 
 type NicknameModalProps = {
   title: string;
