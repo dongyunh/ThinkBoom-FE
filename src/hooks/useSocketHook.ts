@@ -21,6 +21,7 @@ import {
   initializeTimerData,
   setIsFirstComment,
 } from 'redux/modules/brainWriting';
+import { useRouter } from 'next/router';
 
 import mixHatsHelper from 'utils/mixHatsHelper';
 import { toast } from 'react-toastify';
@@ -80,6 +81,7 @@ export type BrainWritingSendData = {
 
 export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const _api = type == 'sixhat' ? '/subSH/api/sixHat/rooms/' : '/sub/api/brainWriting/rooms/';
   const _messageApi =
@@ -114,7 +116,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              console.log(BWUserCount);
               dispatch(getUserListBW(response.BWUserList));
               dispatch(getUserCount(BWUserCount));
             }
@@ -125,7 +126,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
               };
               dispatch(getMessagesBW(newMessage));
               dispatch(setIsMessageArrived(true));
-              toast.info('메시지가 도착했습니다');
             }
 
             if (response.type === 'SUBJECT') {
@@ -133,12 +133,14 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
               toast.info('주제가 공유되었습니다');
             }
             if (response.type === 'NEXTPAGE') {
+              if (response.currentPage === 4) {
+                router.push(`/brainWriting/result/${this._roomId}`);
+              }
               if (response.currentPage === 1) {
                 dispatch(setIsFirstComment(true));
                 dispatch(initializeTimerData());
-              } else if (response.currentPage === 2) {
-                dispatch(initializeTimerData());
               }
+              dispatch(initializeTimerData());
               dispatch(updateCurrentPageBW(response.currentPage));
             }
           },
@@ -218,17 +220,11 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
       });
     }
 
-    disConnect() {
+    disConnect(category: 'SH' | 'BW') {
       if (this.StompClient) {
         this.StompClient.disconnect(() => {}, {
           senderId: this._senderId,
-          category: 'SH',
-        });
-      }
-      if (this.StompClient) {
-        this.StompClient.disconnect(() => {}, {
-          senderId: this._senderId,
-          category: 'BW',
+          category,
         });
       }
     }

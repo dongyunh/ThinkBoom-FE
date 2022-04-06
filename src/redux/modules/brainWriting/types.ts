@@ -93,4 +93,6 @@ export type BrainWritingState = {
   isLastComment: boolean;
   votedIdeaList: number[];
   ideaList: IdeaList;
+  comment: string;
+  isAllVoted: boolean;
 };
