@@ -69,11 +69,11 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   useEffect(() => {
     window.onbeforeunload = function () {
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('BW');
     };
     return () => {
       window.onbeforeunload = null;
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('BW');
     };
   }, []);
 

@@ -64,12 +64,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   useEffect(() => {
     window.onbeforeunload = function () {
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('SH');
     };
 
     return () => {
       window.onbeforeunload = null;
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('SH');
     };
   }, []);
 

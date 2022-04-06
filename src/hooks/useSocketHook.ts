@@ -220,17 +220,11 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
       });
     }
 
-    disConnect() {
+    disConnect(category: 'SH' | 'BW') {
       if (this.StompClient) {
         this.StompClient.disconnect(() => {}, {
           senderId: this._senderId,
-          category: 'SH',
-        });
-      }
-      if (this.StompClient) {
-        this.StompClient.disconnect(() => {}, {
-          senderId: this._senderId,
-          category: 'BW',
+          category,
         });
       }
     }

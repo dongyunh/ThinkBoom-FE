@@ -34,6 +34,9 @@ const VotingRoom = ({ roomId, onClickComplete }: VotingRoomType) => {
 
   const handleVote = () => {
     dispatch(voteIdea());
+    toast.info('투표되었습니다.', {
+      autoClose: 3000,
+    });
   };
 
   useEffect(() => {
