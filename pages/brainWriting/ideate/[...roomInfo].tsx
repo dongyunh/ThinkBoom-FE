@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext } from 'react';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { TutorialIcon } from 'components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { NicknameModal, LimitModal } from '../../../src/components/common';
@@ -36,6 +37,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
   const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, ideaList } =
     useAppSelector(brainWritingSelector);
+  const router = useRouter();
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 
@@ -106,6 +108,10 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     handleNextPage(3);
   };
 
+  const handleCompleteVotePage = () => {
+    router.push(`/brainWriting/result/${roomId}`);
+  };
+
   const handleChatOpen = () => {
     setIsChatOpen(!isChatOpen);
     dispatch(setIsMessageArrived(false));
@@ -141,7 +147,9 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ),
     },
     {
-      component: <VotingRoom roomId={roomId} ideaList={ideaList} />,
+      component: (
+        <VotingRoom roomId={roomId} ideaList={ideaList} onClickComplete={handleCompleteVotePage} />
+      ),
     },
   ];
 

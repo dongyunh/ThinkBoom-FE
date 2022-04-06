@@ -15,16 +15,13 @@ import useTimer from 'hooks/useTimer';
 type VotingRoomType = {
   roomId: RoomId;
   ideaList: IdeaList;
+  onClickComplete: () => void;
 };
 
-const VotingRoom = ({ roomId, ideaList }: VotingRoomType) => {
+const VotingRoom = ({ roomId, ideaList, onClickComplete }: VotingRoomType) => {
   const dispatch = useAppDispatch();
-  const { votedIdeaList } = useAppSelector(brainWritingSelector);
+  const { votedIdeaList, isTimerOver } = useAppSelector(brainWritingSelector);
   const setVotedIdeaList = new Set(votedIdeaList);
-
-  useEffect(() => {
-    dispatch(getIdeaList(roomId));
-  }, []);
 
   useTimer({ type: 'brainwritingVote', roomId });
 
@@ -35,6 +32,16 @@ const VotingRoom = ({ roomId, ideaList }: VotingRoomType) => {
   const handleVote = () => {
     dispatch(voteIdea());
   };
+
+  useEffect(() => {
+    dispatch(getIdeaList(roomId));
+  }, []);
+
+  useEffect(() => {
+    if (isTimerOver) {
+      onClickComplete();
+    }
+  }, [isTimerOver]);
 
   return (
     <CenterLayout>
