@@ -35,7 +35,7 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, ideaList, isAdmin } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, isAdmin } =
     useAppSelector(brainWritingSelector);
   const router = useRouter();
 
@@ -147,9 +147,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ),
     },
     {
-      component: (
-        <VotingRoom roomId={roomId} ideaList={ideaList} onClickComplete={handleCompleteVotePage} />
-      ),
+      component: <VotingRoom roomId={roomId} onClickComplete={handleCompleteVotePage} />,
     },
   ];
 

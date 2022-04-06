@@ -17,16 +17,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 type VotingRoomType = {
   roomId: RoomId;
-  ideaList: IdeaList;
   onClickComplete: () => void;
 };
 
-const VotingRoom = ({ roomId, ideaList, onClickComplete }: VotingRoomType) => {
+const VotingRoom = ({ roomId, onClickComplete }: VotingRoomType) => {
   const dispatch = useAppDispatch();
-  const { votedIdeaList, isTimerOver, BWtimer } = useAppSelector(brainWritingSelector);
+  const { votedIdeaList, isTimerOver, BWtimer, ideaList } = useAppSelector(brainWritingSelector);
   const setVotedIdeaList = new Set(votedIdeaList);
-
-  console.log('투표 페이지 부모', ideaList);
 
   useTimer({ type: 'brainwritingVote', roomId });
 
