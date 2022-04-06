@@ -26,17 +26,11 @@ export type Gallery = {
   subject: string;
 };
 
-export type CommentType = {
-  nickname: string;
-  comment: string;
-};
-
 export type VoteResultType = {
   ideaId: number;
-  nickname: string;
   idea: string;
-  voteCount: number;
-  comments: CommentType[];
+  isWinner?: boolean;
+  commentList: string[];
 };
 
 export type BrainWritingDataType = {
