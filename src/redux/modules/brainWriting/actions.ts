@@ -119,8 +119,6 @@ export const postComment = createAsyncThunk(
         comment,
       },
     );
-
-    console.log(response);
   },
 );
 

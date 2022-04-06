@@ -27,8 +27,6 @@ const VoteCard = ({ onClick, idea, commentList, isVoted, isWinner, isResult }: V
   };
   const handleVote = () => {};
 
-  console.log('투표카드 commentList : ', commentList);
-
   const handleOnClick = () => {
     if (!onClick) return;
     onClick();

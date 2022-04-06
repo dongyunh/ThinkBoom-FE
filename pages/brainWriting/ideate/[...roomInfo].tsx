@@ -37,7 +37,6 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
   const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, isAdmin } =
     useAppSelector(brainWritingSelector);
-  const router = useRouter();
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 

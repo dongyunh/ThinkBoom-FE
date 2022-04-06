@@ -12,7 +12,6 @@ type VoteCardModalProps = {
 };
 
 const VoteCardModal = ({ idea, commentList, onClick }: VoteCardModalProps) => {
-  console.log('투표 모달 commentList : ', commentList);
   return (
     <VoteModal>
       <Card width={400} height={600} isPointer={false}>
