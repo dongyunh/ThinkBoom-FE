@@ -76,15 +76,15 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   }, []);
 
   const sendMessage = (message: string) => {
-    ConnectedSocket.BWsendMessage(nickname, message);
+    ConnectedSocket.sendMessage(nickname, message);
   };
 
   const handleNextPage = (pageNum: number) => {
-    ConnectedSocket.BWsendCurrentPage(pageNum);
+    ConnectedSocket.sendCurrentPage(pageNum);
   };
 
   const handleSubmitSubject = (subject?: string) => {
-    ConnectedSocket.BWsubmitSubject(subject);
+    ConnectedSocket.submitSubject(subject);
     dispatch(changeIsSubmitState(true));
   };
 

@@ -66,7 +66,7 @@ const HeaderBar = () => {
 
   return (
     <StyledHeaderBar>
-      <Image src={Logo} width="300" height="" onClick={handleRouting} />
+      <Image src={Logo} width={230} height={60} onClick={handleRouting} />
       {showCpntCheckPathName()}
     </StyledHeaderBar>
   );
