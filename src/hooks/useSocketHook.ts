@@ -212,6 +212,9 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
             }
 
             if (response.type === 'NEXTPAGE') {
+              if (response.currentPage === 3) {
+                router.push(`/sixHat/result/${roomId}`);
+              }
               dispatch(updateCurrentPage(response.currentPage));
             }
           },
