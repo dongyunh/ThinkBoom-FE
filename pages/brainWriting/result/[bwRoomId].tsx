@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import { CenterLayout } from 'components/common';
 import { VoteCard } from 'components/layout/BrainWriting';
 import styled from 'styled-components';
-import { useAppSelector } from 'redux/hooks';
-import { selectGallery } from 'redux/modules/gallery';
+import { useAppSelector, useAppDispatch } from 'redux/hooks';
+import { selectGallery, getDetailGallery } from 'redux/modules/gallery';
 
-const Result = () => {
+type ResultProps = {
+  bwRoomId: string;
+};
+
+const Result = ({ bwRoomId }: ResultProps) => {
+  const dispatch = useAppDispatch();
   const { brainWritingDetail } = useAppSelector(selectGallery);
+
+  useEffect(() => {
+    dispatch(getDetailGallery({ category: 'brainwriting', roomId: bwRoomId }));
+  }, []);
 
   return (
     <CenterLayout>
@@ -34,3 +44,13 @@ const Container = styled.div`
 `;
 
 export default Result;
+
+export const getServerSideProps: GetServerSideProps = async context => {
+  const { query } = context;
+  const { bwRoomId } = query;
+  return {
+    props: {
+      bwRoomId,
+    },
+  };
+};

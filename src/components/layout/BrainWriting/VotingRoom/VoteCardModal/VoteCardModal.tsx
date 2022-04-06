@@ -21,7 +21,7 @@ const VoteCardModal = ({ idea, commentList, onClick }: VoteCardModalProps) => {
           </CloseWrapper>
           <Idea>{idea}</Idea>
           <CommentWrapper>
-            {commentList.map((comment, idx) => {
+            {commentList?.map((comment, idx) => {
               return <Comment key={idx}>{comment}</Comment>;
             })}
           </CommentWrapper>
