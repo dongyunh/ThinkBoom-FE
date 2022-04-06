@@ -110,7 +110,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const handleCompleteVotePage = async () => {
     if (isAdmin) {
       await saveBwResult(roomId);
-      await router.push(`/brainWriting/result/${roomId}`);
+      await handleNextPage(3);
     }
   };
 
