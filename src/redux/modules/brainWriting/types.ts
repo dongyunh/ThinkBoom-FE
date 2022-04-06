@@ -94,4 +94,5 @@ export type BrainWritingState = {
   votedIdeaList: number[];
   ideaList: IdeaList;
   comment: string;
+  isAllVoted: boolean;
 };

@@ -23,6 +23,7 @@ import {
   getVoteTimerData,
   getVotedIdeaList,
   updateComment,
+  voteIdea,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -52,6 +53,7 @@ const initialState: BrainWritingState = {
   votedIdeaList: [],
   ideaList: [],
   comment: '',
+  isAllVoted: false,
 };
 
 //createReducer로 reducer 생성.
@@ -104,6 +106,12 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     .addCase(getIdeaList.fulfilled, (state, action) => {
       const { ideaList } = action.payload;
       state.ideaList = ideaList;
+    })
+    .addCase(voteIdea.fulfilled, (state, action) => {
+      const { totalUser, presentVotedUser } = action.payload;
+      let isAllVoted = false;
+      if (totalUser == presentVotedUser) isAllVoted = true;
+      state.isAllVoted = isAllVoted;
     })
     .addCase(setIsFirstComment, (state, action) => {
       state.isFirstComment = action.payload;

@@ -88,10 +88,15 @@ export const voteIdea = createAsyncThunk(`${prefix}/VOTE_IDEA`, async ({}, { get
   const { brainWriting } = getState() as RootState;
   const { votedIdeaList, userId, roomId } = brainWriting;
 
-  await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/vote/${roomId}`, {
-    userId,
-    votedIdeaList,
-  });
+  const response = await axios.patch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/vote/${roomId}`,
+    {
+      userId,
+      votedIdeaList,
+    },
+  );
+
+  return response.data;
 });
 
 export const saveResult = createAsyncThunk(

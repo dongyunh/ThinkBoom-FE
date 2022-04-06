@@ -22,7 +22,8 @@ type VotingRoomType = {
 
 const VotingRoom = ({ roomId, onClickComplete }: VotingRoomType) => {
   const dispatch = useAppDispatch();
-  const { votedIdeaList, isTimerOver, BWtimer, ideaList } = useAppSelector(brainWritingSelector);
+  const { votedIdeaList, isTimerOver, BWtimer, ideaList, isAllVoted } =
+    useAppSelector(brainWritingSelector);
   const setVotedIdeaList = new Set(votedIdeaList);
 
   useTimer({ type: 'brainwritingVote', roomId });
@@ -40,10 +41,10 @@ const VotingRoom = ({ roomId, onClickComplete }: VotingRoomType) => {
   }, []);
 
   useEffect(() => {
-    if (isTimerOver) {
+    if (isTimerOver || isAllVoted) {
       onClickComplete();
     }
-  }, [isTimerOver]);
+  }, [isTimerOver, isAllVoted]);
 
   useEffect(() => {
     if (BWtimer === 10) {
