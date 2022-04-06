@@ -1,6 +1,5 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
 import { TutorialIcon } from 'components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { NicknameModal, LimitModal } from '../../../src/components/common';

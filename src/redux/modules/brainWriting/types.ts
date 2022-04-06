@@ -53,6 +53,7 @@ export type GetIdeaPayLoadType = {
 };
 
 export type VoteIdeaArgType = {
+  votedIdeaList: number[];
   userId: UserId;
   roomId: string | null;
 };

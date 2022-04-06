@@ -9,7 +9,7 @@ import {
   getVotedIdeaList,
   voteIdea,
 } from 'redux/modules/brainWriting';
-import { RoomId, IdeaList } from 'redux/modules/brainWriting/types';
+import { RoomId } from 'redux/modules/brainWriting/types';
 import useTimer from 'hooks/useTimer';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,7 +22,7 @@ type VotingRoomType = {
 
 const VotingRoom = ({ roomId, onClickComplete }: VotingRoomType) => {
   const dispatch = useAppDispatch();
-  const { votedIdeaList, isTimerOver, BWtimer, ideaList, isAllVoted } =
+  const { votedIdeaList, isTimerOver, BWtimer, ideaList, isAllVoted, userId } =
     useAppSelector(brainWritingSelector);
   const setVotedIdeaList = new Set(votedIdeaList);
 
@@ -33,7 +33,7 @@ const VotingRoom = ({ roomId, onClickComplete }: VotingRoomType) => {
   };
 
   const handleVote = () => {
-    dispatch(voteIdea());
+    dispatch(voteIdea({ votedIdeaList, roomId, userId }));
     toast.info('투표되었습니다.', {
       autoClose: 3000,
     });
