@@ -27,6 +27,6 @@ export default {
 const Template: ComponentStory<typeof ChattingRoom> = args => <ChattingRoom {...args} />;
 export const DefaultChattingRoom = Template.bind({});
 DefaultChattingRoom.args = {
-  chatHistory: messageData,
+  // chatHistory: messageData,
   myNickname: '코끼리귀여워',
 };

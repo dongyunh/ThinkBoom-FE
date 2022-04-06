@@ -14,14 +14,14 @@ export default {
   },
 } as ComponentMeta<typeof HeaderBar>;
 const Template: ComponentStory<typeof HeaderBar> = args => (
-  <HeaderBar {...args}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-      <h1 style={{ color: 'white' }}>로고</h1>
-      <div>
-        <h2>갤러리</h2>
-        <h2>마이페이지</h2>
-      </div>
+  // <HeaderBar {...args}>
+  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+    <h1 style={{ color: 'white' }}>로고</h1>
+    <div>
+      <h2>갤러리</h2>
+      <h2>마이페이지</h2>
     </div>
-  </HeaderBar>
+  </div>
+  // </HeaderBar>
 );
 export const DefaultHeaderBar = Template.bind({});

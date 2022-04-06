@@ -1,31 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { S_Modal } from '../Modal/S_Modal';
 import { TextField, Button } from '../../../common';
 import styled from 'styled-components';
 import v8n from 'v8n';
+import { useAppSelector } from 'redux/hooks';
+import { selectSixHat } from 'redux/modules/sixHat';
+import { ValidationType, ErrorTextType } from '../types';
+import { themedPalette } from 'theme/styleTheme';
 
-type MakeRoomModalProps = {
+type NicknameModalProps = {
   title: string;
-  onClickDropdown1?: () => void;
-  onClickDropdown2?: () => void;
-  onClickButton: () => void;
+  onClick: (arg: any) => void;
 };
 
-const S_NicknameModal = ({
-  title,
-  onClickDropdown1,
-  onClickDropdown2,
-  onClickButton,
-}: MakeRoomModalProps) => {
+const S_NicknameModal = ({ title, onClick }: NicknameModalProps) => {
+  const { isDuplicated } = useAppSelector(selectSixHat);
   const [nickname, setNickname] = useState<string>();
-  const [isError, setIsError] = useState<boolean>();
+  const [isError, setIsError] = useState<ValidationType>({
+    isLengthOver: false,
+    isDuplicated: false,
+  });
 
-  const validation = v8n().string().length(2, 6);
+  const lengthValidation = v8n().string().length(2, 6);
 
   const checkValidation = (_nickname: string) => {
     setNickname(_nickname);
-    setIsError(!validation.test(_nickname));
+    setIsError({
+      isLengthOver: !lengthValidation.test(_nickname),
+      isDuplicated: isDuplicated,
+    });
   };
+
+  const handleOnClick = () => {
+    if (!onClick) return;
+    onClick(nickname);
+  };
+
+  const validationText: ErrorTextType = {
+    lengthErrorText: '닉네임은 2~6자 이내로 설정해주세요',
+    duplicatedErrorText: '다른 팀원이 사용중인 닉네임입니다.',
+  };
+
+  useEffect(() => {
+    if (isDuplicated) {
+      setIsError({ isLengthOver: false, isDuplicated: isDuplicated });
+    }
+  }, [isDuplicated]);
 
   return (
     <S_Modal>
@@ -35,14 +55,14 @@ const S_NicknameModal = ({
         </TitleWrapper>
         <TextFieldWrapper>
           <TextField
-            label="사용자명"
-            errorText="2~6자 이내로 설정해주세요"
+            label="닉네임"
+            errorText={validationText}
             hintText="닉네임을 입력해주세요 (2~6자)"
             isError={isError}
             onChange={checkValidation}
           />
         </TextFieldWrapper>
-        <Button text="개설하기" />
+        <Button text="입력하기" onClick={handleOnClick} />
       </MakeRoomContainer>
     </S_Modal>
   );
@@ -61,6 +81,7 @@ const Title = styled.h1`
   text-align: center;
   margin: 0;
   padding-bottom: 22px;
+  color: ${themedPalette.main_text1};
 `;
 
 const TitleWrapper = styled.div`
