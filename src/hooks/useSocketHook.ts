@@ -65,7 +65,7 @@ export type BrainWritingResponseData = {
   currentPage: number;
   totalUser: number;
   currentUser: number;
-  BWUserList: BWUserList;
+  userList: BWUserList;
   // createdAt: string | null;
 };
 
@@ -116,7 +116,7 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              dispatch(getUserListBW(response.BWUserList));
+              dispatch(getUserListBW(response.userList));
               dispatch(getUserCount(BWUserCount));
             }
             if (response.type === 'TALK') {
