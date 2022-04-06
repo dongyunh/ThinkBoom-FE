@@ -135,7 +135,11 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     })
     .addCase(getVotedIdeaList, (state, action) => {
       const settedList = new Set(state.votedIdeaList);
-      settedList.add(action.payload);
+      if (settedList.has(action.payload)) {
+        settedList.delete(action.payload);
+      } else {
+        settedList.add(action.payload);
+      }
       state.votedIdeaList = [...settedList];
     })
     .addCase(PURGE, (state, action) => {
