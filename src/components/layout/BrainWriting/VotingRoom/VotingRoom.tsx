@@ -65,12 +65,8 @@ const VotingRoom = ({ roomId, ideaList, onClickComplete }: VotingRoomType) => {
                   idea={data.idea}
                   commentList={data.commentList}
                   isVoted={setVotedIdeaList.has(data.ideaId)}
-                  width={330}
-                  height={200}
                   onClick={() => handleGetVotedIdeaList(data.ideaId)}
-                >
-                  {data.idea}
-                </VoteCard>
+                />
               );
             })}
           </Container>

@@ -6,7 +6,11 @@ import { GalleryState } from './types';
 const initalState: GalleryState = {
   galleryList: [],
   randomWordDetail: [],
-  brainWritingDetail: [],
+  brainWritingDetail: {
+    subject: '',
+    bwId: 0,
+    voteResult: [],
+  },
   sixHatDetail: {
     subject: '',
     chatHistory: [],
