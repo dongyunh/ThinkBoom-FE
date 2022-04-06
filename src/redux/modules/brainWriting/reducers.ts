@@ -109,9 +109,11 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     })
     .addCase(voteIdea.fulfilled, (state, action) => {
       const { totalUser, presentVotedUser } = action.payload;
-      let isAllVoted = false;
-      if (totalUser == presentVotedUser) isAllVoted = true;
-      state.isAllVoted = isAllVoted;
+      if (totalUser == presentVotedUser) {
+        state.isAllVoted = true;
+      } else {
+        state.isAllVoted = false;
+      }
     })
     .addCase(setIsFirstComment, (state, action) => {
       state.isFirstComment = action.payload;

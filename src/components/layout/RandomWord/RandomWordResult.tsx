@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
+import { PrimaryButton } from 'components/common';
+import { useRouter } from 'next/router';
 
 type ResultProps = {
   wordList: string[];
 };
 
 const RandomWordResult = ({ wordList }: ResultProps) => {
+  const router = useRouter();
+
   return (
-    <ResultGrid>
-      {wordList.map((word, idx) => {
-        return <Word key={idx}>{word}</Word>;
-      })}
-    </ResultGrid>
+    <>
+      <Empty />
+      <ResultGrid>
+        {wordList.map((word, idx) => {
+          return <Word key={idx}>{word}</Word>;
+        })}
+      </ResultGrid>
+    </>
   );
 };
+const Empty = styled.div`
+  height: 100px;
+`;
 
 const ResultGrid = styled.div`
   display: grid;
@@ -33,6 +43,13 @@ const Word = styled.div`
   border: 5px solid ${themedPalette.border_1};
   border-radius: 12px;
   font-size: 20px;
+`;
+
+const ButtonWrapper = styled.div`
+  padding-top: 70px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 export { RandomWordResult };

@@ -29,6 +29,7 @@ export type Gallery = {
 export type VoteResultType = {
   ideaId: number;
   idea: string;
+  voteCount?: number;
   isWinner?: boolean;
   commentList: string[];
 };

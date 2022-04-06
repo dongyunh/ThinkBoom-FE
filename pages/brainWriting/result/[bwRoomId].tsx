@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { GetServerSideProps } from 'next';
-import { CenterLayout, PrimaryButton, ResultModal } from 'components/common';
-import { VoteCard } from 'components/layout/BrainWriting';
 import styled from 'styled-components';
 import { useAppSelector, useAppDispatch } from 'redux/hooks';
 import { selectGallery, getDetailGallery } from 'redux/modules/gallery';
+import { ResultModal } from 'components/common/Modals';
 import { useRouter } from 'next/router';
+import { Result as BrainWritingResult } from 'components/layout/BrainWriting';
 import axios from 'axios';
 
 type ResultProps = {
@@ -33,25 +33,10 @@ const Result = ({ bwRoomId }: ResultProps) => {
   };
 
   return (
-    <CenterLayout>
-      <>
-        <Container>
-          {brainWritingDetail?.voteResult?.map(data => {
-            return (
-              <VoteCard
-                key={data.ideaId}
-                isWinner={data.isWinner}
-                isResult={true}
-                idea={data.idea}
-                commentList={data.commentList}
-              />
-            );
-          })}
-        </Container>
-        <PrimaryButton text="완료" onClick={() => setIsOpen(true)} />
-        {isOpen && <ResultModal onClickBtn1={handleCancel} onClickBtn2={handleComplete} />}
-      </>
-    </CenterLayout>
+    <>
+      <BrainWritingResult brainWritingDetail={brainWritingDetail} onClick={() => setIsOpen(true)} />
+      {isOpen && <ResultModal onClickBtn1={handleCancel} onClickBtn2={handleComplete} />}
+    </>
   );
 };
 
@@ -59,6 +44,7 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+  gap: 20px;
 `;
 
 export default Result;

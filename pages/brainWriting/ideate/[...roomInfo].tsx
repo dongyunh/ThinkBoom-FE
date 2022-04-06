@@ -1,6 +1,5 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
-import { useRouter } from 'next/router';
 import { TutorialIcon } from 'components/common/Icon/TutorialIcon';
 import { useAppDispatch, useAppSelector } from '../../../src/redux/hooks';
 import { NicknameModal, LimitModal } from '../../../src/components/common';
@@ -107,10 +106,8 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   };
 
   const handleCompleteVotePage = async () => {
-    if (isAdmin) {
-      await saveBwResult(roomId);
-      await handleNextPage(4);
-    }
+    await saveBwResult(roomId);
+    await handleNextPage(4);
   };
 
   const handleChatOpen = () => {
