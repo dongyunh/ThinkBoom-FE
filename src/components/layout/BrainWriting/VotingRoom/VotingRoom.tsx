@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { CenterLayout, PrimaryButton } from 'components/common';
 import { VoteCard } from 'components/layout/BrainWriting/VotingRoom/VoteCard';

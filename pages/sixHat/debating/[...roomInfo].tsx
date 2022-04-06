@@ -24,7 +24,7 @@ import useSocketHook from '../../../src/hooks/useSocketHook';
 import { HatType, UserList } from 'redux/modules/sixHat/types';
 import { selectPermit, setIsMessageArrived } from 'redux/modules/permit';
 import { ToastContainer } from 'react-toastify';
-import copyUrlHelper from '@utils/copyUrlHelper';
+import copyUrlHelper from 'utils/copyUrlHelper';
 
 import 'react-toastify/dist/ReactToastify.css';
 

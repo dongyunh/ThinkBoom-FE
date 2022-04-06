@@ -22,7 +22,7 @@ import {
   setIsFirstComment,
 } from 'redux/modules/brainWriting';
 
-import mixHatsHelper from '@utils/mixHatsHelper';
+import mixHatsHelper from 'utils/mixHatsHelper';
 import { toast } from 'react-toastify';
 
 import { UserList, UserData, HatType } from 'redux/modules/sixHat/types';
@@ -114,7 +114,7 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-
+              console.log(BWUserCount);
               dispatch(getUserListBW(response.BWUserList));
               dispatch(getUserCount(BWUserCount));
             }

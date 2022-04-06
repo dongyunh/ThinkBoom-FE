@@ -9,8 +9,7 @@ import useSocketHook from '../../../src/hooks/useSocketHook';
 import { selectPermit, setIsMessageArrived } from 'redux/modules/permit';
 
 import { WaitingRoom, InteractivePage, ShareIcon, ChatIcon } from 'components/common';
-import { BwCard } from '../../../src/components/common/BwCard';
-import { BwComment } from 'components/common/BwCommnet';
+import { BwCard, BwComment } from 'components/common';
 import { VotingRoom } from 'components/layout/BrainWriting';
 import {
   getNickname,
@@ -18,7 +17,8 @@ import {
   changeIsSubmitState,
   clearChatHistory,
   initializeIdeaCard,
-} from '../../../src/redux/modules/brainWriting';
+  getRoomId,
+} from 'redux/modules/brainWriting';
 
 import copyUrlHelper from 'utils/copyUrlHelper';
 import { ChattingRoom } from 'components/common';
@@ -34,16 +34,20 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, roomId, ideaList } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, ideaList } =
     useAppSelector(brainWritingSelector);
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isFull, setIsFull] = useState(0);
-  const [roomTitle] = roomInfo;
+  const [roomTitle, roomId] = roomInfo;
 
   const HandleSocket = useSocketHook('brainwriting');
+
+  useEffect(() => {
+    dispatch(getRoomId(roomId));
+  }, []);
 
   useEffect(() => {
     if (BWUserCount.totalUser !== 0) {

@@ -28,3 +28,5 @@ export * from './Modals/RoutingAlertModal';
 export * from './Modals/Modal';
 export * from './GalleryCard';
 export * from './Timer';
+export * from './BwCommnet';
+export * from './BwCard';
