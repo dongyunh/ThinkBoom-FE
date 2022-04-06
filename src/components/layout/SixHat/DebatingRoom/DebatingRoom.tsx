@@ -8,9 +8,10 @@ import { useRouter } from 'next/router';
 
 type DebatingRoom = {
   onClick: (arg: string) => void;
+  onClickComplete: () => void;
 };
 
-const DebatingRoom = ({ onClick }: DebatingRoom) => {
+const DebatingRoom = ({ onClick, onClickComplete }: DebatingRoom) => {
   const dispatch = useAppDispatch();
   const { isAdmin } = useAppSelector(selectSixHat);
   const router = useRouter();
@@ -18,7 +19,7 @@ const DebatingRoom = ({ onClick }: DebatingRoom) => {
 
   const handleComplete = async () => {
     await dispatch(saveSixHatData({ roomId }));
-    await router.push(`/sixHat/result/${roomId}`);
+    await onClickComplete();
   };
 
   return (

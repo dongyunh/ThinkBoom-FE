@@ -113,6 +113,10 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
     dispatch(setIsMessageArrived(false));
   };
 
+  const handleCompleteDebatingPage = () => {
+    handleNextPage(3);
+  };
+
   const pages = [
     {
       component: (
@@ -132,7 +136,12 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ),
     },
     {
-      component: <DebatingRoom onClick={handelSendDebatingMessage} />,
+      component: (
+        <DebatingRoom
+          onClick={handelSendDebatingMessage}
+          onClickComplete={handleCompleteDebatingPage}
+        />
+      ),
     },
   ];
 

@@ -14,9 +14,11 @@ const Gallery = () => {
   const [observeTarget, targetInView] = useInView();
   const [paginationInfo, setPaginationInfo] = useState({ page: 0, size: 9 });
 
+  console.log(paginationInfo);
+
   useEffect(() => {
     dispatch(getAllGallery(paginationInfo));
-  }, []);
+  }, [paginationInfo]);
 
   const handleRouting = (category: string, roomId: string) => {
     router.push(`/gallery/detail/${category}/${roomId}`);
@@ -25,11 +27,8 @@ const Gallery = () => {
   // //infinite scroll
   useEffect(() => {
     if (targetInView) {
-      dispatch(getAllGallery(paginationInfo));
-      setPaginationInfo({ ...paginationInfo, page: paginationInfo.page++ });
+      setPaginationInfo({ ...paginationInfo, page: paginationInfo.page + 1 });
     }
-
-    //화면에서 떠나면 무한스크롤을 위한 옵저버를 숨긴다.
   }, [targetInView]);
 
   return (

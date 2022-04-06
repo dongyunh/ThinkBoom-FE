@@ -65,7 +65,7 @@ export type BrainWritingResponseData = {
   currentPage: number;
   totalUser: number;
   currentUser: number;
-  BWUserList: BWUserList;
+  userList: BWUserList;
   // createdAt: string | null;
 };
 
@@ -84,8 +84,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
   const router = useRouter();
 
   const _api = type == 'sixhat' ? '/subSH/api/sixHat/rooms/' : '/sub/api/brainWriting/rooms/';
-  const _messageApi =
-    type == 'sixhat' ? '/pubSH/api/sixHat/chat/message' : '/pub/api/brainWriting/chat/message';
 
   class HandleSocket {
     SockJs;
@@ -99,6 +97,8 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
       this._roomId = null;
       this._senderId = null;
     }
+
+    //connect brainwriting
     connectBW(senderId: number | null, roomId: string) {
       this._senderId = senderId;
       this._roomId = roomId;
@@ -116,7 +116,7 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              dispatch(getUserListBW(response.BWUserList));
+              dispatch(getUserListBW(response.userList));
               dispatch(getUserCount(BWUserCount));
             }
             if (response.type === 'TALK') {
@@ -149,6 +149,7 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
       });
     }
 
+    //connect sixhat
     connectSH(senderId: number | null, roomId: string) {
       this._senderId = senderId;
       this._roomId = roomId;
@@ -212,6 +213,9 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
             }
 
             if (response.type === 'NEXTPAGE') {
+              if (response.currentPage === 3) {
+                router.push(`/sixHat/result/${roomId}`);
+              }
               dispatch(updateCurrentPage(response.currentPage));
             }
           },
@@ -240,28 +244,38 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
       }, 0.1);
     };
 
-    send = (data: SixHatSendData) => {
+    send = (data: SixHatSendData | BrainWritingSendData | null) => {
+      let _messageApi: string = '';
+      if (type == 'sixhat') _messageApi = '/pubSH/api/sixHat/chat/message';
+      else if (type == 'brainwriting') _messageApi = '/pub/api/brainwriting/chat/message';
+
       this.waitForConnection(this.StompClient, () => {
         this.StompClient.debug = () => {};
-        this.StompClient.send(
-          '/pubSH/api/sixHat/chat/message',
-          { senderId: this._senderId },
-          JSON.stringify(data),
-        );
+        this.StompClient.send(_messageApi, { senderId: this._senderId }, JSON.stringify(data));
       });
     };
 
     sendMessage = (sender: string, message: string) => {
       try {
-        // send할 데이터
-        const data: SixHatSendData = {
-          type: 'TALK',
-          roomId: this._roomId,
-          sender: sender,
-          senderId: this._senderId,
-          hat: null,
-          message: message,
-        };
+        let data: SixHatSendData | BrainWritingSendData | null = null;
+        if (type === 'sixhat') {
+          data = {
+            type: 'TALK',
+            roomId: this._roomId,
+            sender: sender,
+            senderId: this._senderId,
+            hat: null,
+            message: message,
+          };
+        } else if (type === 'brainwriting') {
+          data = {
+            type: 'TALK',
+            roomId: this._roomId,
+            sender: sender,
+            senderId: this._senderId,
+            message: message,
+          };
+        }
         this.send(data);
       } catch (e) {
         console.log('message 소켓 함수 에러', e);
@@ -323,15 +337,27 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
     submitSubject = (subject: string) => {
       try {
         // send할 데이터
-        const data: SixHatSendData = {
-          type: 'SUBJECT',
-          roomId: this._roomId,
-          sender: null,
-          senderId: this._senderId,
-          hat: null,
-          message: null,
-          subject: subject,
-        };
+        let data: SixHatSendData | BrainWritingSendData | null = null;
+        if (type === 'sixhat') {
+          data = {
+            type: 'SUBJECT',
+            roomId: this._roomId,
+            sender: null,
+            senderId: this._senderId,
+            hat: null,
+            message: null,
+            subject: subject,
+          };
+        } else if (type === 'brainwriting') {
+          data = {
+            type: 'SUBJECT',
+            roomId: this._roomId,
+            sender: null,
+            senderId: this._senderId,
+            subject: subject,
+            message: null,
+          };
+        }
         this.send(data);
       } catch (e) {
         console.log('message 소켓 함수 에러', e);
@@ -340,75 +366,28 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
 
     sendCurrentPage = (pageNum: number) => {
       try {
-        // send할 데이터
-        const data: SixHatSendData = {
-          type: 'NEXTPAGE',
-          roomId: this._roomId,
-          sender: null,
-          senderId: this._senderId,
-          hat: null,
-          message: null,
-          currentPage: pageNum,
-        };
+        let data: SixHatSendData | BrainWritingSendData | null = null;
+        if (type === 'sixhat') {
+          data = {
+            type: 'NEXTPAGE',
+            roomId: this._roomId,
+            sender: null,
+            senderId: this._senderId,
+            hat: null,
+            message: null,
+            currentPage: pageNum,
+          };
+        } else if (type === 'brainwriting') {
+          data = {
+            type: 'NEXTPAGE',
+            roomId: this._roomId,
+            sender: null,
+            senderId: this._senderId,
+            message: null,
+            currentPage: pageNum,
+          };
+        }
         this.send(data);
-      } catch (e) {
-        console.log('message 소켓 함수 에러', e);
-      }
-    };
-    //BW
-    BWsend = (data: BrainWritingSendData) => {
-      this.waitForConnection(this.StompClient, () => {
-        this.StompClient.debug = () => {};
-        this.StompClient.send(
-          '/pub/api/brainwriting/chat/message',
-          { senderId: this._senderId },
-          JSON.stringify(data),
-        );
-      });
-    };
-    BWsendMessage = (sender: string, message: string) => {
-      try {
-        // send할 데이터
-        const data: BrainWritingSendData = {
-          type: 'TALK',
-          roomId: this._roomId,
-          sender: sender,
-          senderId: this._senderId,
-          message: message,
-        };
-        this.BWsend(data);
-      } catch (e) {
-        console.log('message 소켓 함수 에러', e);
-      }
-    };
-    BWsubmitSubject = (subject: string) => {
-      try {
-        // send할 데이터
-        const data: BrainWritingSendData = {
-          type: 'SUBJECT',
-          roomId: this._roomId,
-          sender: null,
-          senderId: this._senderId,
-          subject: subject,
-          message: null,
-        };
-        this.BWsend(data);
-      } catch (e) {
-        console.log('message 소켓 함수 에러', e);
-      }
-    };
-    BWsendCurrentPage = (pageNum: number) => {
-      try {
-        // send할 데이터
-        const data: BrainWritingSendData = {
-          type: 'NEXTPAGE',
-          roomId: this._roomId,
-          sender: null,
-          senderId: this._senderId,
-          message: null,
-          currentPage: pageNum,
-        };
-        this.BWsend(data);
       } catch (e) {
         console.log('message 소켓 함수 에러', e);
       }
@@ -416,7 +395,4 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
   }
 
   return HandleSocket;
-}
-function userData(userData: any): any {
-  throw new Error('Function not implemented.');
 }
