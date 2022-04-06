@@ -58,6 +58,6 @@ export type PaginationInfo = {
 export type GalleryState = {
   galleryList: Gallery[];
   randomWordDetail: string[];
-  brainWritingDetail: BrainWritingDataType[];
+  brainWritingDetail: BrainWritingDataType;
   sixHatDetail: SixHatDataType;
 };
