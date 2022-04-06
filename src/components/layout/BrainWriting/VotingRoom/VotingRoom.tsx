@@ -26,6 +26,8 @@ const VotingRoom = ({ roomId, ideaList, onClickComplete }: VotingRoomType) => {
   const { votedIdeaList, isTimerOver, BWtimer } = useAppSelector(brainWritingSelector);
   const setVotedIdeaList = new Set(votedIdeaList);
 
+  console.log('투표 페이지 부모', ideaList);
+
   useTimer({ type: 'brainwritingVote', roomId });
 
   const handleGetVotedIdeaList = (ideaId: number) => {

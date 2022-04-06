@@ -35,7 +35,7 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, ideaList } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, ideaList, isAdmin } =
     useAppSelector(brainWritingSelector);
   const router = useRouter();
 
@@ -105,7 +105,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   };
 
   const handleCompleteCommentPage = () => {
-    handleNextPage(3);
+    if (isAdmin) return handleNextPage(3);
   };
 
   const handleCompleteVotePage = () => {

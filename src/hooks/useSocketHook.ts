@@ -114,7 +114,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
                 totalUser: response.totalUser,
                 currentUser: response.currentUser,
               };
-              console.log(BWUserCount);
               dispatch(getUserListBW(response.BWUserList));
               dispatch(getUserCount(BWUserCount));
             }
@@ -136,9 +135,8 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
               if (response.currentPage === 1) {
                 dispatch(setIsFirstComment(true));
                 dispatch(initializeTimerData());
-              } else if (response.currentPage === 2) {
-                dispatch(initializeTimerData());
               }
+              dispatch(initializeTimerData());
               dispatch(updateCurrentPageBW(response.currentPage));
             }
           },
