@@ -16,11 +16,11 @@ import {
   getNickname,
   brainWritingSelector,
   changeIsSubmitState,
-  clearChatHistory,
   initializeIdeaCard,
   getRoomId,
 } from 'redux/modules/brainWriting';
 
+import saveBwResult from 'utils/saveBwResult';
 import copyUrlHelper from 'utils/copyUrlHelper';
 import { ChattingRoom } from 'components/common';
 
@@ -100,16 +100,18 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   };
 
   const handleCompleteIdeaPage = () => {
-    handleNextPage(2);
-    dispatch(clearChatHistory());
+    if (isAdmin) return handleNextPage(2);
   };
 
   const handleCompleteCommentPage = () => {
     if (isAdmin) return handleNextPage(3);
   };
 
-  const handleCompleteVotePage = () => {
-    router.push(`/brainWriting/result/${roomId}`);
+  const handleCompleteVotePage = async () => {
+    if (isAdmin) {
+      await saveBwResult(roomId);
+      await router.push(`/brainWriting/result/${roomId}`);
+    }
   };
 
   const handleChatOpen = () => {
