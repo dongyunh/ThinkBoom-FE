@@ -22,6 +22,8 @@ import {
   setIsFirstComment,
   getVoteTimerData,
   getVotedIdeaList,
+  updateComment,
+  voteIdea,
 } from './actions';
 import { BrainWritingState } from './types';
 import { PURGE } from 'redux-persist';
@@ -50,6 +52,8 @@ const initialState: BrainWritingState = {
   isLastComment: false,
   votedIdeaList: [],
   ideaList: [],
+  comment: '',
+  isAllVoted: false,
 };
 
 //createReducer로 reducer 생성.
@@ -103,6 +107,12 @@ export const brainWritingReducer = createReducer(initialState, builder => {
       const { ideaList } = action.payload;
       state.ideaList = ideaList;
     })
+    .addCase(voteIdea.fulfilled, (state, action) => {
+      const { totalUser, presentVotedUser } = action.payload;
+      let isAllVoted = false;
+      if (totalUser == presentVotedUser) isAllVoted = true;
+      state.isAllVoted = isAllVoted;
+    })
     .addCase(setIsFirstComment, (state, action) => {
       state.isFirstComment = action.payload;
     })
@@ -135,8 +145,15 @@ export const brainWritingReducer = createReducer(initialState, builder => {
     })
     .addCase(getVotedIdeaList, (state, action) => {
       const settedList = new Set(state.votedIdeaList);
-      settedList.add(action.payload);
+      if (settedList.has(action.payload)) {
+        settedList.delete(action.payload);
+      } else {
+        settedList.add(action.payload);
+      }
       state.votedIdeaList = [...settedList];
+    })
+    .addCase(updateComment, (state, action) => {
+      state.comment = action.payload;
     })
     .addCase(PURGE, (state, action) => {
       return initialState;

@@ -31,6 +31,7 @@ export const changeIsSubmitState = createAction<boolean>(`${prefix}/CHANGE_IS_SU
 export const clearChatHistory = createAction(`${prefix}/CLEAR_CHAT_HISTORY`);
 export const getUserCount = createAction<BWUserCount>(`${prefix}/GET_TOTAL_USER_COUNT`);
 export const setIsFirstComment = createAction<boolean>(`${prefix}/SET_IS_FIRST_COMMNET`);
+export const updateComment = createAction<string>(`${prefix}/UPDATE_COMMENT`);
 
 export const getNickname = createAsyncThunk(
   `${prefix}/GET_NICKNAME`,
@@ -95,8 +96,15 @@ export const voteIdea = createAsyncThunk(`${prefix}/VOTE_IDEA`, async ({}, { get
     },
   );
 
-  console.log(response);
+  return response.data;
 });
+
+export const saveResult = createAsyncThunk(
+  `${prefix}/SAVE_RESULT`,
+  async (roomId: string | null) => {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/brainwriting/gallery/save/${roomId}`);
+  },
+);
 
 export const getVotedIdeaList = createAction<number>(`${prefix}/GET_VOTED_IDEA_LIST`);
 
@@ -111,8 +119,6 @@ export const postComment = createAsyncThunk(
         comment,
       },
     );
-
-    console.log(response);
   },
 );
 

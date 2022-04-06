@@ -17,13 +17,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 type VotingRoomType = {
   roomId: RoomId;
-  ideaList: IdeaList;
   onClickComplete: () => void;
 };
 
-const VotingRoom = ({ roomId, ideaList, onClickComplete }: VotingRoomType) => {
+const VotingRoom = ({ roomId, onClickComplete }: VotingRoomType) => {
   const dispatch = useAppDispatch();
-  const { votedIdeaList, isTimerOver, BWtimer } = useAppSelector(brainWritingSelector);
+  const { votedIdeaList, isTimerOver, BWtimer, ideaList, isAllVoted } =
+    useAppSelector(brainWritingSelector);
   const setVotedIdeaList = new Set(votedIdeaList);
 
   useTimer({ type: 'brainwritingVote', roomId });
@@ -34,6 +34,9 @@ const VotingRoom = ({ roomId, ideaList, onClickComplete }: VotingRoomType) => {
 
   const handleVote = () => {
     dispatch(voteIdea());
+    toast.info('투표되었습니다.', {
+      autoClose: 3000,
+    });
   };
 
   useEffect(() => {
@@ -41,10 +44,10 @@ const VotingRoom = ({ roomId, ideaList, onClickComplete }: VotingRoomType) => {
   }, []);
 
   useEffect(() => {
-    if (isTimerOver) {
+    if (isTimerOver || isAllVoted) {
       onClickComplete();
     }
-  }, [isTimerOver]);
+  }, [isTimerOver, isAllVoted]);
 
   useEffect(() => {
     if (BWtimer === 10) {

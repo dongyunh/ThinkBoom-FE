@@ -16,11 +16,11 @@ import {
   getNickname,
   brainWritingSelector,
   changeIsSubmitState,
-  clearChatHistory,
   initializeIdeaCard,
   getRoomId,
 } from 'redux/modules/brainWriting';
 
+import saveBwResult from 'utils/saveBwResult';
 import copyUrlHelper from 'utils/copyUrlHelper';
 import { ChattingRoom } from 'components/common';
 
@@ -35,9 +35,8 @@ let ConnectedSocket: any;
 
 const SettingPage = ({ roomInfo }: SettingPageProps) => {
   const dispatch = useAppDispatch();
-  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, ideaList } =
+  const { currentPage, nickname, chatHistory, userId, BWsubject, BWUserCount, isAdmin } =
     useAppSelector(brainWritingSelector);
-  const router = useRouter();
 
   const { isRoutingModalOpen } = useAppSelector(selectPermit);
 
@@ -69,11 +68,11 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
 
   useEffect(() => {
     window.onbeforeunload = function () {
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('BW');
     };
     return () => {
       window.onbeforeunload = null;
-      ConnectedSocket.disConnect();
+      ConnectedSocket.disConnect('BW');
     };
   }, []);
 
@@ -100,16 +99,18 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   };
 
   const handleCompleteIdeaPage = () => {
-    handleNextPage(2);
-    dispatch(clearChatHistory());
+    if (isAdmin) return handleNextPage(2);
   };
 
   const handleCompleteCommentPage = () => {
-    handleNextPage(3);
+    if (isAdmin) return handleNextPage(3);
   };
 
-  const handleCompleteVotePage = () => {
-    router.push(`/brainWriting/result/${roomId}`);
+  const handleCompleteVotePage = async () => {
+    if (isAdmin) {
+      await saveBwResult(roomId);
+      await handleNextPage(4);
+    }
   };
 
   const handleChatOpen = () => {
@@ -147,9 +148,7 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
       ),
     },
     {
-      component: (
-        <VotingRoom roomId={roomId} ideaList={ideaList} onClickComplete={handleCompleteVotePage} />
-      ),
+      component: <VotingRoom roomId={roomId} onClickComplete={handleCompleteVotePage} />,
     },
   ];
 
