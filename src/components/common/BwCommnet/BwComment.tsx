@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { themedPalette } from '../../../theme/styleTheme';
 import { useAppDispatch, useAppSelector } from '../../../redux/hooks';
@@ -9,6 +9,7 @@ import {
   setIsFirstComment,
   setIsTimerOver,
   postComment,
+  updateComment,
 } from 'redux/modules/brainWriting';
 import useTimer from 'hooks/useTimer';
 
@@ -30,11 +31,19 @@ type StyleProps = {
 
 const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
   const dispatch = useAppDispatch();
-  const { BWtimer, viewIdea, isFirstComment, isTimerOver, userId, ideaId, isLastComment, roomId } =
-    useAppSelector(brainWritingSelector);
-
-  const [comment, setComment] = useState<string>('');
+  const {
+    BWtimer,
+    viewIdea,
+    isFirstComment,
+    isTimerOver,
+    userId,
+    ideaId,
+    isLastComment,
+    roomId,
+    comment,
+  } = useAppSelector(brainWritingSelector);
   const [isFocused, setIsFocused] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (isFirstComment) {
@@ -52,6 +61,8 @@ const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
 
       dispatch(getIdea({ roomId, userId }));
       dispatch(setIsTimerOver(false));
+      handleUpdateComment('');
+      if (textAreaRef.current) textAreaRef.current.value = '';
     }
   }, [isTimerOver]);
 
@@ -77,6 +88,10 @@ const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
     }
   };
 
+  const handleUpdateComment = (comment: string) => {
+    dispatch(updateComment(comment));
+  };
+
   useTimer({ type: 'brainwritingIdea', roomId });
 
   return (
@@ -92,12 +107,13 @@ const BwComment = ({ width, height, subject, onClickComplete }: CardProps) => {
               <MyComment>{comment}</MyComment>
               <StyledTextarea isFocused={isFocused}>
                 <TextField
+                  ref={textAreaRef}
                   onFocus={() => setIsFocused(true)}
                   onBlur={() => setIsFocused(false)}
                   maxLength={200}
                   placeholder="코멘트를 입력해주세요"
                   onKeyPress={e => onKeyPress(e)}
-                  onChange={e => setComment(e.target.value)}
+                  onChange={e => handleUpdateComment(e.target.value)}
                 />
                 <StyledButton onClick={handlePostComment}>입력</StyledButton>
               </StyledTextarea>
