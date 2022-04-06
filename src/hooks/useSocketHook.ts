@@ -124,7 +124,6 @@ export default function useSocketHook(type: 'sixhat' | 'brainwriting') {
               };
               dispatch(getMessagesBW(newMessage));
               dispatch(setIsMessageArrived(true));
-              toast.info('메시지가 도착했습니다');
             }
 
             if (response.type === 'SUBJECT') {
