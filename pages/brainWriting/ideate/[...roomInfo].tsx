@@ -106,10 +106,8 @@ const SettingPage = ({ roomInfo }: SettingPageProps) => {
   };
 
   const handleCompleteVotePage = async () => {
-    if (isAdmin) {
-      await saveBwResult(roomId);
-      await handleNextPage(4);
-    }
+    await saveBwResult(roomId);
+    await handleNextPage(4);
   };
 
   const handleChatOpen = () => {

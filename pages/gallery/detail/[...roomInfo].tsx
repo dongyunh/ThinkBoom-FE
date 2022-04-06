@@ -6,6 +6,7 @@ import { Category } from 'redux/modules/gallery/types';
 import { RandomWordResult } from 'components/layout/RandomWord';
 import { ResultBox as SixHatResult } from 'components/layout/SixHat';
 import { CenterLayout } from 'components/common';
+import { Result } from 'components/layout/BrainWriting';
 
 type DetailProps = {
   roomInfo: [Category, string];
@@ -13,7 +14,7 @@ type DetailProps = {
 
 const Detail = ({ roomInfo }: DetailProps) => {
   const dispatch = useAppDispatch();
-  const { randomWordDetail, sixHatDetail } = useAppSelector(selectGallery);
+  const { randomWordDetail, sixHatDetail, brainWritingDetail } = useAppSelector(selectGallery);
   const [category, roomId] = roomInfo;
 
   useEffect(() => {
@@ -26,6 +27,9 @@ const Detail = ({ roomInfo }: DetailProps) => {
     }
     if (category === 'sixhat') {
       return <SixHatResult subject={sixHatDetail.subject} chatHistory={sixHatDetail.chatHistory} />;
+    }
+    if (category === 'brainwriting') {
+      return <Result brainWritingDetail={brainWritingDetail} />;
     }
   };
 
