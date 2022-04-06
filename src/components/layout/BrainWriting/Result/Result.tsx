@@ -7,9 +7,11 @@ import { useRouter } from 'next/router';
 
 type ResultProps = {
   brainWritingDetail: BrainWritingDataType;
+  isGallery?: boolean;
+  onClick?: () => void;
 };
 
-const Result = ({ brainWritingDetail }: ResultProps) => {
+const Result = ({ brainWritingDetail, onClick, isGallery = false }: ResultProps) => {
   console.log(brainWritingDetail);
   const router = useRouter();
   const handleGoBack = () => {
@@ -19,7 +21,7 @@ const Result = ({ brainWritingDetail }: ResultProps) => {
   return (
     <CenterLayout>
       <>
-        <Title>{brainWritingDetail.subject}</Title>
+        <Title>주제 : {brainWritingDetail.subject}</Title>
         <Container>
           {brainWritingDetail?.voteResult?.map((data, idx) => {
             return (
@@ -33,15 +35,19 @@ const Result = ({ brainWritingDetail }: ResultProps) => {
             );
           })}
         </Container>
-        <PrimaryButton text="뒤로가기" onClick={handleGoBack} />
+        <PrimaryButton
+          text={isGallery ? '뒤로가기' : '완료'}
+          onClick={isGallery ? handleGoBack : onClick}
+        />
       </>
     </CenterLayout>
   );
 };
 
 const Title = styled.div`
-  font-size: 20px;
+  font-size: 40px;
   font-weight: bold;
+  padding-bottom: 30px;
 `;
 
 const Container = styled.div`

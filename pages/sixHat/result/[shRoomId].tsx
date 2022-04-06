@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { getDetailGallery, selectGallery } from 'redux/modules/gallery';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { DetailArgType } from 'redux/modules/gallery/types';
 
 type ResultProps = {
   shRoomId: string;

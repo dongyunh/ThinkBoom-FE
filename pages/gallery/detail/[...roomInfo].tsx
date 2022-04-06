@@ -5,8 +5,10 @@ import { GetServerSideProps } from 'next';
 import { Category } from 'redux/modules/gallery/types';
 import { RandomWordResult } from 'components/layout/RandomWord';
 import { ResultBox as SixHatResult } from 'components/layout/SixHat';
-import { CenterLayout } from 'components/common';
+import { CenterLayout, PrimaryButton } from 'components/common';
 import { Result } from 'components/layout/BrainWriting';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
 
 type DetailProps = {
   roomInfo: [Category, string];
@@ -16,6 +18,7 @@ const Detail = ({ roomInfo }: DetailProps) => {
   const dispatch = useAppDispatch();
   const { randomWordDetail, sixHatDetail, brainWritingDetail } = useAppSelector(selectGallery);
   const [category, roomId] = roomInfo;
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(getDetailGallery({ category, roomId }));
@@ -29,16 +32,27 @@ const Detail = ({ roomInfo }: DetailProps) => {
       return <SixHatResult subject={sixHatDetail.subject} chatHistory={sixHatDetail.chatHistory} />;
     }
     if (category === 'brainwriting') {
-      return <Result brainWritingDetail={brainWritingDetail} />;
+      return <Result brainWritingDetail={brainWritingDetail} isGallery={true} />;
     }
   };
 
   return (
     <CenterLayout>
-      <div>{renderComponents()}</div>
+      <>
+        <div>{renderComponents()}</div>
+        {category !== 'brainwriting' && (
+          <ButtonWrapper>
+            <PrimaryButton text="뒤로가기" onClick={() => router.back()} />
+          </ButtonWrapper>
+        )}
+      </>
     </CenterLayout>
   );
 };
+
+const ButtonWrapper = styled.div`
+  padding-top: 10px;
+`;
 
 export default Detail;
 

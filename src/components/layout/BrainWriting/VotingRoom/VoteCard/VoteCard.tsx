@@ -25,7 +25,6 @@ const VoteCard = ({ onClick, idea, commentList, isVoted, isWinner, isResult }: V
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const handleVote = () => {};
 
   const handleOnClick = () => {
     if (!onClick) return;
@@ -41,12 +40,11 @@ const VoteCard = ({ onClick, idea, commentList, isVoted, isWinner, isResult }: V
           {!isResult && !isWinner && (
             <CheckCircleOutlineIcon
               sx={{ fontSize: 45, position: 'absolute', bottom: '5px', right: '10px' }}
-              onClick={handleVote}
             />
           )}
           {isWinner && (
             <ImageWrapper>
-              <Image src={GoldMedal} width={30} height={30} />
+              <Image src={GoldMedal} width={50} height={50} />
             </ImageWrapper>
           )}
         </StyledCard>
